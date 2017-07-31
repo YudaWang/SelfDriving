@@ -27,6 +27,7 @@ The goals / steps of this project are the following:
 [image6]: ./examples/sign3-kids.jpg "Traffic Sign 3"
 [image7]: ./examples/sign4-snow.jpg "Traffic Sign 4"
 [image8]: ./examples/sign5-stop.jpg "Traffic Sign 5"
+[image9]: ./examples/top5.png "Top5 Predictions"
 
 ## Rubric Points
 ###Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/481/view) individually and describe how I addressed each point in my implementation.  
@@ -144,9 +145,9 @@ Here are the results of the prediction:
 
 | Image			        |     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
-| Stop Sign      		| speed limit 70 km/h   									| 
+| Stop Sign      		| stop   									| 
 | Kids     			| children crossing 										|
-| Ice					| be aware of ice snow											|
+| Ice					| slippery road											|
 | 60 km/h	      		| speed limit 30 km/h				 				|
 | construction			| Road work      							|
 
@@ -159,52 +160,55 @@ This is worse than the test_accuracy(~90%), which might be due to the similarity
 
 The code for making predictions on my final model is located in the 11th cell of the Ipython notebook.
 
-For the first image, the model is relatively sure that this is a stop sign (probability of 0.6), and the image does contain a stop sign. The top five soft max probabilities were
+For the first image, the model didn't provide absolute accurate prediction. But relatively, it recoginzed the speed limit sign.
 
 | Probability         	|     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
-| .60         			| Stop sign   									| 
-| .20     				| U-turn 										|
-| .05					| Yield											|
-| .04	      			| Bumpy Road					 				|
-| .01				    | Slippery Road      							|
+| .94         			| speed limit 30km/h   									| 
+| .06     				| speed limit 50km/h 										|
+| .00					| speed limit 80km/h 											|
+| .00	      			| speed limit 20km/h 					 				|
+| .00				    | Bicycle crossing      							|
 
 
-For the second image ... prediction is
+For the second image ... prediction is perfectly accurate on the road work sign.
 | Probability         	|     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
-| .60         			| Stop sign   									| 
-| .20     				| U-turn 										|
-| .05					| Yield											|
-| .04	      			| Bumpy Road					 				|
-| .01				    | Slippery Road      							|
+| 1.0         			| road work  									| 
+| .00     				| be aware of ice / snow 										|
+| .00					| slippery road											|
+| .00	      			| turn right ahead				 				|
+| .00				    | danger curve to right      							|
 
-For the 3rd image ... prediction is
+For the 3rd image ... prediction is perfectly accurate on the children crossing
 | Probability         	|     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
-| .60         			| Stop sign   									| 
-| .20     				| U-turn 										|
-| .05					| Yield											|
-| .04	      			| Bumpy Road					 				|
-| .01				    | Slippery Road      							|
+| 1.0         			| Children crossing 									| 
+| .00     				| Ahead only 										|
+| .00					| Bicycle crossing											|
+| .00	      			| Dangerous curve to right		 				|
+| .00				    | Road narrow on right      							|
 
-For the 4th image ... prediction is
+For the 4th image ... prediction is close at slippery road(0.98). However the best answer is at 2nd prediction with 0.02 prediction weight.
 | Probability         	|     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
-| .60         			| Stop sign   									| 
-| .20     				| U-turn 										|
-| .05					| Yield											|
-| .04	      			| Bumpy Road					 				|
-| .01				    | Slippery Road      							|
+| .98         			| slippery road									| 
+| .02     				| be aware of ice/snow										|
+| .0					| turn left											|
+| .0	      			| next					 				|
+| .0				    | danger curve to right     							|
 
-For the 5th image ... prediction is
+For the 5th image ... prediction is perfect accurate (1.0) at 'STOP' sign prediction. Probably it is due to the very standardized clear image of the traffic sign.
 | Probability         	|     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
-| .60         			| Stop sign   									| 
-| .20     				| U-turn 										|
-| .05					| Yield											|
-| .04	      			| Bumpy Road					 				|
-| .01				    | Slippery Road      							|
+| 1.0         			| Stop sign   									| 
+| .0    				| Go straight or right 										|
+| .0					| No vehicle											|
+| .0	      			| Turn left ahead					 				|
+| .0				    | Speed limit 80km/h     							|
+
+Here is an image of 5 online German traffice signs and their top5 predictions based on my fitting with LeNet5.
+![alt text][image9]
 
 ### (Optional) Visualizing the Neural Network (See Step 4 of the Ipython notebook for more details)
 ####1. Discuss the visual output of your trained network's feature maps. What characteristics did the neural network use to make classifications?
