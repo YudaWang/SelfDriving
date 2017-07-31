@@ -104,15 +104,15 @@ My final model consisted of the following layers:
 
 To train the model, I used an ....
 (1) batch size was set as 128
-(2) 20 epochs are used
+(2) 15 epochs are used
 (3) learning rate set as 0.001
 
 ####4. Describe the approach taken for finding a solution and getting the validation set accuracy to be at least 0.93. Include in the discussion the results on the training, validation and test sets and where in the code these were calculated. Your approach may have been an iterative process, in which case, outline the steps you took to get to the final solution and why you chose those steps. Perhaps your solution involved an already well known implementation or architecture. In this case, discuss why you think the architecture is suitable for the current problem.
 
 My final model results were:
-* training set accuracy of ?
-* validation set accuracy of 0.933
-* test set accuracy of ?
+* training set accuracy of 0.99
+* validation set accuracy of 0.94
+* test set accuracy of 0.90
 
 If an iterative approach was chosen:
 * What was the first architecture that was tried and why was it chosen?
@@ -122,7 +122,7 @@ If an iterative approach was chosen:
 * What are some of the important design choices and why were they chosen? For example, why might a convolution layer work well with this problem? How might a dropout layer help with creating a successful model?
 
 If a well known architecture was chosen:
-* What architecture was chosen? LeNet
+* What architecture was chosen? LeNet-5
 * Why did you believe it would be relevant to the traffic sign application? LeNet is optimized for number images so by some tweek we should make it work well for traffice sign images as well.
 * How does the final model's accuracy on the training, validation and test set provide evidence that the model is working well? Without any finetuning I can already achive validation accuracy of 90%. After adjusting some filters' sizes, 94% accuracy was achieved.
  
@@ -152,6 +152,7 @@ Here are the results of the prediction:
 
 
 The model was able to correctly guess 3 of the 5 traffic signs, which gives an accuracy of 60%. 
+This is worse than the test_accuracy(~90%), which might be due to the similarity of test sets comparing to training set, while the ones I downloaded online is quite different from training sets(e.g. containing water marks).
 
 
 ####3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction. Provide the top 5 softmax probabilities for each image along with the sign type of each probability. (OPTIONAL: as described in the "Stand Out Suggestions" part of the rubric, visualizations can also be provided such as bar charts)
@@ -169,7 +170,41 @@ For the first image, the model is relatively sure that this is a stop sign (prob
 | .01				    | Slippery Road      							|
 
 
-For the second image ... 
+For the second image ... prediction is
+| Probability         	|     Prediction	        					| 
+|:---------------------:|:---------------------------------------------:| 
+| .60         			| Stop sign   									| 
+| .20     				| U-turn 										|
+| .05					| Yield											|
+| .04	      			| Bumpy Road					 				|
+| .01				    | Slippery Road      							|
+
+For the 3rd image ... prediction is
+| Probability         	|     Prediction	        					| 
+|:---------------------:|:---------------------------------------------:| 
+| .60         			| Stop sign   									| 
+| .20     				| U-turn 										|
+| .05					| Yield											|
+| .04	      			| Bumpy Road					 				|
+| .01				    | Slippery Road      							|
+
+For the 4th image ... prediction is
+| Probability         	|     Prediction	        					| 
+|:---------------------:|:---------------------------------------------:| 
+| .60         			| Stop sign   									| 
+| .20     				| U-turn 										|
+| .05					| Yield											|
+| .04	      			| Bumpy Road					 				|
+| .01				    | Slippery Road      							|
+
+For the 5th image ... prediction is
+| Probability         	|     Prediction	        					| 
+|:---------------------:|:---------------------------------------------:| 
+| .60         			| Stop sign   									| 
+| .20     				| U-turn 										|
+| .05					| Yield											|
+| .04	      			| Bumpy Road					 				|
+| .01				    | Slippery Road      							|
 
 ### (Optional) Visualizing the Neural Network (See Step 4 of the Ipython notebook for more details)
 ####1. Discuss the visual output of your trained network's feature maps. What characteristics did the neural network use to make classifications?
