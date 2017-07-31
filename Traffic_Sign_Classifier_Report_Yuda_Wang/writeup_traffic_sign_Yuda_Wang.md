@@ -80,7 +80,7 @@ As a last step, I normalized the image data because ...
 
 
 ####2. Describe what your final model architecture looks like including model type, layers, layer sizes, connectivity, etc.) Consider including a diagram and/or table describing the final model.
-
+ 
 My final model consisted of the following layers:
 
 | Layer         		|     Description	        					| 
@@ -95,7 +95,7 @@ My final model consisted of the following layers:
 |	flattern					|		input 5x5x16, output 400							|
 |	fully connected				|		input 400, output 200										|
 | RELU		|        									|
-|	fully connected				|		input 200, output 100										|
+|	fully connected				|		input 200, output 100								|
 | RELU		|        									|
 |	fully connected				|		input 100, output 43									| 
 
@@ -122,9 +122,9 @@ If an iterative approach was chosen:
 * What are some of the important design choices and why were they chosen? For example, why might a convolution layer work well with this problem? How might a dropout layer help with creating a successful model?
 
 If a well known architecture was chosen:
-* What architecture was chosen?
-* Why did you believe it would be relevant to the traffic sign application?
-* How does the final model's accuracy on the training, validation and test set provide evidence that the model is working well?
+* What architecture was chosen? LeNet
+* Why did you believe it would be relevant to the traffic sign application? LeNet is optimized for number images so by some tweek we should make it work well for traffice sign images as well.
+* How does the final model's accuracy on the training, validation and test set provide evidence that the model is working well? Without any finetuning I can already achive validation accuracy of 90%. After adjusting some filters' sizes, 94% accuracy was achieved.
  
 
 ###Test a Model on New Images
@@ -136,7 +136,7 @@ Here are five German traffic signs that I found on the web:
 ![alt text][image4] ![alt text][image5] ![alt text][image6] 
 ![alt text][image7] ![alt text][image8]
 
-The first image might be difficult to classify because ...
+They might not easy to be classified since most of them contain water marks.
 
 ####2. Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set. At a minimum, discuss what the predictions were, the accuracy on these new predictions, and compare the accuracy to the accuracy on the test set (OPTIONAL: Discuss the results in more detail as described in the "Stand Out Suggestions" part of the rubric).
 
@@ -144,14 +144,15 @@ Here are the results of the prediction:
 
 | Image			        |     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
-| Stop Sign      		| Stop sign   									| 
-| Kids     			| U-turn 										|
-| Ice					| Yield											|
-| 60 km/h	      		| Bumpy Road					 				|
-| construction			| Slippery Road      							|
+| Stop Sign      		| speed limit 70 km/h   									| 
+| Kids     			| children crossing 										|
+| Ice					| be aware of ice snow											|
+| 60 km/h	      		| speed limit 30 km/h				 				|
+| construction			| Road work      							|
 
 
-The model was able to correctly guess 4 of the 5 traffic signs, which gives an accuracy of 80%. This compares favorably to the accuracy on the test set of ...
+The model was able to correctly guess 3 of the 5 traffic signs, which gives an accuracy of 60%. 
+
 
 ####3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction. Provide the top 5 softmax probabilities for each image along with the sign type of each probability. (OPTIONAL: as described in the "Stand Out Suggestions" part of the rubric, visualizations can also be provided such as bar charts)
 
