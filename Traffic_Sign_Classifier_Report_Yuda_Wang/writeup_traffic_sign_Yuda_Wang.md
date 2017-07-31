@@ -43,7 +43,7 @@ You're reading it! and here is a link to my [project code](https://github.com/ud
 
 ####1. Provide a basic summary of the data set. In the code, the analysis should be done using python, numpy and/or pandas methods rather than hardcoding results manually.
 
-I used the pandas library to calculate summary statistics of the traffic
+I used the numpy library to calculate summary statistics of the traffic
 signs data set:
 
 Number of training examples = 34799
@@ -56,11 +56,6 @@ Image data shape = (32, 32, 1)
 
 Number of classes = 43
 
-####2. Include an exploratory visualization of the dataset.
-
-Here is an exploratory visualization of the data set. It is a bar chart showing how the data ...
-
-![alt text][image1]
 
 ###Design and Test a Model Architecture
 
