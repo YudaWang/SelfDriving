@@ -130,6 +130,7 @@ If a well known architecture was chosen:
 Here are five German traffic signs that I found on the web:
 
 ![alt text][image4] ![alt text][image5] ![alt text][image6] 
+
 ![alt text][image7] ![alt text][image8]
 
 They might not easy to be classified since most of them contain water marks.
@@ -167,6 +168,7 @@ For the first image, the model didn't provide absolute accurate prediction. But 
 
 
 For the second image ... prediction is perfectly accurate on the road work sign.
+
 | Probability         	|     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
 | 1.0         			| road work  									| 
@@ -175,7 +177,9 @@ For the second image ... prediction is perfectly accurate on the road work sign.
 | .00	      			| turn right ahead				 				|
 | .00				    | danger curve to right      							|
 
+
 For the 3rd image ... prediction is perfectly accurate on the children crossing
+
 | Probability         	|     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
 | 1.0         			| Children crossing 									| 
@@ -184,7 +188,9 @@ For the 3rd image ... prediction is perfectly accurate on the children crossing
 | .00	      			| Dangerous curve to right		 				|
 | .00				    | Road narrow on right      							|
 
+
 For the 4th image ... prediction is close at slippery road(0.98). However the best answer is at 2nd prediction with 0.02 prediction weight.
+
 | Probability         	|     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
 | .98         			| slippery road									| 
@@ -193,7 +199,9 @@ For the 4th image ... prediction is close at slippery road(0.98). However the be
 | .0	      			| next					 				|
 | .0				    | danger curve to right     							|
 
+
 For the 5th image ... prediction is perfect accurate (1.0) at 'STOP' sign prediction. Probably it is due to the very standardized clear image of the traffic sign.
+
 | Probability         	|     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
 | 1.0         			| Stop sign   									| 
@@ -201,6 +209,7 @@ For the 5th image ... prediction is perfect accurate (1.0) at 'STOP' sign predic
 | .0					| No vehicle											|
 | .0	      			| Turn left ahead					 				|
 | .0				    | Speed limit 80km/h     							|
+
 
 Here is an image of 5 online German traffice signs and their top5 predictions based on my fitting with LeNet5.
 ![alt text][image9]
