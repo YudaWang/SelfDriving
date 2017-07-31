@@ -48,7 +48,7 @@ signs data set:
 
 Number of training examples = 34799
 
-Number of validation examples = 4410
+1Number of validation examples = 4410
 
 Number of testing examples = 12630
 
@@ -85,7 +85,7 @@ My final model consisted of the following layers:
 | Convolution 5x5x1x6     	| 1x1 stride, valid padding, outputs 28x28x6 	|
 | RELU					|												|
 | Max pooling	      	| 2x2 stride,  outputs 14x14x6 				|
-| Convolution 5x5x6x6	    | 1x1 stridee, valid padding, outputs 10x10x16   									|
+| Convolution 5x5x6x16	    | 1x1 stridee, valid padding, outputs 10x10x16   									|
 | RELU		|        									|
 | Max pooling				| 2x2 stride, output 5x5x16        									|
 |	flattern					|		input 5x5x16, output 400							|
