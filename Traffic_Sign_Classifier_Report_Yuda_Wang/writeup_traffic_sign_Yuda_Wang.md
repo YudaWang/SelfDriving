@@ -121,7 +121,7 @@ If an iterative approach was chosen:
 * What are some of the important design choices and why were they chosen? For example, why might a convolution layer work well with this problem? How might a dropout layer help with creating a successful model?
 
 If a well known architecture was chosen:
-* What architecture was chosen? LeNet-5
+ * What architecture was chosen? LeNet-5
 * Why did you believe it would be relevant to the traffic sign application? LeNet is optimized for number images so by some tweek we should make it work well for traffice sign images as well.
 * How does the final model's accuracy on the training, validation and test set provide evidence that the model is working well? Without any finetuning I can already achive validation accuracy of 90%. After adjusting some filters' sizes, 94% accuracy was achieved.
  
@@ -136,7 +136,7 @@ Here are five German traffic signs that I found on the web:
 
 ![alt text][image7] ![alt text][image8]
 
-They might not be easy classified since most of them contain water marks, which some online article claim could ba a hack to the image classification. Another reason they might be hard is some of them are taken at an angle, so ratio of the image can be different from straight angle.
+They might not be easy classified since most of them contain water marks, which some online article claim could ba a hack to the image classification. Another reason they might be hard is some of them are taken at an angle, so ratio of the image can be different from straight angle. And some image's contrast is bad.
 
 ####2. Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set. At a minimum, discuss what the predictions were, the accuracy on these new predictions, and compare the accuracy to the accuracy on the test set (OPTIONAL: Discuss the results in more detail as described in the "Stand Out Suggestions" part of the rubric).
 
