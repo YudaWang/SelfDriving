@@ -37,7 +37,7 @@ The goals / steps of this project are the following:
 
 ####1. Provide a Writeup / README that includes all the rubric points and how you addressed each one. You can submit your writeup as markdown or pdf. You can use this template as a guide for writing the report. The submission includes the project code.
 
-You're reading it! and here is a link to my [project code](https://github.com/udacity/CarND-Traffic-Sign-Classifier-Project/blob/master/Traffic_Sign_Classifier.ipynb)
+You're reading it! and here is a link to my [project code](https://github.com/YudaWang/SelfDriving/blob/master/Traffic_Sign_Classifier_Report_Yuda_Wang/Traffic_Sign_Classifier.html)
 
 ###Data Set Summary & Exploration
 
@@ -76,6 +76,9 @@ As a last step, I normalized the image data because ...
 
 
 ####2. Describe what your final model architecture looks like including model type, layers, layer sizes, connectivity, etc.) Consider including a diagram and/or table describing the final model.
+ 
+ 
+My final model is based on LeNet5 but with optimized network architecture detail configurations. I have tried more simplified or more complicated architectures with less/more layers/filter-sizes. The final outcomes are not as well performed as LeNet5 with combination of convolution layers + max pooling layers + fully connected layers. I guess the reason of less performance for more simplified/complicated layer is under/over-fitting. 
  
 My final model consisted of the following layers:
 
@@ -133,7 +136,7 @@ Here are five German traffic signs that I found on the web:
 
 ![alt text][image7] ![alt text][image8]
 
-They might not easy to be classified since most of them contain water marks.
+They might not be easy classified since most of them contain water marks, which some online article claim could ba a hack to the image classification. Another reason they might be hard is some of them are taken at an angle, so ratio of the image can be different from straight angle.
 
 ####2. Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set. At a minimum, discuss what the predictions were, the accuracy on these new predictions, and compare the accuracy to the accuracy on the test set (OPTIONAL: Discuss the results in more detail as described in the "Stand Out Suggestions" part of the rubric).
 
