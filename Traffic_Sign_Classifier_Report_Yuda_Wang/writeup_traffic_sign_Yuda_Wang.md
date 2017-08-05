@@ -37,7 +37,7 @@ The goals / steps of this project are the following:
 
 ####1. Provide a Writeup / README that includes all the rubric points and how you addressed each one. You can submit your writeup as markdown or pdf. You can use this template as a guide for writing the report. The submission includes the project code.
 
-You're reading it! and here is a link to my [project code](https://github.com/YudaWang/SelfDriving/blob/master/Traffic_Sign_Classifier_Report_Yuda_Wang/Traffic_Sign_Classifier.html)
+You're reading it! and here is a link to my [project code](https://github.com/YudaWang/SelfDriving/blob/master/Traffic_Sign_Classifier_Report_Yuda_Wang/Traffic_Sign_Classifier.ipynb)
 
 ###Data Set Summary & Exploration
 
@@ -52,7 +52,7 @@ Number of training examples = 34799
 
 Number of testing examples = 12630
 
-Image data shape = (32, 32, 1)
+Image data shape = (32, 32, 3)
 
 Number of classes = 43
 
