@@ -61,16 +61,18 @@ After flatten, 4 more layers of directly connected NN is introduced along with n
 #### 2. Decent training data acquisition strategy
 
 My training data is well picked at different driving circumference to train the model responsive at any road conditions along the track.(No special traning data points outside of the track)
-(1) I drove car in the middle of the lane for 3 tracks. During driving, even if road was straight, I didn't keep steering static but always wiggling the steering wheel in very small angle such that model can collect some knowledge about what would happen if the driving condition was non-optimal and how to respond.
-(2) To make the model more experienced, I intentionally drove off the center(not recording) and starting collecting data and saved the car back from hitting edge. I did this for 3 more tracks to give the car even more experience how to save in extrodinary conditions.
-(3) Then, after brief testing, I figure out the model is already capable of handling straigh track but still can be off in the corner. In order to give the model more experience in cornering, I had a combination of ways to take the corner at different circumference as shown below, so model would have full knowledge of what to do at any starting driving condition to bring back the car to the center of the lane after taking corner.
+
+*(1) I drove car in the middle of the lane for 3 tracks. During driving, even if road was straight, I didn't keep steering static but always wiggling the steering wheel in very small angle such that model can collect some knowledge about what would happen if the driving condition was non-optimal and how to respond.
+*(2) To make the model more experienced, I intentionally drove off the center(not recording) and starting collecting data and saved the car from hitting edge. I did this for 3 more tracks to give the car even more experience how to save itself in extrodinary conditions.
+*(3) Then, after brief testing, I figure out  model is already capable of handling straigh track but still can be off in the corner. In order to give it more experience in cornering, I had a combination of ways to take the corner at different circumference as shown below, so model would have full knowledge of what to do at any starting condition into the corner to bring back the car to the center of the lane after corner.
 ![alt text][image1]
-(4) To make the cornering even better to handle extreme conditions, I did similar things as step2 but only at cornering case.
-After each of the 4 steps I added more data to the pool, I can see significant improvement on the driving performance the model provided. 
+*(4) To make the cornering even better to handle extreme conditions, I did similar things as step2 but only at cornering case. So the car gain kownledge at extreme bad conditions at the corner edges.
+
+After each of the 4 steps above I added more data to the training pool, I can see significant improvement on the driving performance the model provided. Eventually it could drive over the track smoothly at even full speed.
 
 #### 3. Model parameter tuning
 
 The model.py parameters are tuned to avoid either over-fitting(limited number of NN layers / dropout layers introduced) or under-fitting (still there are 4 CNN layers and 4 NN layers with decently large parameter sizes).
 Also I used an adam optimizer so that manually training the learning rate wasn't necessary
-Also in drive.py I optimized the speed as 12 and steering factor as 1.2 to bring better driving performance.
+Also in drive.py I optimized the speed as 12 and steering factor as 1.2 to bring better driving performance. (even the highest speed(30) is ok but I need to increase steering factors a little higher(e.g. 1.5)
 
