@@ -55,70 +55,22 @@ The model.py file contains the code for training and saving the convolution neur
 My model started with image cropping and normalization to dump redundant data and improve fitting efficiency.  
 Then 4 layers of convolution neural networks are introduced to extract information from images, where nonlinearity(Relu) and image size reduction(MaxPooling2D) is applied on each CNN layer.
 With the concern of overfitting, dropouts are introduced after 2 CNN layers.
-After flatten, 4 more layers of directly connected NN is introduced before final decision.
+After flatten, 4 more layers of directly connected NN is introduced along with nonlinearity(Relu) before final decision.
 
 
 #### 2. Decent training data acquisition strategy
 
-The model contains dropout layers in order to reduce overfitting (model.py lines 21). 
-
-The model was trained and validated on different data sets to ensure that the model was not overfitting (code line 10-16). The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track.
+My training data is well picked at different driving circumference to train the model responsive at any road conditions along the track.(No special traning data points outside of the track)
+(1) I drove car in the middle of the lane for 3 tracks. During driving, even if road was straight, I didn't keep steering static but always wiggling the steering wheel in very small angle such that model can collect some knowledge about what would happen if the driving condition was non-optimal and how to respond.
+(2) To make the model more experienced, I intentionally drove off the center(not recording) and starting collecting data and saved the car back from hitting edge. I did this for 3 more tracks to give the car even more experience how to save in extrodinary conditions.
+(3) Then, after brief testing, I figure out the model is already capable of handling straigh track but still can be off in the corner. In order to give the model more experience in cornering, I had a combination of ways to take the corner at different circumference as shown below, so model would have full knowledge of what to do at any starting driving condition to bring back the car to the center of the lane after taking corner.
+![alt text][image1]
+(4) To make the cornering even better to handle extreme conditions, I did similar things as step2 but only at cornering case.
+After each of the 4 steps I added more data to the pool, I can see significant improvement on the driving performance the model provided. 
 
 #### 3. Model parameter tuning
 
-The model used an adam optimizer, so the learning rate was not tuned manually (model.py line 25).
+The model.py parameters are tuned to avoid either over-fitting(limited number of NN layers / dropout layers introduced) or under-fitting (still there are 4 CNN layers and 4 NN layers with decently large parameter sizes).
+Also I used an adam optimizer so that manually training the learning rate wasn't necessary
+Also in drive.py I optimized the speed as 12 and steering factor as 1.2 to bring better driving performance.
 
-
-###Model Architecture and Training Strategy
-
-####1. Solution Design Approach
-
-The overall strategy for deriving a model architecture was to ...
-
-My first step was to use a convolution neural network model similar to the ... I thought this model might be appropriate because ...
-
-In order to gauge how well the model was working, I split my image and steering angle data into a training and validation set. I found that my first model had a low mean squared error on the training set but a high mean squared error on the validation set. This implied that the model was overfitting. 
-
-To combat the overfitting, I modified the model so that ...
-
-Then I ... 
-
-The final step was to run the simulator to see how well the car was driving around track one. There were a few spots where the vehicle fell off the track... to improve the driving behavior in these cases, I ....
-
-At the end of the process, the vehicle is able to drive autonomously around the track without leaving the road.
-
-####2. Final Model Architecture
-
-The final model architecture (model.py lines 18-24) consisted of a convolution neural network with the following layers and layer sizes ...
-
-Here is a visualization of the architecture (note: visualizing the architecture is optional according to the project rubric)
-
-![alt text][image1]
-
-####3. Creation of the Training Set & Training Process
-
-To capture good driving behavior, I first recorded two laps on track one using center lane driving. Here is an example image of center lane driving:
-
-![alt text][image2]
-
-I then recorded the vehicle recovering from the left side and right sides of the road back to center so that the vehicle would learn to .... These images show what a recovery looks like starting from ... :
-
-![alt text][image3]
-![alt text][image4]
-![alt text][image5]
-
-Then I repeated this process on track two in order to get more data points.
-
-To augment the data sat, I also flipped images and angles thinking that this would ... For example, here is an image that has then been flipped:
-
-![alt text][image6]
-![alt text][image7]
-
-Etc ....
-
-After the collection process, I had X number of data points. I then preprocessed this data by ...
-
-
-I finally randomly shuffled the data set and put Y% of the data into a validation set. 
-
-I used this training data for training the model. The validation set helped determine if the model was over or under fitting. The ideal number of epochs was Z as evidenced by ... I used an adam optimizer so that manually training the learning rate wasn't necessary.
