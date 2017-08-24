@@ -1,4 +1,4 @@
-#**Behavioral Cloning** 
+## **Behavioral Cloning**
 
 ## Yuda Wang 20170824
 ---
@@ -51,11 +51,13 @@ The model.py file contains the code for training and saving the convolution neur
 
 ###Model Architecture and Training Strategy
 
-####1. An appropriate model architecture has been employed
+####1. An appropriate model architecture has been employed (model.py lines 47~80)
 
-My model consists of a convolution neural network with 3x3 filter sizes and depths between 32 and 128 (model.py lines 18-24) 
+My model started with image cropping and normalization to dump redundant data and improve fitting efficiency.  
+Then 4 layers of convolution neural networks are introduced to extract information from images, where nonlinearity(Relu) and image size reduction(MaxPooling2D) is applied on each CNN layer.
+With the concern of overfitting, dropouts are introduced after 2 CNN layers.
+After flatten, 4 more layers of directly connected NN is introduced before final decision.
 
-The model includes RELU layers to introduce nonlinearity (code line 20), and the data is normalized in the model using a Keras lambda layer (code line 18). 
 
 ####2. Attempts to reduce overfitting in the model
 
