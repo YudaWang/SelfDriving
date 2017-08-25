@@ -54,9 +54,67 @@ The model.py file contains the code for training and saving the convolution neur
 
 My model started with image cropping and normalization to dump redundant data and improve fitting efficiency.  
 Then 4 layers of convolution neural networks are introduced to extract information from images, where nonlinearity(Relu) and image size reduction(MaxPooling2D) is applied on each CNN layer.
-With the concern of overfitting, dropouts are introduced after 2 CNN layers.
+With the concern of overfitting, dropouts are introduced after 2 CNN layers. I could have introduced more dropouts but sometime more dropouts will cause fitting converge too slow.
 After flatten, 4 more layers of directly connected NN is introduced along with nonlinearity(Relu) before final decision.
-
+=======================
+Layer (type)                 Output Shape              Param #   
+=================================================================
+cropping2d_1 (Cropping2D)    (None, 80, 318, 3)        0         
+_________________________________________________________________
+lambda_1 (Lambda)            (None, 80, 318, 3)        0         
+_________________________________________________________________
+conv2d_1 (Conv2D)            (None, 76, 314, 24)       1824      
+_________________________________________________________________
+activation_1 (Activation)    (None, 76, 314, 24)       0         
+_________________________________________________________________
+max_pooling2d_1 (MaxPooling2 (None, 38, 157, 24)       0         
+_________________________________________________________________
+dropout_1 (Dropout)          (None, 38, 157, 24)       0         
+_________________________________________________________________
+conv2d_2 (Conv2D)            (None, 34, 153, 36)       21636     
+_________________________________________________________________
+activation_2 (Activation)    (None, 34, 153, 36)       0         
+_________________________________________________________________
+max_pooling2d_2 (MaxPooling2 (None, 17, 76, 36)        0         
+_________________________________________________________________
+conv2d_3 (Conv2D)            (None, 13, 72, 48)        43248     
+_________________________________________________________________
+activation_3 (Activation)    (None, 13, 72, 48)        0         
+_________________________________________________________________
+max_pooling2d_3 (MaxPooling2 (None, 6, 36, 48)         0         
+_________________________________________________________________
+conv2d_4 (Conv2D)            (None, 4, 34, 64)         27712     
+_________________________________________________________________
+activation_4 (Activation)    (None, 4, 34, 64)         0         
+_________________________________________________________________
+max_pooling2d_4 (MaxPooling2 (None, 2, 17, 64)         0         
+_________________________________________________________________
+dropout_2 (Dropout)          (None, 2, 17, 64)         0         
+_________________________________________________________________
+flatten_1 (Flatten)          (None, 2176)              0         
+_________________________________________________________________
+dense_1 (Dense)              (None, 1000)              2177000   
+_________________________________________________________________
+activation_5 (Activation)    (None, 1000)              0         
+_________________________________________________________________
+dense_2 (Dense)              (None, 100)               100100    
+_________________________________________________________________
+activation_6 (Activation)    (None, 100)               0         
+_________________________________________________________________
+dense_3 (Dense)              (None, 50)                5050      
+_________________________________________________________________
+activation_7 (Activation)    (None, 50)                0         
+_________________________________________________________________
+dense_4 (Dense)              (None, 10)                510       
+_________________________________________________________________
+activation_8 (Activation)    (None, 10)                0         
+_________________________________________________________________
+dense_5 (Dense)              (None, 1)                 11        
+=================================================================
+Total params: 2,377,091
+Trainable params: 2,377,091
+Non-trainable params: 0
+==========================
 
 #### 2. Decent training data acquisition strategy
 
