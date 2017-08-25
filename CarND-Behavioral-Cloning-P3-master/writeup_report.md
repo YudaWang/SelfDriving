@@ -58,8 +58,7 @@ With the concern of overfitting, dropouts are introduced after 2 CNN layers. I c
 After flatten, 4 more layers of directly connected NN is introduced along with nonlinearity(Relu) before final decision.
 
 Layer (type)                 Output Shape              Param #   
-_________________________________________________________________
-
+=================================================================
 cropping2d_1 (Cropping2D)    (None, 80, 318, 3)        0         
 _________________________________________________________________
 lambda_1 (Lambda)            (None, 80, 318, 3)        0         
