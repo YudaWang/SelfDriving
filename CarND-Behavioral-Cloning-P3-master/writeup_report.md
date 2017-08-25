@@ -56,9 +56,10 @@ My model started with image cropping and normalization to dump redundant data an
 Then 4 layers of convolution neural networks are introduced to extract information from images, where nonlinearity(Relu) and image size reduction(MaxPooling2D) is applied on each CNN layer.
 With the concern of overfitting, dropouts are introduced after 2 CNN layers. I could have introduced more dropouts but sometime more dropouts will cause fitting converge too slow.
 After flatten, 4 more layers of directly connected NN is introduced along with nonlinearity(Relu) before final decision.
-=======================
+
 Layer (type)                 Output Shape              Param #   
-=================================================================
+_________________________________________________________________
+
 cropping2d_1 (Cropping2D)    (None, 80, 318, 3)        0         
 _________________________________________________________________
 lambda_1 (Lambda)            (None, 80, 318, 3)        0         
@@ -110,11 +111,11 @@ _________________________________________________________________
 activation_8 (Activation)    (None, 10)                0         
 _________________________________________________________________
 dense_5 (Dense)              (None, 1)                 11        
-=================================================================
+_________________________________________________________________
 Total params: 2,377,091
 Trainable params: 2,377,091
 Non-trainable params: 0
-==========================
+_________________________________________________________________
 
 #### 2. Decent training data acquisition strategy
 
