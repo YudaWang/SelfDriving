@@ -14,13 +14,14 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 
-[image1]: ./CornerTrainingStrategy.jpeg "Model Visualization"
-[image2]: ./examples/placeholder.png "Grayscaling"
-[image3]: ./examples/placeholder_small.png "Recovery Image"
-[image4]: ./examples/placeholder_small.png "Recovery Image"
-[image5]: ./examples/placeholder_small.png "Recovery Image"
-[image6]: ./examples/placeholder_small.png "Normal Image"
-[image7]: ./examples/placeholder_small.png "Flipped Image"
+[image1]: ./CornerTrainingStrategy.jpeg "Corner Train Strategy"
+[image2]: ./DrivingCenter.jpg "Drive on center"
+[image3]: ./DrivingLeft.jpg "Drive by left"
+[image4]: ./DrivingRight.jpg "Drive by right"
+[image5]: ./RightTurnInward "Right turn in"
+[image6]: ./RightTurnOutward.jpg "Right turn out"
+[image7]: ./LeftTurnInward.jpg "Left turn in"
+[image8]: ./LeftTurnOutward.jpg "Left turn out"
 
 ## Rubric Points
 ###Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/432/view) individually and describe how I addressed each point in my implementation.  
@@ -120,11 +121,21 @@ _________________________________________________________________
 
 My training data is well picked at different driving circumference to train the model responsive at any road conditions along the track.(No special traning data points outside of the track)
 
-*(1) I drove car in the middle of the lane for 3 tracks. During driving, even if road was straight, I didn't keep steering static but always wiggling the steering wheel in very small angle such that model can collect some knowledge about what would happen if the driving condition was non-optimal and how to respond.
-*(2) To make the model more experienced, I intentionally drove off the center(not recording) and starting collecting data and saved the car from hitting edge. I did this for 3 more tracks to give the car even more experience how to save itself in extrodinary conditions.
-*(3) Then, after brief testing, I figure out  model is already capable of handling straigh track but still can be off in the corner. In order to give it more experience in cornering, I had a combination of ways to take the corner at different circumference as shown below, so model would have full knowledge of what to do at any starting condition into the corner to bring back the car to the center of the lane after corner.
+(1) I drove car in the middle of the lane for 3 tracks. During driving, even if road was straight, I didn't keep steering static but always wiggling the steering wheel in very small angle such that model can collect some knowledge about what would happen if the driving condition was non-optimal and how to respond. 
+![alt text][image2]
+
+(2) To make the model more experienced, I intentionally drove off the center(not recording) and starting collecting data and saved the car from hitting edge. I did this for 3 more tracks to give the car even more experience how to save itself in extrodinary conditions.
+![alt text][image3]
+![alt text][image4]
+
+(3) Then, after brief testing, I figure out  model is already capable of handling straigh track but still can be off in the corner. In order to give it more experience in cornering, I had a combination of ways to take the corner at different circumference as shown below, so model would have full knowledge of what to do at any starting condition into the corner to bring back the car to the center of the lane after corner.
 ![alt text][image1]
-*(4) To make the cornering even better to handle extreme conditions, I did similar things as step2 but only at cornering case. So the car gain kownledge at extreme bad conditions at the corner edges.
+![alt text][image5]
+![alt text][image6]
+![alt text][image7]
+![alt text][image8]
+
+(4) To make the cornering even better to handle extreme conditions, I did similar things as step2 but only at cornering case. So the car gain kownledge at extreme bad conditions at the corner edges.
 
 After each of the 4 steps above I added more data to the training pool, I can see significant improvement on the driving performance the model provided. Eventually it could drive over the track smoothly at even full speed.
 
