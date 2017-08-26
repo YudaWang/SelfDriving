@@ -18,7 +18,7 @@ The goals / steps of this project are the following:
 [image2]: ./DrivingCenter.jpg "Drive on center"
 [image3]: ./DrivingLeft.jpg "Drive by left"
 [image4]: ./DrivingRight.jpg "Drive by right"
-[image5]: ./RightTurnInward "Right turn in"
+[image5]: ./RightTurnInward.jpg "Right turn in"
 [image6]: ./RightTurnOutward.jpg "Right turn out"
 [image7]: ./LeftTurnInward.jpg "Left turn in"
 [image8]: ./LeftTurnOutward.jpg "Left turn out"
