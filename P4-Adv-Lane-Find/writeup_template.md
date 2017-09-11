@@ -50,44 +50,28 @@ I looked at 3 color spaces, namely RGB/HSV/HLS, to find out the right color chan
 ![alt text][image2]
 While using grandient intensity or direction selection, it is not clear that lane line detection is always correct. Sometime it won't due to some other line structures in the image(e.g. long cracks on the road). 
 ![alt text][image3]
-So without getting into more complicated algorithm for lane line detection, I decided not to use gradient channel but only color selections for lane line detection.
+So without getting into more complicated algorithm for lane line detection, I decided not to use gradient channel but only color selections(S-channel of HLS / R-channel of RGB) for lane line detection.
 ![alt text][image4]
 
 #### 3. Describe how (and identify where in your code) you performed a perspective transform and provide an example of a transformed image.
 
-The code for my perspective transform includes a function called `warper()`, which appears in lines 1 through 8 in the file `example.py` (output_images/examples/example.py) (or, for example, in the 3rd code cell of the IPython notebook).  The `warper()` function takes as inputs an image (`img`), as well as source (`src`) and destination (`dst`) points.  I chose the hardcode the source and destination points in the following manner:
+For perspective transformation, I assume the car in the example image straight_lines2.jpg is exactly in the center of the line, which is the best I can tell among all of the images. However, this could be an mistake if the camera is mounted at different locations among different images/videos. To do the transform, I picked the source points as guided by the straight lane lines from straight_lines2.jpg, the destination points are fixed given certain image size.
 
-```python
-src = np.float32(
-    [[(img_size[0] / 2) - 55, img_size[1] / 2 + 100],
-    [((img_size[0] / 6) - 10), img_size[1]],
-    [(img_size[0] * 5 / 6) + 60, img_size[1]],
-    [(img_size[0] / 2 + 55), img_size[1] / 2 + 100]])
-dst = np.float32(
-    [[(img_size[0] / 4), 0],
-    [(img_size[0] / 4), img_size[1]],
-    [(img_size[0] * 3 / 4), img_size[1]],
-    [(img_size[0] * 3 / 4), 0]])
-```
+source points = np.float32([[217,720], [566,470], [720,470], [1113,720]])
+destination points = np.float32([[1.0/4*imgShape[1],imgShape[0]],[1.0/4*imgShape[1],1.0/3*imgShape[0]],
+                   [3.0/4*imgShape[1],1.0/3*imgShape[0]],[3.0/4*imgShape[1],imgShape[0]]])
 
-This resulted in the following source and destination points:
 
-| Source        | Destination   | 
-|:-------------:|:-------------:| 
-| 585, 460      | 320, 0        | 
-| 203, 720      | 320, 720      |
-| 1127, 720     | 960, 720      |
-| 695, 460      | 960, 0        |
+![alt text][image5]
 
-I verified that my perspective transform was working as expected by drawing the `src` and `dst` points onto a test image and its warped counterpart to verify that the lines appear parallel in the warped image.
-
-![alt text][image4]
+The final warped image is given as below.
+![alt text][image6]
 
 #### 4. Describe how (and identify where in your code) you identified lane-line pixels and fit their positions with a polynomial?
 
 Then I did some other stuff and fit my lane lines with a 2nd order polynomial kinda like this:
 
-![alt text][image5]
+![alt text][image7]
 
 #### 5. Describe how (and identify where in your code) you calculated the radius of curvature of the lane and the position of the vehicle with respect to center.
 
@@ -97,7 +81,7 @@ I did this in lines # through # in my code in `my_other_file.py`
 
 I implemented this step in lines # through # in my code in `yet_another_file.py` in the function `map_lane()`.  Here is an example of my result on a test image:
 
-![alt text][image6]
+![alt text][image8]
 
 ---
 
@@ -105,7 +89,7 @@ I implemented this step in lines # through # in my code in `yet_another_file.py`
 
 #### 1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (wobbly lines are ok but no catastrophic failures that would cause the car to drive off the road!).
 
-Here's a [link to my video result](./project_video.mp4)
+Here's a [link to my video result](./ProjectVideoOutMvAvg.mp4)
 
 ---
 
