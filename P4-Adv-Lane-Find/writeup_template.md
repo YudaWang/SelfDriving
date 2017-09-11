@@ -30,6 +30,7 @@ The goals / steps of this project are the following:
 [image10]: ./P4-final.png "Final Result"
 [video1]: ./ProjectVideoOutMvAvg.mp4 "ProjectVideo"
 
+
 ## [Rubric](https://review.udacity.com/#!/rubrics/571/view) Points
 
 ### Camera Calibration
@@ -58,30 +59,50 @@ So without getting into more complicated algorithm for lane line detection, I de
 For perspective transformation, I assume the car in the example image straight_lines2.jpg is exactly in the center of the line, which is the best I can tell among all of the images. However, this could be an mistake if the camera is mounted at different locations among different images/videos. To do the transform, I picked the source points as guided by the straight lane lines from straight_lines2.jpg, the destination points are fixed given certain image size.
 
 source points = np.float32([[217,720], [566,470], [720,470], [1113,720]])
+
 destination points = np.float32([[1.0/4*imgShape[1],imgShape[0]],[1.0/4*imgShape[1],1.0/3*imgShape[0]],
                    [3.0/4*imgShape[1],1.0/3*imgShape[0]],[3.0/4*imgShape[1],imgShape[0]]])
 
 
 ![alt text][image5]
 
-The final warped image is given as below.
+
+The final warped image of left/right lanes is given as below.
+
 ![alt text][image6]
 
 #### 4. Describe how (and identify where in your code) you identified lane-line pixels and fit their positions with a polynomial?
 
-Then I did some other stuff and fit my lane lines with a 2nd order polynomial kinda like this:
+Lane line pixels are identified by:
+(1) construct a lane line profile by summing over the lower half of the warped image
+(2) using a window/margin at the lane line profile maximum positions to for left/right lane line finding
+(3) when doing convolution, I used guassian profile moving average horizontal windows to smooth out the current vertical selected section's intensity profile so np.max algorithm can easilty return the max positions, which corresponding to left/right lane lines center.
 
 ![alt text][image7]
+![alt text][image8]
+
+For Lane fitting, 2nd order polynomial function is used to individually fit left/right lane lines' pixels.
+[Note: in final video sequential fitting, instead of using single frame left/right lane lines' pixels, as far as last 10 frame's lane lines' detected pixels will be taken to fit the current curve. Reason to use 10 frame sum is to provide more stable results by taking more sample data points. 10 frames is a reasonable sum since it correspond to <=0.5sec in the real use case (>20 frames/sec), which is a small time regarding vehicle response.]
+![alt text][image9]
 
 #### 5. Describe how (and identify where in your code) you calculated the radius of curvature of the lane and the position of the vehicle with respect to center.
 
-I did this in lines # through # in my code in `my_other_file.py`
+First I converted image pixels to meters by using the lane width pixel counts and dashed lane line length pixel counts, which are usually 3.7meters and 3meters in the real word.
+Then I converted all lane line data points from pixel positions to meter positions and fit all of them again in meter scale.
+Finally some simple math below returns the curvature and offset.
+
+
+y_max_meter = np.max(ys_meter)
+l_curvR_meter = ((1 + (2*l_fit_meter[0]*y_max_meter + l_fit_meter[1])**2)**1.5) / np.absolute(2*l_fit_meter[0])
+r_curvR_meter = ((1 + (2*r_fit_meter[0]*y_max_meter + r_fit_meter[1])**2)**1.5) / np.absolute(2*r_fit_meter[0])
+
+vehicle_offset_meter = imgShape[1]/2*x_pixel2meter - (l_interp_meter(y_max_meter)+r_interp_meter(y_max_meter))/2 
 
 #### 6. Provide an example image of your result plotted back down onto the road such that the lane area is identified clearly.
 
-I implemented this step in lines # through # in my code in `yet_another_file.py` in the function `map_lane()`.  Here is an example of my result on a test image:
+Finally, the detected lane line was outlined and filled with green color and transform back to the original image by perspective transformation.
 
-![alt text][image8]
+![alt text][image10]
 
 ---
 
@@ -97,4 +118,5 @@ Here's a [link to my video result](./ProjectVideoOutMvAvg.mp4)
 
 #### 1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
 
-Here I'll talk about the approach I took, what techniques I used, what worked and why, where the pipeline might fail and how I might improve it if I were going to pursue this project further.  
+(1) I did use the prior video frame lane line detection data points for current frame lane detection. However this is not implemented with the lane line class suggested by class. It is ok for now but might cause difficult in debugging in the long term.
+(2) The challenge video didn't worked very well. Seem like the lane line detection algo is still very naive, which only worked for ideal case. For more sophisticated road conditions, some more constraints/method shall be introduced to predict/detect lane lines.
