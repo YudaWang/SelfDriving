@@ -93,7 +93,9 @@ Finally some simple math below returns the curvature and offset.
 
 
 y_max_meter = np.max(ys_meter)
+
 l_curvR_meter = ((1 + (2*l_fit_meter[0]*y_max_meter + l_fit_meter[1])**2)**1.5) / np.absolute(2*l_fit_meter[0])
+
 r_curvR_meter = ((1 + (2*r_fit_meter[0]*y_max_meter + r_fit_meter[1])**2)**1.5) / np.absolute(2*r_fit_meter[0])
 
 vehicle_offset_meter = imgShape[1]/2*x_pixel2meter - (l_interp_meter(y_max_meter)+r_interp_meter(y_max_meter))/2 
@@ -110,9 +112,13 @@ Finally, the detected lane line was outlined and filled with green color and tra
 
 #### 1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (wobbly lines are ok but no catastrophic failures that would cause the car to drive off the road!).
 
+
+![alt text][video1]
+
 Here's a [link to my video result](./ProjectVideoOutMvAvg.mp4)
 
 ---
+
 
 ### Discussion
 
