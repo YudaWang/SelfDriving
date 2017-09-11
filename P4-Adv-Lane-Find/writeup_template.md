@@ -18,13 +18,17 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 
-[image1]: ./examples/undistort_output.png "Undistorted"
-[image2]: ./test_images/test1.jpg "Road Transformed"
-[image3]: ./examples/binary_combo_example.jpg "Binary Example"
-[image4]: ./examples/warped_straight_lines.jpg "Warp Example"
-[image5]: ./examples/color_fit_lines.jpg "Fit Visual"
-[image6]: ./examples/example_output.jpg "Output"
-[video1]: ./project_video.mp4 "Video"
+[image1]: ./P4-undistort.png "Undistorted"
+[image2]: ./P4-colorRGBHLSHSV.png "All color spaces"
+[image3]: ./P4-colorgradientchannel.png "Color gradient channels"
+[image4]: ./P4-colorgradientResult.png "Color gradient result"
+[image5]: ./P4-perspective.png "Perspective transform"
+[image6]: ./P4-warped.png "Warped"
+[image7]: ./P4-guassianwindow.png "Guassian window used"
+[image8]: ./P4-convolvedetectedlane.png "Convolve detected lanes"
+[image9]: ./P4-fitting.png "Fitting"
+[image10]: ./P4-final.png "Final Result"
+[video1]: ./ProjectVideoOutMvAvg.mp4 "ProjectVideo"
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/571/view) Points
 
