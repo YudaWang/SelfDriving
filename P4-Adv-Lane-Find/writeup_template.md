@@ -31,7 +31,7 @@ The goals / steps of this project are the following:
 ### Camera Calibration
 
 #### 1. Briefly state how you computed the camera matrix and distortion coefficients. 
-
+The camera matrix and distortion coeffs are computed based on a series of chess board images taken by the same camera at different locations w.r.t camera. The regular optical use case of auto-driving camera is to focus object at 1~inf meters. For a normal wide angle lens, the difference among the focusing of an object at 1~inf meters is negligible. Hence, the calibration images are only used for (x,y) calibration in the real space. The object points are always the same due to the same 9x6 chess board. The image points are self detected by cv2.findChessboardCorners function. Finally the camera matrix and distorsion coefficients are computed by cv2.calibrateCamera function.
 
 ### Pipeline (single images)
 
