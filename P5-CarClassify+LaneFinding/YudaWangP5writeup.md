@@ -81,9 +81,9 @@ Then, with certain window size and steps, the sub hog-feature matrces are acquir
 
 #### 5. Single Frame Classifying
 Finally, 3 window sizes and steps(75% overlapping) are used to search cars at different distances with different image sizes.
-For smaller sizes(longer distances), I used 32x32 search window and only look for them at AOI: y = 360~600
-For mid sizes(regular distances), I used 64x64 search window and only look for them at AOI: y = 360~720
-For large sizes(close distances), I used 128x128 search window and only look for them at AOI: y = 360~720
+For smaller sizes(longer distances), I used 32x32 search window and only look for them at AOI: y = 360 to 600
+For mid sizes(regular distances), I used 64x64 search window and only look for them at AOI: y = 360 to 720
+For large sizes(close distances), I used 128x128 search window and only look for them at AOI: y = 360 to 720
 The result is show in below.
 
 ![alt text][image1]
