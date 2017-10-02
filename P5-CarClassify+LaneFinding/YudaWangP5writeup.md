@@ -48,7 +48,7 @@ For all HOG related parameters, I tried around and decide to use those nominal n
 For the area of interested, I excluded all pixels from y=0 to y=360, since most of the upper images are skys not road and cars.
 
 
-`color_space = 'RGB' # Can be RGB, HSV, LUV, HLS, YUV, YCrCb
+`color_space = 'RGB' # Can be RGB, HSV, LUV, HLS, YUV, YCrCb`
 
 orient = 9  # HOG orientations
 
