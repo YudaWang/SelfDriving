@@ -40,8 +40,11 @@ For color space, I have tried RGB/HSV/HLV/... and found out full channel RGB per
 #### 2. Feature Parameters
 
 For color_space, I have tried RGB/HSV/HLV/... and found out full channel RGB performed the best.
+
 For spatial_size and hist_bins, I have tried larger sizes and found out those wouldn't impact performance significantly.
+
 For all HOG related parameters, I tried around and decide to use those nominal number and leave the optimization to sliding window and hot window algorithms.
+
 For the area of interested, I excluded all pixels from y=0 to y=360, since most of the upper images are skys not road and cars.
 
 
@@ -75,14 +78,19 @@ Linear SVM classify model is used to fit the whole traning set, which composed o
 
 #### 4. Search/Classify Cars with Sliding Windows and Sharing HOG Feature Extractions
 The search funciton is named `search_cars()`.
+
 It only call raw `hog` function once but extracts the whole hog-feature matrix of all possible blocks in the area of interest.(AOI: y=360~720)
+
 Then, with certain window size and steps, the sub hog-feature matrces are acquired simply by scrolling windows and using corresponding window size and positions to take the sub-set of the whole hog-feature matrix. By this method, I only call raw `hog` function once and it reduced the computation time of one 720x1280 image from 25sec to 5sec, or a 5X speed-up.
 
 
 #### 5. Single Frame Classifying
 Finally, 3 window sizes and steps(75% overlapping) are used to search cars at different distances with different image sizes.
+
 For smaller sizes(longer distances), I used 32x32 search window and only look for them at AOI: y = 360 to 600
+
 For mid sizes(regular distances), I used 64x64 search window and only look for them at AOI: y = 360 to 720
+
 For large sizes(close distances), I used 128x128 search window and only look for them at AOI: y = 360 to 720
 The result is show in below.
 
@@ -90,6 +98,7 @@ The result is show in below.
 
 #### 6. Hot Window Average
 However, the car detection as shown in the image above is way too sensitive and noisy for real use case.
+
 To reduce noise and make more solid predictions, heat map is introduced in funciton `car_classify()`.
 All identified objects greater than threshold is finally labeled by boxes. 
 
@@ -111,7 +120,7 @@ Here's a [link to my video result](./project_video.mp4)
 
 #### 2. Describe how (and identify where in your code) you implemented some kind of filter for false positives and some method for combining overlapping bounding boxes.
 
-I recorded the positions of positive detections in each frame of the video.  From the positive detections I created a heatmap and then thresholded that map to identify vehicle positions.  I then used `scipy.ndimage.measurements.label()` to identify individual blobs in the heatmap.  I then assumed each blob corresponded to a vehicle.  I constructed bounding boxes to cover the area of each blob detected.  
+One issue with the single frame car 
 
 ---
 
