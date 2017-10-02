@@ -47,27 +47,37 @@ For the area of interested, I excluded all pixels from y=0 to y=360, since most 
 
 
 color_space = 'RGB' # Can be RGB, HSV, LUV, HLS, YUV, YCrCb
+
 orient = 9  # HOG orientations
+
 pix_per_cell = 8 # HOG pixels per cell
+
 cell_per_block = 2 # HOG cells per block
+
 hog_channel = "ALL" # Can be 0, 1, 2, or "ALL"
+
 spatial_size = (16, 16) # Spatial binning dimensions
+
 hist_bins = 16    # Number of histogram bins
+
 spatial_feat = True # Spatial features on or off
+
+
 hist_feat = True # Histogram features on or off
+
 hog_feat = True # HOG features on or off
+
 y_start_stop = [360, 720] # Min and max in y to search in slide_window()
 
 
-#### 3. Train Classifieer
+#### 3. Train Classifier
 
 Linear SVM classify model is used to fit the whole traning set, which composed of ~8000 car images and ~8000 non-car images. Each image is 64x64 pixels and in .png format. The entire feature extraction, fitting costs ~30sec on a regular laptop.
 
-###Sliding Window Search
-
-####1. Describe how (and identify where in your code) you implemented a sliding window search.  How did you decide what scales to search and how much to overlap windows?
-
-I decided to search random window positions at random scales all over the image and came up with this (ok just kidding I didn't actually ;):
+#### 4. Search/Classify Cars with Sliding Windows and Sharing HOG Feature Extractions
+The search funciton is named `search_cars()`.
+It only call raw `hog` function once but extracts the whole hog-feature matrix of all possible blocks in the area of interest.(AOI: y=360~720)
+Then, with certain window size and steps, the sub hog-feature matrces are acquired simply by scrolling windows and using corresponding window size and positions to take the sub-set of the whole hog-feature matrix. By this method, I only call raw `hog` function once and it reduced the computation time of one 720x1280 image from 25sec to 5sec, or a 5X speed-up.
 
 ![alt text][image3]
 
