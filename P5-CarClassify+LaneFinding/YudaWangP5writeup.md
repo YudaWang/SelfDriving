@@ -110,18 +110,21 @@ The algorithms from `Project4` is borrowed to plot lane lines and positions.
 ### Video Implementation
 
 #### 1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (somewhat wobbly or unstable bounding boxes are ok as long as you are identifying the vehicles most of the time with minimal false positives.)
-Here's a [link to my video result](./project_video.mp4)
+Here's a [link to my video result](./ProjectVideoOut_v5_pass.mp4)
 
 
 #### 2. Describe how (and identify where in your code) you implemented some kind of filter for false positives and some method for combining overlapping bounding boxes.
+Even with hot window, single image/frame car detection still doesn't work as well as ideal.
 
-One issue with the single frame car 
+For this concern, I added a global variable called `heat_map_seq` to store all heat maps ever generated from one video. So instead of 1 frame hot window accumulations, I can have 10 frames sum, which reduces noise even more and gives more reliable prediction.
 
 ---
 
 ### Discussion
 
 #### 1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
+The sub HOG matrix method saves significant amount of time, but one draw-back is we can only pick windows containing certain blocks locations. It will fail if we pick windows location and size as random.
 
-Here I'll talk about the approach I took, what techniques I used, what worked and why, where the pipeline might fail and how I might improve it if I were going to pursue this project further.  
 
+#### 2. Future works to do
+Based on the car detection box location and perspective transformation, I should be able to extract cars' locations and speed w.r.t. camera, which I didn't include in this work but will be developed later on.
