@@ -20,40 +20,48 @@ The goals / steps of this project are the following:
 [image7]: ./examples/output_bboxes.png
 [video1]: ./project_video.mp4
 
-## [Rubric](https://review.udacity.com/#!/rubrics/513/view) Points
-###Here I will consider the rubric points individually and describe how I addressed each point in my implementation.  
 
 ---
-###Writeup / README
 
-####1. Provide a Writeup / README that includes all the rubric points and how you addressed each one.  You can submit your writeup as markdown or pdf.  [Here](https://github.com/udacity/CarND-Vehicle-Detection/blob/master/writeup_template.md) is a template writeup for this project you can use as a guide and a starting point.  
+### Car Classification Pipe Line
 
-You're reading it!
+#### 1. Features: HOG, color histogram, spatial bin
 
-###Histogram of Oriented Gradients (HOG)
+The HOG feature extraction function at my script `P5-CarClassify-v5.ipnb` is named `get_hog_features()`, which takes the use of `skimage.feature` function `hog`.
+The `get_hog_feature` function collects important imputs as `# pixels per cell`, `# cells per block`, `number of orientations bins in 1 cell's orientation gradient histogram`.
 
-####1. Explain how (and identify where in your code) you extracted HOG features from the training images.
+The color histogram feature extraction function is named `color_hist`. It imports all channels of an color image and generate histograms for each channel. One thing worth noting is the bins_range parameter need to be set as `(0,1)` if the input image intensities of each channel has been normalized to 1.
 
-The code for this step is contained in the first code cell of the IPython notebook (or in lines # through # of the file called `some_file.py`).  
+The spatial bin feature extraction function is named `bin_spatial`, which simply resize the image and flatten to a 1-D array.
 
-I started by reading in all the `vehicle` and `non-vehicle` images.  Here is an example of one of each of the `vehicle` and `non-vehicle` classes:
-
-![alt text][image1]
-
-I then explored different color spaces and different `skimage.hog()` parameters (`orientations`, `pixels_per_cell`, and `cells_per_block`).  I grabbed random images from each of the two classes and displayed them to get a feel for what the `skimage.hog()` output looks like.
-
-Here is an example using the `YCrCb` color space and HOG parameters of `orientations=8`, `pixels_per_cell=(8, 8)` and `cells_per_block=(2, 2)`:
-
+For color space, I have tried RGB/HSV/HLV/... and found out full channel RGB performed the best.
 
 ![alt text][image2]
 
-####2. Explain how you settled on your final choice of HOG parameters.
+#### 2. Feature Parameters
 
-I tried various combinations of parameters and...
+For color_space, I have tried RGB/HSV/HLV/... and found out full channel RGB performed the best.
+For spatial_size and hist_bins, I have tried larger sizes and found out those wouldn't impact performance significantly.
+For all HOG related parameters, I tried around and decide to use those nominal number and leave the optimization to sliding window and hot window algorithms.
+For the area of interested, I excluded all pixels from y=0 to y=360, since most of the upper images are skys not road and cars.
 
-####3. Describe how (and identify where in your code) you trained a classifier using your selected HOG features (and color features if you used them).
 
-I trained a linear SVM using...
+color_space = 'RGB' # Can be RGB, HSV, LUV, HLS, YUV, YCrCb
+orient = 9  # HOG orientations
+pix_per_cell = 8 # HOG pixels per cell
+cell_per_block = 2 # HOG cells per block
+hog_channel = "ALL" # Can be 0, 1, 2, or "ALL"
+spatial_size = (16, 16) # Spatial binning dimensions
+hist_bins = 16    # Number of histogram bins
+spatial_feat = True # Spatial features on or off
+hist_feat = True # Histogram features on or off
+hog_feat = True # HOG features on or off
+y_start_stop = [360, 720] # Min and max in y to search in slide_window()
+
+
+#### 3. Train Classifieer
+
+Linear SVM classify model is used to fit the whole traning set, which composed of ~8000 car images and ~8000 non-car images. Each image is 64x64 pixels and in .png format. The entire feature extraction, fitting costs ~30sec on a regular laptop.
 
 ###Sliding Window Search
 
