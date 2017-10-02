@@ -47,8 +47,8 @@ For all HOG related parameters, I tried around and decide to use those nominal n
 
 For the area of interested, I excluded all pixels from y=0 to y=360, since most of the upper images are skys not road and cars.
 
-
-`color_space = 'RGB' # Can be RGB, HSV, LUV, HLS, YUV, YCrCb`
+```
+color_space = 'RGB' # Can be RGB, HSV, LUV, HLS, YUV, YCrCb
 
 orient = 9  # HOG orientations
 
@@ -68,8 +68,8 @@ hist_feat = True # Histogram features on or off
 
 hog_feat = True # HOG features on or off
 
-y_start_stop = [360, 720] # Min and max in y to search in slide_window()'
-
+y_start_stop = [360, 720] # Min and max in y to search in slide_window()
+```
 
 #### 3. Train Classifier
 
