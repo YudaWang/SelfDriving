@@ -69,6 +69,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
       /**
       Convert radar from polar to cartesian coordinates and initialize state.
       */
+      cout << "1st time initialization w/ Radar" << endl;/////////////////////
       float rho; float theta; float rho_dot;
       float px; float py; float vx; float vy;
       rho = measurement_pack.raw_measurements_(0); 
@@ -85,6 +86,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
       /**
       Initialize state.
       */
+      cout << "1st time initialization w/ Lidar" << endl;//////////////////
       ekf_.x_ << measurement_pack.raw_measurements_;
     }
 
@@ -96,7 +98,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
               0, 100, 0, 0,
               0, 0, 100, 0,
               0, 0, 0, 100;
-    cout << "Done: 1st time initialization" << endl;
+    cout << "Done: 1st time initialization" << endl;////////////////////
     // done initializing, no need to predict or update
     is_initialized_ = true;
     return;
