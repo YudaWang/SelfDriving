@@ -30,7 +30,7 @@ int main()
 {
   uWS::Hub h;
 
-  std::cout << "Start of main.cpp main() " << port << std::endl;////////////////////////
+  std::cout << "Start of main.cpp main() " << std::endl;////////////////////////
   // Create a Kalman Filter instance
   FusionEKF fusionEKF;
 
@@ -106,7 +106,7 @@ int main()
     	  gt_values(3) = vy_gt;
     	  ground_truth.push_back(gt_values);
           
-          std::cout << "end of main.cpp main() data collect; before fusionEKF called" << port << std::endl;////////////////////////
+          std::cout << "end of main.cpp main() data collect; before fusionEKF called" << std::endl;////////////////////////
           //Call ProcessMeasurment(meas_package) for Kalman filter
     	  fusionEKF.ProcessMeasurement(meas_package);    	  
 
