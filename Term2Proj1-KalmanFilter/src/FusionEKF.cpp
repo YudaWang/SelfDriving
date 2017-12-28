@@ -98,8 +98,8 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
     previous_timestamp_ = measurement_pack.timestamp_;
     // initialize P with a large value
     ekf_.P_ = MatrixXd(4, 4);
-    ekf_.P_ << 100, 0, 0, 0,
-              0, 100, 0, 0,
+    ekf_.P_ << 1, 0, 0, 0,
+              0, 1, 0, 0,
               0, 0, 100, 0,
               0, 0, 0, 100;
     cout << "Done: 1st time initialization" << endl;////////////////////
