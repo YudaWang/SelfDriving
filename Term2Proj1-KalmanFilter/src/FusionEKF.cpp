@@ -71,7 +71,9 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
       */
       float rho; float theta; float rho_dot;
       float px; float py; float vx; float vy;
-      measurement_pack.raw_measurements_ >> rho, theta, rho_dot;
+      rho = measurement_pack.raw_measurements_(0); 
+      theta = measurement_pack.raw_measurements_(1);
+      rho_dot = measurement_pack.raw_measurements_(2); 
       px = rho*cos(theta);
       py = rho*sin(theta);
       vx = rho_dot*cos(theta);
