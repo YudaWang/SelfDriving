@@ -106,10 +106,10 @@ int main()
     	  gt_values(3) = vy_gt;
     	  ground_truth.push_back(gt_values);
           
-          std::cout << "end of main.cpp main() data collect; before FusionEKF data process" << std::endl;////////////////////////
+          //std::cout << "end of main.cpp main() data collect; before FusionEKF data process" << std::endl;////////////////////////
           //Call ProcessMeasurment(meas_package) for Kalman filter
     	  fusionEKF.ProcessMeasurement(meas_package);
-    	  std::cout << "after main.cpp main() fusionEKF data process" << std::endl;////////////////////////
+    	  //std::cout << "after main.cpp main() fusionEKF data process" << std::endl;////////////////////////
             	  
 		  
     	  //Push the current estimated x,y positon from the Kalman filter's state vector
@@ -138,7 +138,7 @@ int main()
           msgJson["rmse_vx"] = RMSE(2);
           msgJson["rmse_vy"] = RMSE(3);
           auto msg = "42[\"estimate_marker\"," + msgJson.dump() + "]";
-          // std::cout << msg << std::endl;
+          std::cout << msg << std::endl;///////////////////
           ws.send(msg.data(), msg.length(), uWS::OpCode::TEXT);
 	  
         }
