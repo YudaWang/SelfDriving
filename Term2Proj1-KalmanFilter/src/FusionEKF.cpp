@@ -61,7 +61,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
       * Remember: you'll need to convert radar from polar to cartesian coordinates.
     */
     // first measurement
-    cout << "EKF: " << endl;
+    cout << "EKF: 1st time initialization" << endl;
     ekf_.x_ = VectorXd(4);
     ekf_.x_ << 1, 1, 1, 1;
 
@@ -96,7 +96,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
               0, 100, 0, 0,
               0, 0, 100, 0,
               0, 0, 0, 100;
-
+    cout << "Done: 1st time initialization" << endl;
     // done initializing, no need to predict or update
     is_initialized_ = true;
     return;
