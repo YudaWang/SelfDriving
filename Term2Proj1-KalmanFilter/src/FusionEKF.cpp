@@ -126,8 +126,8 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
             0,1,0,dt,
             0,0,1,0,
             0,0,0,1;
-  float noise_ax = 9;
-  float noise_ay = 9;
+  float noise_ax = 6.0;
+  float noise_ay = 6.0;
   float dt2 = dt*dt;
   float dt3 = dt*dt2;
   float dt4 = dt*dt3;
