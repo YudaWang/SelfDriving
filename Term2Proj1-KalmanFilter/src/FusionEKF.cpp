@@ -72,9 +72,9 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
       cout << "1st time initialization w/ Radar" << endl;/////////////////////
       float rho; float theta; float rho_dot;
       float px; float py; float vx; float vy;
-      rho = measurement_pack.raw_measurements_(0); 
-      theta = measurement_pack.raw_measurements_(1);
-      rho_dot = measurement_pack.raw_measurements_(2); 
+      rho = measurement_pack.raw_measurements_[0]; 
+      theta = measurement_pack.raw_measurements_[1];
+      rho_dot = measurement_pack.raw_measurements_[2]; 
       px = rho*cos(theta);
       py = rho*sin(theta);
       vx = rho_dot*cos(theta);
@@ -87,7 +87,10 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
       Initialize state.
       */
       cout << "1st time initialization w/ Lidar" << endl;//////////////////
-      ekf_.x_ << measurement_pack.raw_measurements_;
+      float px; float py;
+      px = measurement_pack.raw_measurements_[0];
+      py = measurement_pack.raw_measurements_[1];
+      ekf_.x_ << px, py, 0, 0;
     }
 
     // initialize timestamps so first dt = 0

@@ -55,10 +55,10 @@ MatrixXd Tools::CalculateJacobian(const VectorXd& x_state) {
     MatrixXd Hj_ = MatrixXd(3, 4);
     float px; float py; float vx; float vy;
     //x_state >> px, py, vx, vy;
-    px = x_state(0);
-    py = x_state(1);
-    vx = x_state(2);
-    vy = x_state(3);
+    px = x_state[0];
+    py = x_state[1];
+    vx = x_state[2];
+    vy = x_state[3];
     float pxy = sqrt(px*px + py*py);
     float pxy2 = pxy*pxy;
     float pxy3 = pxy*pxy2;
