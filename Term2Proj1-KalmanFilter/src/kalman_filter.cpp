@@ -50,7 +50,7 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
   TODO:
     * update the state by using Extended Kalman Filter equations
   */
-
+  const float PI = 3.1415926;
   VectorXd Hx = VectorXd(3);
   float px = x_(0);
   float py = x_(1);
