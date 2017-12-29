@@ -1,20 +1,19 @@
+# Extended Kalman Filters Project
 
-**Vehicle Detection Project**
+## The goals / requirements of this project are:
 
-The goals / steps of this project are the following:
-
-* Perform a Histogram of Oriented Gradients (HOG) feature extraction on a labeled training set of images and train a classifier Linear SVM classifier
-* Optionally, you can also apply a color transform and append binned color features, as well as histograms of color, to your HOG feature vector. 
-* Note: for those first two steps don't forget to normalize your features and randomize a selection for training and testing.
-* Implement a sliding-window technique and use your trained classifier to search for vehicles in images.
-* Run your pipeline on a video stream (start with the test_video.mp4 and later implement on full project_video.mp4) and create a heat map of recurring detections frame by frame to reject outliers and follow detected vehicles.
-* Estimate a bounding box for vehicles detected.
+* Configure Windows10 Ubuntu-BASH environment and set up uWebSocketIO interface between running C++ scripts and term2 simulator.
+* Implement Kalman filter algorithms at C++ environment with both RADAR(polor coordinates) and LIDAR(linear coordinate) processes.
+* Compile and run C++ scripts to contorl term2 simulator such that final RMSE is within expected range. 
 
 [//]: # (Image References)
-[image1]: ./carClassify3264128.png
-[image2]: ./carClassifyHotWin.png
-[image3]: ./laneFind.png
-[video1]: ./ProjectVideoOut_v5_pass.mp4
+[image1]: ./Dataset1EKFtracking.PNG
+[image2]: ./Dataset2EKFtracking.PNG
+[image3]: ./Dataset1EKFtracking-LidarOnly.PNG
+[image4]: ./Dataset1EKFtracking-RadarOnly.PNG
+[image5]: ./MeetSpec-compiled.PNG
+[image6]: ./MeetSpec-ProcessFlow.PNG
+[image7]: ./MeetSpec-1stMeasHandle.PNG
 
 
 ---
