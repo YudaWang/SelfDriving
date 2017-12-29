@@ -45,22 +45,15 @@
 ### 6. Correct Algo: Kalman filter can handle both RADAR and LIDAR measurements
 #### Both RADAR(polar coordinate) and LIDAR(linear coordinate) processes are used in FusionEKF.cpp
 
-### 7. Extra: RADAR v.s. LIDAR measurement responses
-### LIDAR only
-![alt text][image3]
-
-### RADAR only
-![alt text][image4]
-
-
-
 ---
 
-### Discussion
+## Discussions
 
-#### 1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
-The sub HOG matrix method saves significant amount of time, but one draw-back is we can only pick windows containing certain blocks locations. It will fail if we pick windows location and size as random.
+### 1. RADAR v.s. LIDAR measurements' Kalman filter responses
+#### LIDAR only
+![alt text][image3]
 
+#### RADAR only
+![alt text][image4]
 
-#### 2. Future works to do
-Based on the car detection box location and perspective transformation, I should be able to extract cars' locations and speed w.r.t. camera, which I didn't include in this work but will be developed later on.
+#### 
