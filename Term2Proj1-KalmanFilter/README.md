@@ -21,17 +21,16 @@
 
 ### 1. Compiling: Code must compile without errors with cmake and make.
 ![alt text][image5]
-
-#### After couple of errors(typos, misunderstandings...) debugged, the C++ scripts are capable of being compiled by cmake and make as above.
+#### After couple of errors(e.g. ms-sec conversion factor set as 100000 instead of 1000000 / misunderstood on RMSE algorithms / not end C++ line with ';' / C++ class functions can only be called within object not directly from class / y need to be normalized ) debugged, the C++ scripts are capable of being compiled by cmake and make as above.
 
 
 ### 2. Accuracy: RMSE between estimations and ground-turths should be <= [0.11, 0.11, 0.52, 0.52]
 ![alt text][image1]
-#### After correctly implemented the entire process of LIDAR-RADAR fusion kalman filters along with some parameters(noise) optimization, the RMSE between current C++ scripts estimation and ground-truth values are about [0.1, 0.1, 0.47, 0.47], which is below the expected values.
+#### After correctly implemented the entire process of LIDAR-RADAR fusion kalman filters along with some parameters(process noise) optimization, the RMSE between current C++ scripts estimation and ground-truth values are about [0.1, 0.1, 0.47, 0.47], which is below the expected values.
 
-#### 3. Train Classifier
-
-Linear SVM classify model is used to fit the whole traning set, which composed of ~8000 car images and ~8000 non-car images. Each image is 64x64 pixels and in .png format. The entire feature extraction, fitting costs ~30sec on a regular laptop.
+### 3. Correct Algo: Process flow as taught in the preceding lessons
+![alt text][image6]
+#### The process flow is implemented based on the given architecture:main.cpp loop import the 'measured' data and then call FusionEKF object function 'ProcessMeasurement'. / FusionEKF.cpp initialize all the matrices and vectors kalman filter equations would need and then call EKF functions 'Predict' and 'Update' or 'UpdateEKF'. / kalman_filter.cpp implements 'Predict' function under linear cooridinate and 'Update' function under both linear and polar coordinates. / tools.cpp provides RMSE and Jacobian functions for main.cpp and FusionEKF.cpp.
 
 #### 4. Search/Classify Cars with Sliding Windows and Sharing HOG Feature Extractions
 The search funciton is named `search_cars()`.
