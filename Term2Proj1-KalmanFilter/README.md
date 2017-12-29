@@ -25,6 +25,7 @@
 
 ### 2. Accuracy: RMSE between estimations and ground-turths should be <= [0.11, 0.11, 0.52, 0.52]
 ![alt text][image1]
+![alt text][image2]
 * After implemented the entire process of LIDAR-RADAR fusion kalman filters along with parameters(e.g. process noise) optimization, the RMSE between current C++ scripts estimation and ground-truth values are about [0.1, 0.1, 0.47, 0.47], which is below the expected values.
 
 ### 3. Correct Algo: Process flow as taught in the preceding lessons
