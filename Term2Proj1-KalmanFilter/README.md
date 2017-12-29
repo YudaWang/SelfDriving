@@ -18,18 +18,11 @@
 
 ---
 
-### Single Frame Fitting Pipe Line
+## Project Specs
 
-#### 1. Features: HOG, color histogram, spatial bin
-
-The HOG feature extraction function at my script `P5-CarClassify-v5.ipnb` is named `get_hog_features()`, which takes the use of `skimage.feature` function `hog`.
-The `get_hog_feature` function collects important imputs as `# pixels per cell`, `# cells per block`, `number of orientations bins in 1 cell's orientation gradient histogram`.
-
-The color histogram feature extraction function is named `color_hist`. It imports all channels of an color image and generate histograms for each channel. One thing worth noting is the bins_range parameter need to be set as `(0,1)` if the input image intensities of each channel has been normalized to 1.
-
-The spatial bin feature extraction function is named `bin_spatial`, which simply resize the image and flatten to a 1-D array.
-
-For color space, I have tried RGB/HSV/HLV/... and found out full channel RGB performed the best.
+### 1. Compiling: Code must compile without errors with cmake and make.
+![alt text][image5]
+After couple of errors(typos, misunderstandings...) debugged, the C++ scripts are capable of being compiled by cmake and make as above.
 
 
 #### 2. Feature Parameters
