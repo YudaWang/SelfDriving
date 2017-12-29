@@ -23,61 +23,36 @@
 ![alt text][image5]
 #### After couple of errors(e.g. ms-sec conversion factor set as 100000 instead of 1000000 / misunderstood on RMSE algorithms / not end C++ line with ';' / C++ class functions can only be called within object not directly from class / y need to be normalized ) debugged, the C++ scripts are capable of being compiled by cmake and make as above.
 
-
 ### 2. Accuracy: RMSE between estimations and ground-turths should be <= [0.11, 0.11, 0.52, 0.52]
 ![alt text][image1]
 #### After correctly implemented the entire process of LIDAR-RADAR fusion kalman filters along with some parameters(process noise) optimization, the RMSE between current C++ scripts estimation and ground-truth values are about [0.1, 0.1, 0.47, 0.47], which is below the expected values.
 
 ### 3. Correct Algo: Process flow as taught in the preceding lessons
 ![alt text][image6]
-#### The process flow is implemented based on the given architecture:main.cpp loop import the 'measured' data and then call FusionEKF object function 'ProcessMeasurement'. / FusionEKF.cpp initialize all the matrices and vectors kalman filter equations would need and then call EKF functions 'Predict' and 'Update' or 'UpdateEKF'. / kalman_filter.cpp implements 'Predict' function under linear cooridinate and 'Update' function under both linear and polar coordinates. / tools.cpp provides RMSE and Jacobian functions for main.cpp and FusionEKF.cpp.
+#### The process flow is implemented based on the given architecture:
+* main.cpp loop import the 'measured' data and then call FusionEKF object function 'ProcessMeasurement'.
+* FusionEKF.cpp initialize all the matrices and vectors kalman filter equations would need and then call EKF functions 'Predict' and 'Update' or 'UpdateEKF'.
+* kalman_filter.cpp implements 'Predict' function under linear cooridinate and 'Update' function under both linear and polar coordinates. 
+* tools.cpp provides RMSE and Jacobian functions for main.cpp and FusionEKF.cpp.
 
-#### 4. Search/Classify Cars with Sliding Windows and Sharing HOG Feature Extractions
-The search funciton is named `search_cars()`.
+### 4. Correct Algo: Handles first measurement appropriately
+![alt text][image7]
+#### The first line of data file is used to initialize positional vector and the initial timestamp before any predict/update process starts.
 
-It only call raw `hog` function once but extracts the whole hog-feature matrix of all possible blocks in the area of interest.(AOI: y=360~720)
+### 5. Correct Algo: Kalman filter should predict then update.
+#### Upon every loop, kalman filter algorithm 'predict' will always be called before 'update'.
 
-Then, with certain window size and steps, the sub hog-feature matrces are acquired simply by scrolling windows and using corresponding window size and positions to take the sub-set of the whole hog-feature matrix. By this method, I only call raw `hog` function once and it reduced the computation time of one 720x1280 image from 25sec to 5sec, or a 5X speed-up.
+### 6. Correct Algo: Kalman filter can handle both RADAR and LIDAR measurements
+#### Both RADAR(polar coordinate) and LIDAR(linear coordinate) processes are used in FusionEKF.cpp
 
-
-#### 5. Single Frame Classifying
-Finally, 3 window sizes and steps(75% overlapping) are used to search cars at different distances with different image sizes.
-
-For smaller sizes(longer distances), I used 32x32 search window and only look for them at AOI: y = 360 to 600
-
-For mid sizes(regular distances), I used 64x64 search window and only look for them at AOI: y = 360 to 720
-
-For large sizes(close distances), I used 128x128 search window and only look for them at AOI: y = 360 to 720
-The result is show in below.
-
-![alt text][image1]
-
-#### 6. Hot Window Average
-However, the car detection as shown in the image above is way too sensitive and noisy for real use case.
-
-To reduce noise and make more solid predictions, heat map is introduced in funciton `car_classify()`.
-All identified objects greater than threshold is finally labeled by boxes. 
-
-![alt text][image2]
-
-
-#### 7. Lane Detection
-The algorithms from `Project4` is borrowed to plot lane lines and positions.
-
+### 7. Extra: RADAR v.s. LIDAR measurement responses
+### LIDAR only
 ![alt text][image3]
 
----
-
-### Video Implementation
-
-#### 1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (somewhat wobbly or unstable bounding boxes are ok as long as you are identifying the vehicles most of the time with minimal false positives.)
-Here's a [link to my video result](./ProjectVideoOut_v5_pass.mp4)
+### RADAR only
+![alt text][image4]
 
 
-#### 2. Describe how (and identify where in your code) you implemented some kind of filter for false positives and some method for combining overlapping bounding boxes.
-Even with hot window, single image/frame car detection still doesn't work as well as ideal.
-
-For this concern, I added a global variable called `heat_map_seq` to store all heat maps ever generated from one video. So instead of 1 frame hot window accumulations, I can have 10 frames sum, which reduces noise even more and gives more reliable prediction.
 
 ---
 
