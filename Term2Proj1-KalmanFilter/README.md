@@ -15,48 +15,20 @@
 [image6]: ./MeetSpec-ProcessFlow.PNG
 [image7]: ./MeetSpec-1stMeasHandle.PNG
 
-
 ---
 
 ## Project Specs
 
 ### 1. Compiling: Code must compile without errors with cmake and make.
 ![alt text][image5]
-After couple of errors(typos, misunderstandings...) debugged, the C++ scripts are capable of being compiled by cmake and make as above.
-
-
-#### 2. Feature Parameters
-
-For color_space, I have tried RGB/HSV/HLV/... and found out full channel RGB performed the best.
-
-For spatial_size and hist_bins, I have tried larger sizes and found out those wouldn't impact performance significantly.
-
-For all HOG related parameters, I tried around and decide to use those nominal number and leave the optimization to sliding window and hot window algorithms.
-
-For the area of interested, I excluded all pixels from y=0 to y=360, since most of the upper images are skys not road and cars.
-
 ```
-color_space = 'RGB' # Can be RGB, HSV, LUV, HLS, YUV, YCrCb
+After couple of errors(typos, misunderstandings...) debugged, the C++ scripts are capable of being compiled by cmake and make as above.
+```
 
-orient = 9  # HOG orientations
-
-pix_per_cell = 8 # HOG pixels per cell
-
-cell_per_block = 2 # HOG cells per block
-
-hog_channel = "ALL" # Can be 0, 1, 2, or "ALL"
-
-spatial_size = (16, 16) # Spatial binning dimensions
-
-hist_bins = 16    # Number of histogram bins
-
-spatial_feat = True # Spatial features on or off
-
-hist_feat = True # Histogram features on or off
-
-hog_feat = True # HOG features on or off
-
-y_start_stop = [360, 720] # Min and max in y to search in slide_window()
+### 2. Accuracy: RMSE between estimations and ground-turths should be <= [0.11, 0.11, 0.52, 0.52]
+![alt text][image1]
+```
+After correctly implemented the entire process of LIDAR-RADAR fusion kalman filters along with some parameters(noise) optimization, the RMSE between current C++ scripts estimation and ground-truth values are about [0.1, 0.1, 0.47, 0.47], which is below the expected values.
 ```
 
 #### 3. Train Classifier
