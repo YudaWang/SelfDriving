@@ -59,4 +59,4 @@
 #### Observations:
 1. Using both LIDAR and RADAR signals leads to smaller RMSE than using either LIDAR or RADAR alone. This makes sense since higher sampling rate usually correspond to better signal/noise ratio.
 2. Kalman filter algorithm with only LIDAR signal performs good when car is going straight. This makes sense since there will be no velocity change and the future positions are very predictable.
-3. LIDAR-only process performs better than RADAR-only process
+3. In general, LIDAR-only process performs better than RADAR-only process. This is most likely due to the fact that we are predicting in linear coordinate, the (re)converting between polar-linear space will be lossy, which cause signal/noise ration drop.
