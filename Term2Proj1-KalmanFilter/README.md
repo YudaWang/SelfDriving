@@ -21,15 +21,13 @@
 
 ### 1. Compiling: Code must compile without errors with cmake and make.
 ![alt text][image5]
-```
-After couple of errors(typos, misunderstandings...) debugged, the C++ scripts are capable of being compiled by cmake and make as above.
-```
+
+#### After couple of errors(typos, misunderstandings...) debugged, the C++ scripts are capable of being compiled by cmake and make as above.
+
 
 ### 2. Accuracy: RMSE between estimations and ground-turths should be <= [0.11, 0.11, 0.52, 0.52]
 ![alt text][image1]
-```
-After correctly implemented the entire process of LIDAR-RADAR fusion kalman filters along with some parameters(noise) optimization, the RMSE between current C++ scripts estimation and ground-truth values are about [0.1, 0.1, 0.47, 0.47], which is below the expected values.
-```
+#### After correctly implemented the entire process of LIDAR-RADAR fusion kalman filters along with some parameters(noise) optimization, the RMSE between current C++ scripts estimation and ground-truth values are about [0.1, 0.1, 0.47, 0.47], which is below the expected values.
 
 #### 3. Train Classifier
 
