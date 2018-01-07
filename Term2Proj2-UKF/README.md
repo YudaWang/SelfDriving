@@ -1,4 +1,4 @@
-# Extended Kalman Filters Project
+# Unscented Kalman Filters Project
 
 ## The goals / requirements of this project are:
 
