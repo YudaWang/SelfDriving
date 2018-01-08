@@ -266,7 +266,6 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
   cout<<"Start: Update Radar"<<endl;//////
   VectorXd dx_ = VectorXd(n_x_);
   int n_z_ = 3;
-  float M_PI = 3.1415926;
   MatrixXd Z_aug_ = MatrixXd(n_z_, 2*n_aug_+1);
   VectorXd z_ = VectorXd(n_z_);
   MatrixXd S_ = MatrixXd(n_z_,n_z_);
