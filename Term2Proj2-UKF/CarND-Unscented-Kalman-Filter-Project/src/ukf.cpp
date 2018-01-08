@@ -311,6 +311,10 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
     T_ += weights_(i)*dx_*dz_.transpose();
   }
   K_ = T_*S_.inverse();
+  cout<<"x_ = " <<endl<<x_<<endl;///////
+  cout<<"P_ = "<<endl<<P_<<endl;///////////
+    cout<<"K_ = " <<endl<<K_<<endl;///////
+  cout<<"T_ = "<<endl<<T_<<endl;///////////
   x_ += K_*(meas_package.raw_measurements_ - z_);
   P_ -= K_*S_*K_.transpose();
   cout<<"x_ = " <<endl<<x_<<endl;///////
