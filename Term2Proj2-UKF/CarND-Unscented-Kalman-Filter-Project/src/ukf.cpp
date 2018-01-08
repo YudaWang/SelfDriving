@@ -68,7 +68,7 @@ UKF::UKF() {
   VectorXd x_aug = VectorXd(n_aug_);
   MatrixXd X_aug_sig_pred_ = MatrixXd(n_aug_, 2*n_aug_+1);
   MatrixXd P_aug_sig_pred_ = MatrixXd(n_aug_, n_aug_);
-  float nis = 0;
+  VectorXd nis = VectorXd(1);
 }
 
 UKF::~UKF() {}
