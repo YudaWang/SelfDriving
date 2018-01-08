@@ -58,17 +58,13 @@ UKF::UKF() {
   n_x_ = 5;
   n_aug_ = 7;
   lambda_ = 3-n_x_;
-  VectorXd dx_ = VectorXd(n_x_);
   Xsig_pred_ = MatrixXd(n_x_, 2*n_aug_+1);
   weights_ = VectorXd(2*n_aug_+1);
   weights_(0) = lambda_/(lambda_+2*n_aug_+1);
   for (int i=1; i<2*n_aug_+1; i++){
     weights_(i) = 1.0/2/(lambda_+2*n_aug_+1);
   }
-  VectorXd x_aug = VectorXd(n_aug_);
-  MatrixXd X_aug_sig_pred_ = MatrixXd(n_aug_, 2*n_aug_+1);
-  MatrixXd P_aug_sig_pred_ = MatrixXd(n_aug_, n_aug_);
-  VectorXd nis = VectorXd(1);
+  
 }
 
 UKF::~UKF() {}
@@ -116,7 +112,6 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
     Prediction(dt);
     UpdateRadar(meas_package);
   }
-  
 
 }
 
@@ -133,6 +128,10 @@ void UKF::Prediction(double delta_t) {
   Complete this function! Estimate the object's location. Modify the state
   vector, x_. Predict sigma points, the state, and the state covariance matrix.
   */
+  VectorXd dx_ = VectorXd(n_x_);
+  VectorXd x_aug = VectorXd(n_aug_);
+  MatrixXd X_aug_sig_pred_ = MatrixXd(n_aug_, 2*n_aug_+1);
+  MatrixXd P_aug_sig_pred_ = MatrixXd(n_aug_, n_aug_);
   /// Generate x,P Sigma Points
   x_aug.head(n_x_) = x_;
   x_aug[n_x_] = 0;
@@ -205,6 +204,8 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
 
   You'll also need to calculate the lidar NIS.
   */
+  VectorXd dx_ = VectorXd(n_x_);
+  float nis = 0;
   ///Measurement Predict
   int n_z_ = 2;
   MatrixXd Z_aug_ = MatrixXd(n_z_, 2*n_aug_+1);
@@ -239,7 +240,7 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
 
   /// NIS
   dz_ = meas_package.raw_measurements_ - z_;
-  //nis = dz_.transpose()*S_.inverse()*dz_;
+  nis = dz_.transpose()*S_.inverse()*dz_;
 }
 
 
@@ -256,6 +257,8 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
 
   You'll also need to calculate the radar NIS.
   */
+  VectorXd dx_ = VectorXd(n_x_);
+  float nis = 0;
   ///Measurement Predict
   int n_z_ = 3;
   MatrixXd Z_aug_ = MatrixXd(n_z_, 2*n_aug_+1);
@@ -297,5 +300,5 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
 
   /// NIS
   dz_ = meas_package.raw_measurements_ - z_;
-  //nis = dz_.transpose()*S_.inverse()*dz_;
+  nis = dz_.transpose()*S_.inverse()*dz_;
 }
