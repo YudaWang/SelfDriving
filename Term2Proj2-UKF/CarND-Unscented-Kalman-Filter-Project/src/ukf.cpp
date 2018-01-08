@@ -128,6 +128,7 @@ void UKF::Prediction(double delta_t) {
   Complete this function! Estimate the object's location. Modify the state
   vector, x_. Predict sigma points, the state, and the state covariance matrix.
   */
+  cout<<"Start: Prediction"<<endl;/////////////
   VectorXd dx_ = VectorXd(n_x_);
   VectorXd x_aug = VectorXd(n_aug_);
   MatrixXd X_aug_sig_pred_ = MatrixXd(n_aug_, 2*n_aug_+1);
@@ -187,6 +188,7 @@ void UKF::Prediction(double delta_t) {
     dx_ = Xsig_pred_.col(i) - x_;
     P_ += weights_(i)*dx_*dx_.transpose();
   }
+  cout<<"End: Prediction"<<endl;
 }
 
 
@@ -204,6 +206,7 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
 
   You'll also need to calculate the lidar NIS.
   */
+  cout<<"Start: Update Lidar"<<endl;//////
   VectorXd dx_ = VectorXd(n_x_);
   float nis = 0;
   ///Measurement Predict
@@ -241,7 +244,8 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
   /// NIS
   dz_ = meas_package.raw_measurements_ - z_;
   nis = dz_.transpose()*S_.inverse()*dz_;
-  cout<<'LIDAR Measurement NIS = ' << nis << endl;/////////
+  cout<<"LIDAR Measurement NIS = " << nis << endl;/////////
+  cout<<"End: Update Lidar"<<endl;//////
 }
 
 
@@ -258,6 +262,7 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
 
   You'll also need to calculate the radar NIS.
   */
+  cout<<"Start: Update Radar"<<endl;//////
   VectorXd dx_ = VectorXd(n_x_);
   float nis = 0;
   ///Measurement Predict
@@ -302,5 +307,6 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
   /// NIS
   dz_ = meas_package.raw_measurements_ - z_;
   nis = dz_.transpose()*S_.inverse()*dz_;
-  cout<<'RADAR Measurement NIS = ' << nis << endl;/////////
+  cout<<"RADAR Measurement NIS = " << nis << endl;/////////
+  cout<<"Start: Update Radar"<<endl;//////
 }
