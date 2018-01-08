@@ -141,16 +141,16 @@ void UKF::Prediction(double delta_t) {
   P_aug_sig_pred_.topLeftCorner(n_x_, n_x_) = P_;
   P_aug_sig_pred_(n_x_, n_x_) = std_a_*std_a_;
   P_aug_sig_pred_(n_x_+1, n_x_+1) = std_yawdd_*std_yawdd_;
-  cout<<"sqrt of matrix"<<endl;////////
+  //cout<<"sqrt of matrix"<<endl;////////
   MatrixXd P_aug_sig_sqrt_ = P_aug_sig_pred_.llt().matrixL();
   X_aug_sig_pred_.col(0) = x_aug_;
-  cout<<"done"<<endl;//////
+  //cout<<"done"<<endl;//////
   for (int i=0; i<n_aug_; i++){
     X_aug_sig_pred_.col(1+i) = x_aug_ + sqrt(lambda_+n_aug_)*P_aug_sig_sqrt_.col(i);
     X_aug_sig_pred_.col(1+n_aug_+i) = x_aug_ - sqrt(lambda_+n_aug_)*P_aug_sig_sqrt_.col(i);
   }
   /// Predict x,P Sigma Points
-  cout<<"Prediction: Predict x,P Sigma Points"<<endl;
+ //////// cout<<"Prediction: Predict x,P Sigma Points"<<endl;///////
   for (int i=0; i<2*n_aug_+1; i++){
     VectorXd vt_pred_temp = VectorXd(n_x_);
     VectorXd att_pred_temp = VectorXd(n_x_);
@@ -186,7 +186,7 @@ void UKF::Prediction(double delta_t) {
     Xsig_pred_.col(i) = x_temp.head(n_x_) + vt_pred_temp + att_pred_temp;
   }
   /// Predict next x,P
-  cout<<"Prediction: Predict next x,P"<<endl;
+  /////////////cout<<"Prediction: Predict next x,P"<<endl;/////////////
   x_ = Xsig_pred_*weights_;
   P_ = MatrixXd(n_x_, n_x_);
   for(int i=0; i<2*n_aug_+1; i++){
@@ -223,6 +223,7 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
     Z_aug_(0,i) = Xsig_pred_(0,i);
     Z_aug_(1,i) = Xsig_pred_(1,i);
   }
+  cout<<"z"<<endl;/////////////////
   z_ = Z_aug_ * weights_;
   VectorXd dz_ = VectorXd(n_z_);
   for(int i=0; i<2*n_aug_+1; i++){
@@ -234,6 +235,7 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
   R_(1,1) = std_laspy_*std_laspy_;
   S_ += R_;
 
+  cout<<"Measurement Update"<<endl;//////////////
   ///Measurement Update 
   MatrixXd T_ = MatrixXd(n_x_,n_z_);
   MatrixXd K_ = MatrixXd(n_x_,n_z_);
@@ -246,6 +248,7 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
   x_ += K_*(meas_package.raw_measurements_ - z_);
   P_ -= K_*S_*K_.transpose();
 
+  cout<<"NIS"<<endl;///////////////
   /// NIS
   dz_ = meas_package.raw_measurements_ - z_;
   nis = dz_.transpose()*S_.inverse()*dz_;
