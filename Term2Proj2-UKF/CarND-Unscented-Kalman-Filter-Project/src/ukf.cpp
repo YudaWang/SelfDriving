@@ -146,8 +146,8 @@ void UKF::Prediction(double delta_t) {
   X_aug_sig_pred_.col(0) = x_aug_;
   cout<<"done"<<endl;//////
   for (int i=0; i<n_aug_; i++){
-    X_aug_sig_pred_.col(1+i) = x_ + sqrt(lambda_+n_aug_)*P_aug_sig_sqrt_.col(i);
-    X_aug_sig_pred_.col(1+n_aug_+i) = x_ - sqrt(lambda_+n_aug_)*P_aug_sig_sqrt_.col(i);
+    X_aug_sig_pred_.col(1+i) = x_aug_ + sqrt(lambda_+n_aug_)*P_aug_sig_sqrt_.col(i);
+    X_aug_sig_pred_.col(1+n_aug_+i) = x_aug_ - sqrt(lambda_+n_aug_)*P_aug_sig_sqrt_.col(i);
   }
   /// Predict x,P Sigma Points
   cout<<"Prediction: Predict x,P Sigma Points"<<endl;
