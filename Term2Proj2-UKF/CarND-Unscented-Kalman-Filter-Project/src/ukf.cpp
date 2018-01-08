@@ -134,23 +134,19 @@ void UKF::Prediction(double delta_t) {
   MatrixXd X_aug_sig_pred_ = MatrixXd(n_aug_, 2*n_aug_+1);
   MatrixXd P_aug_sig_pred_ = MatrixXd(n_aug_, n_aug_);
   /// Generate x,P Sigma Points
-  cout<<"Prediction: Generate x,P Sigma Points"<<endl;///////////////
   x_aug_.head(n_x_) = x_;
   x_aug_(n_x_) = 0;
   x_aug_(n_x_+1) = 0;
   P_aug_sig_pred_.topLeftCorner(n_x_, n_x_) = P_;
   P_aug_sig_pred_(n_x_, n_x_) = std_a_*std_a_;
   P_aug_sig_pred_(n_x_+1, n_x_+1) = std_yawdd_*std_yawdd_;
-  //cout<<"sqrt of matrix"<<endl;////////
   MatrixXd P_aug_sig_sqrt_ = P_aug_sig_pred_.llt().matrixL();
   X_aug_sig_pred_.col(0) = x_aug_;
-  //cout<<"done"<<endl;//////
   for (int i=0; i<n_aug_; i++){
     X_aug_sig_pred_.col(1+i) = x_aug_ + sqrt(lambda_+n_aug_)*P_aug_sig_sqrt_.col(i);
     X_aug_sig_pred_.col(1+n_aug_+i) = x_aug_ - sqrt(lambda_+n_aug_)*P_aug_sig_sqrt_.col(i);
   }
   /// Predict x,P Sigma Points
- //////// cout<<"Prediction: Predict x,P Sigma Points"<<endl;///////
   for (int i=0; i<2*n_aug_+1; i++){
     VectorXd vt_pred_temp = VectorXd(n_x_);
     VectorXd att_pred_temp = VectorXd(n_x_);
@@ -186,7 +182,6 @@ void UKF::Prediction(double delta_t) {
     Xsig_pred_.col(i) = x_temp.head(n_x_) + vt_pred_temp + att_pred_temp;
   }
   /// Predict next x,P
-  /////////////cout<<"Prediction: Predict next x,P"<<endl;/////////////
   x_ = Xsig_pred_*weights_;
   P_ = MatrixXd(n_x_, n_x_);
   for(int i=0; i<2*n_aug_+1; i++){
@@ -225,7 +220,6 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
     Z_aug_(0,i) = Xsig_pred_(0,i);
     Z_aug_(1,i) = Xsig_pred_(1,i);
   }
-  cout<<"z"<<endl;/////////////////
   z_ = Z_aug_ * weights_;
   for(int i=0; i<2*n_aug_+1; i++){
     dz_ = Z_aug_.col(i) - z_;
@@ -236,7 +230,6 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
   R_(1,1) = std_laspy_*std_laspy_;
   S_ += R_;
 
-  cout<<"Measurement Update"<<endl;//////////////
   ///Measurement Update 
   MatrixXd T_ = MatrixXd(n_x_,n_z_);
   MatrixXd K_ = MatrixXd(n_x_,n_z_);
@@ -249,7 +242,6 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
   x_ += K_*(meas_package.raw_measurements_ - z_);
   P_ -= K_*S_*K_.transpose();
 
-  cout<<"NIS"<<endl;///////////////
   /// NIS
   dz_ = meas_package.raw_measurements_ - z_;
   nis = dz_.transpose()*S_.inverse()*dz_;
@@ -289,6 +281,7 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
     Z_aug_(1,i) = atan2(py,px);
     Z_aug_(2,i) = (px*cos(psi)*v + py*sin(psi)*v)/Z_aug_(0,i);
   }
+  cout<<"Z_aug_ = "<<endl<<Z_aug_<<endl;////////////
   z_ = Z_aug_ * weights_;
   VectorXd dz_ = VectorXd(n_z_);
   for(int i=0; i<2*n_aug_+1; i++){
@@ -300,6 +293,7 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
   R_(1,1) = std_radphi_*std_radphi_;
   R_(2,2) = std_radrd_*std_radrd_;
   S_ += R_;
+  cout<<"S_ = "<<endl<<S_<<endl;////////////
 
   ///Measurement Update 
   MatrixXd T_ = MatrixXd(n_x_,n_z_);
@@ -312,6 +306,8 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
   K_ = T_*S_.inverse();
   x_ += K_*(meas_package.raw_measurements_ - z_);
   P_ -= K_*S_*K_.transpose();
+  cout<<"x_ = " <<endl<<x_<<endl;///////
+  cout<<"P_ = "<<endl<<P_<<endl;///////////
 
   /// NIS
   dz_ = meas_package.raw_measurements_ - z_;
