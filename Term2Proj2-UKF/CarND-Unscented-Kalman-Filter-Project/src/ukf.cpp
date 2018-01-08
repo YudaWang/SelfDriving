@@ -85,11 +85,11 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
   if (is_initialized_ == false){
     cout << "UKF: 1st time initialization" << endl; /////////////////
     if(meas_package.sensor_type_ == MeasurementPackage::LASER){
-      x_(0) = sensor_type_.raw_measurements_(0); //PositionX
-      x_(1) = sensor_type_.raw_measurements_(1); //PositionY
+      x_(0) = meas_package.raw_measurements_(0); //PositionX
+      x_(1) = meas_package.raw_measurements_(1); //PositionY
     }else if(meas_package.sensor_type_ == MeasurementPackage::RADAR){
-      float rho = sensor_type_.raw_measurements_(0);
-      float theta = sensor_type_.raw_measurements_(1);
+      float rho = meas_package.raw_measurements_(0);
+      float theta = meas_package.raw_measurements_(1);
       x_(0) = rho*cos(theta); //PositionX
       x_(1) = rho*sin(theta); //PositionY
     }
@@ -101,12 +101,12 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
     is_initialized_ = true;
   }
 
-  if (meas_package.sensor_type_ == MeasurementPackage::LASER && use_laser_ == ture){
+  if (meas_package.sensor_type_ == MeasurementPackage::LASER && use_laser_ == true){
     dt = (meas_package.timestamp_ - time_us_) * 1000000;
     time_us_ = meas_package.timestamp_;
     Prediction(dt);
     UpdateLidar(meas_package);
-  }else if(meas_package.sensor_type_ == MeasurementPackage::RADAR && use_radar_ == ture){
+  }else if(meas_package.sensor_type_ == MeasurementPackage::RADAR && use_radar_ == true){
     dt = (meas_package.timestamp_ - time_us_) * 1000000;
     time_us_ = meas_package.timestamp_;
     Prediction(dt);
@@ -272,7 +272,7 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
     float dpsi = Xsig_pred_(4,i);
     Z_aug_(0,i) = sqrt(px*px+py*py);
     Z_aug_(1,i) = atan2(py,px);
-    Z_aug_(2,i) = (px*cos(psi)*v + py*sin(psi)*v)/Zsig(0,i);
+    Z_aug_(2,i) = (px*cos(psi)*v + py*sin(psi)*v)/Z_aug_(0,i);
   }
   z_ = Z_aug_ * weights_;
   VectorXd dz_ = VectorXd(n_z_);
