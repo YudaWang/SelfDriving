@@ -188,6 +188,8 @@ void UKF::Prediction(double delta_t) {
     dx_ = Xsig_pred_.col(i) - x_;
     P_ += weights_(i)*dx_*dx_.transpose();
   }
+    cout<<"x_ = " <<endl<<x_<<endl;///////
+  cout<<"P_ = "<<endl<<P_<<endl;///////////
   cout<<"End: Prediction"<<endl;
 }
 
@@ -246,6 +248,8 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
   dz_ = meas_package.raw_measurements_ - z_;
   nis = dz_.transpose()*S_.inverse()*dz_;
   cout<<"LIDAR Measurement NIS = " << nis << endl;/////////
+    cout<<"x_ = " <<endl<<x_<<endl;///////
+  cout<<"P_ = "<<endl<<P_<<endl;///////////
   cout<<"End: Update Lidar"<<endl;//////
 }
 
