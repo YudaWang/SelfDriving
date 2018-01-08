@@ -266,11 +266,13 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
   cout<<"Start: Update Radar"<<endl;//////
   VectorXd dx_ = VectorXd(n_x_);
   int n_z_ = 3;
+  float M_PI = 3.1415926;
   MatrixXd Z_aug_ = MatrixXd(n_z_, 2*n_aug_+1);
   VectorXd z_ = VectorXd(n_z_);
   MatrixXd S_ = MatrixXd(n_z_,n_z_);
   float nis = 0;
   ///Measurement Predict
+  cout<<"Xsig_pred_ = "<<endl<<Xsig_pred_<<endl;/////////////
   for (int i=0; i<2*n_aug_+1; i++){
     float px = Xsig_pred_(0,i);
     float py = Xsig_pred_(1,i);
@@ -286,6 +288,9 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
   VectorXd dz_ = VectorXd(n_z_);
   for(int i=0; i<2*n_aug_+1; i++){
     dz_ = Z_aug_.col(i) - z_;
+    //angle normalization
+    while (dz_(1)> M_PI) dz_(1)-=2.*M_PI;
+    while (dz_(1)<-M_PI) dz_(1)+=2.*M_PI;
     S_ += weights_(i)*dz_*dz_.transpose();
   }
   MatrixXd R_ = MatrixXd(n_z_,n_z_);
@@ -301,6 +306,9 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
   for (int i=0; i<2*n_aug_+1; i++){
     dx_ = Xsig_pred_.col(i) - x_;
     dz_ = Z_aug_.col(i) - z_;
+    //angle normalization
+    while (dz_(1)> M_PI) dz_(1)-=2.*M_PI;
+    while (dz_(1)<-M_PI) dz_(1)+=2.*M_PI;
     T_ += weights_(i)*dx_*dz_.transpose();
   }
   K_ = T_*S_.inverse();
@@ -311,6 +319,9 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
 
   /// NIS
   dz_ = meas_package.raw_measurements_ - z_;
+  //angle normalization
+  while (dz_(1)> M_PI) dz_(1)-=2.*M_PI;
+  while (dz_(1)<-M_PI) dz_(1)+=2.*M_PI;
   nis = dz_.transpose()*S_.inverse()*dz_;
   cout<<"RADAR Measurement NIS = " << nis << endl;/////////
   cout<<"Start: Update Radar"<<endl;//////
