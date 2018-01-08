@@ -136,11 +136,12 @@ void UKF::Prediction(double delta_t) {
   /// Generate x,P Sigma Points
   cout<<"Prediction: Generate x,P Sigma Points"<<endl;///////////////
   x_aug_.head(n_x_) = x_;
-  x_aug_[n_x_] = 0;
-  x_aug_[n_x_+1] = 0;
+  x_aug_(n_x_) = 0;
+  x_aug_(n_x_+1) = 0;
   P_aug_sig_pred_.topLeftCorner(n_x_, n_x_) = P_;
   P_aug_sig_pred_(n_x_, n_x_) = std_a_*std_a_;
   P_aug_sig_pred_(n_x_+1, n_x_+1) = std_yawdd_*std_yawdd_;
+  cout<<"sqrt of matrix"<<endl;
   MatrixXd P_aug_sig_sqrt_ = P_aug_sig_pred_.llt().matrixL();
   X_aug_sig_pred_.col(0) = x_aug_;
   for (int i=0; i<n_aug_; i++){
