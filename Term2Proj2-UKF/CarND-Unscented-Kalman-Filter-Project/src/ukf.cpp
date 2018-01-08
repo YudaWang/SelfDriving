@@ -95,7 +95,7 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
     }
     time_us_ = meas_package.timestamp_;
     for (int i=0; i<5; i++){
-      P_(i,i) = 100; //Covariences
+      P_(i,i) = 1; //Covariences
     } 
     cout << "Done: 1st time initialization" << endl;///////////////////
     is_initialized_ = true;
