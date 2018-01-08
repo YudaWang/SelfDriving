@@ -229,8 +229,8 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
   MatrixXd T_ = MatrixXd(n_x_,n_z_);
   MatrixXd K_ = MatrixXd(n_x_,n_z_);
   for (int i=0; i<2*n_aug_+1; i++){
-    dx_ = Xsig_pred_(i) - x_;
-    dz_ = Z_aug_(i) - z_;
+    dx_ = Xsig_pred_.col(i) - x_;
+    dz_ = Z_aug_.col(i) - z_;
     T_ += weights_(i)*dx_*dz_.transpose();
   }
   K_ = T_*S_.inverse();
@@ -287,8 +287,8 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
   MatrixXd T_ = MatrixXd(n_x_,n_z_);
   MatrixXd K_ = MatrixXd(n_x_,n_z_);
   for (int i=0; i<2*n_aug_+1; i++){
-    dx_ = Xsig_pred_(i) - x_;
-    dz_ = Z_aug_(i) - z_;
+    dx_ = Xsig_pred_.col(i) - x_;
+    dz_ = Z_aug_.col(i) - z_;
     T_ += weights_(i)*dx_*dz_.transpose();
   }
   K_ = T_*S_.inverse();
