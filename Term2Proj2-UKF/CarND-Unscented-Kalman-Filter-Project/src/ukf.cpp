@@ -130,23 +130,25 @@ void UKF::Prediction(double delta_t) {
   */
   cout<<"Start: Prediction"<<endl;/////////////
   VectorXd dx_ = VectorXd(n_x_);
-  VectorXd x_aug = VectorXd(n_aug_);
+  VectorXd x_aug_ = VectorXd(n_aug_);
   MatrixXd X_aug_sig_pred_ = MatrixXd(n_aug_, 2*n_aug_+1);
   MatrixXd P_aug_sig_pred_ = MatrixXd(n_aug_, n_aug_);
   /// Generate x,P Sigma Points
-  x_aug.head(n_x_) = x_;
-  x_aug[n_x_] = 0;
-  x_aug[n_x_+1] = 0;
+  cout<<"Prediction: Generate x,P Sigma Points"<<endl;///////////////
+  x_aug_.head(n_x_) = x_;
+  x_aug_[n_x_] = 0;
+  x_aug_[n_x_+1] = 0;
   P_aug_sig_pred_.topLeftCorner(n_x_, n_x_) = P_;
   P_aug_sig_pred_(n_x_, n_x_) = std_a_*std_a_;
   P_aug_sig_pred_(n_x_+1, n_x_+1) = std_yawdd_*std_yawdd_;
   MatrixXd P_aug_sig_sqrt_ = P_aug_sig_pred_.llt().matrixL();
-  X_aug_sig_pred_.col(0) = x_aug;
+  X_aug_sig_pred_.col(0) = x_aug_;
   for (int i=0; i<n_aug_; i++){
     X_aug_sig_pred_.col(1+i) = x_ + sqrt(lambda_+n_aug_)*P_aug_sig_sqrt_.col(i);
     X_aug_sig_pred_.col(1+n_aug_+i) = x_ - sqrt(lambda_+n_aug_)*P_aug_sig_sqrt_.col(i);
   }
   /// Predict x,P Sigma Points
+  cout<<"Prediction: Predict x,P Sigma Points"<<endl;
   for (int i=0; i<2*n_aug_+1; i++){
     VectorXd vt_pred_temp = VectorXd(n_x_);
     VectorXd att_pred_temp = VectorXd(n_x_);
@@ -182,6 +184,7 @@ void UKF::Prediction(double delta_t) {
     Xsig_pred_.col(i) = x_temp.head(n_x_) + vt_pred_temp + att_pred_temp;
   }
   /// Predict next x,P
+  cout<<"Prediction: Predict next x,P"<<endl;
   x_ = Xsig_pred_*weights_;
   P_ = MatrixXd(n_x_, n_x_);
   for(int i=0; i<2*n_aug_+1; i++){
