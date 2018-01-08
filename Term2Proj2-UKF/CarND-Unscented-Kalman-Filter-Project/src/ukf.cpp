@@ -182,6 +182,9 @@ void UKF::Prediction(double delta_t) {
     Xsig_pred_.col(i) = x_temp.head(n_x_) + vt_pred_temp + att_pred_temp;
   }
   /// Predict next x,P
+  for (int i=0; i<2*n_aug_+1; i++){
+    Xsig_pred_(3,i) = AngleNorm(Xsig_pred_(3,i));
+  }
   x_ = Xsig_pred_*weights_;
   P_ = MatrixXd(n_x_, n_x_);
   for(int i=0; i<2*n_aug_+1; i++){
@@ -237,6 +240,7 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
   MatrixXd K_ = MatrixXd(n_x_,n_z_);
   for (int i=0; i<2*n_aug_+1; i++){
     dx_ = Xsig_pred_.col(i) - x_;
+    dx_(3) = AngleNorm(dx_(3));
     dz_ = Z_aug_.col(i) - z_;
     T_ += weights_(i)*dx_*dz_.transpose();
   }
@@ -291,9 +295,7 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
   VectorXd dz_ = VectorXd(n_z_);
   for(int i=0; i<2*n_aug_+1; i++){
     dz_ = Z_aug_.col(i) - z_;
-    //angle normalization
-    while (dz_(1)> M_PI) dz_(1)-=2.*M_PI;
-    while (dz_(1)<-M_PI) dz_(1)+=2.*M_PI;
+    dz_(1) = AngleNorm(dz_(1));
     S_ += weights_(i)*dz_*dz_.transpose();
   }
   MatrixXd R_ = MatrixXd(n_z_,n_z_);
@@ -309,9 +311,7 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
   for (int i=0; i<2*n_aug_+1; i++){
     dx_ = Xsig_pred_.col(i) - x_;
     dz_ = Z_aug_.col(i) - z_;
-    //angle normalization
-    while (dz_(1)> M_PI) dz_(1)-=2.*M_PI;
-    while (dz_(1)<-M_PI) dz_(1)+=2.*M_PI;
+    dz_(1) = AngleNorm(dz_(1));
     T_ += weights_(i)*dx_*dz_.transpose();
   }
   K_ = T_*S_.inverse();
@@ -326,10 +326,15 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
 
   /// NIS
   dz_ = meas_package.raw_measurements_ - z_;
-  //angle normalization
-  while (dz_(1)> M_PI) dz_(1)-=2.*M_PI;
-  while (dz_(1)<-M_PI) dz_(1)+=2.*M_PI;
+  dz_(1) = AngleNorm(dz_(1));
   nis = dz_.transpose()*S_.inverse()*dz_;
   cout<<"RADAR Measurement NIS = " << nis << endl;/////////
   cout<<"Start: Update Radar"<<endl;//////
+}
+
+void UKF::AngleNorm(float a){
+  //angle normalization
+  while (a> M_PI) a-=2.*M_PI;
+  while (a<-M_PI) a+=2.*M_PI;
+  return a;
 }
