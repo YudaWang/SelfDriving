@@ -156,7 +156,7 @@ void UKF::Prediction(double delta_t) {
     float psi_k_dot = x_temp(4);
     float a_k = x_temp(5);
     float a_psi_k = x_temp(6);
-    if (psi_k_dot==0){
+    if (psi_k_dot<0.01){
         vt_pred_temp << v_k*cos(psi_k)*delta_t, 
                         v_k*sin(psi_k)*delta_t, 
                         0, 
