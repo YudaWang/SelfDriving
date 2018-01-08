@@ -138,6 +138,7 @@ int main()
           msgJson["rmse_vy"] = RMSE(3);
           auto msg = "42[\"estimate_marker\"," + msgJson.dump() + "]";
           // std::cout << msg << std::endl;
+          std::cout <<"RMSE_Px = "<<RMSE(0)<<" \t RMSE_Py = "<<RMSE(1)<<" \t RMSE_Vx = "<<RMSE(2)<<" \t RMSE_Vy = "<<RMSE(3)<<std::endl;////
           ws.send(msg.data(), msg.length(), uWS::OpCode::TEXT);
 	  
         }

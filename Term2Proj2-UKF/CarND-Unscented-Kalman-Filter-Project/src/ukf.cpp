@@ -93,7 +93,7 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
       x_(0) = rho*cos(theta); //PositionX
       x_(1) = rho*sin(theta); //PositionY
     }
-    time_us_ = sensor_type_.timestamp_;
+    time_us_ = meas_package.timestamp_;
     for (int i=0; i<5; i++){
       P_(i,i) = 100; //Covariences
     } 
@@ -241,6 +241,7 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
   /// NIS
   dz_ = meas_package.raw_measurements_ - z_;
   nis = dz_.transpose()*S_.inverse()*dz_;
+  cout<<'LIDAR Measurement NIS = ' << nis << endl;/////////
 }
 
 
@@ -301,4 +302,5 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
   /// NIS
   dz_ = meas_package.raw_measurements_ - z_;
   nis = dz_.transpose()*S_.inverse()*dz_;
+  cout<<'RADAR Measurement NIS = ' << nis << endl;/////////
 }
