@@ -199,7 +199,7 @@ void UKF::Prediction(double delta_t) {
     float psi_k_dot = x_temp(4);
     float a_k = x_temp(5);
     float a_psi_k = x_temp(6);
-    if (abs(psi_k_dot)<0.000001){
+    if (abs(psi_k_dot)<0.0001){
         vt_pred_temp << v_k*cos(psi_k)*delta_t, 
                         v_k*sin(psi_k)*delta_t, 
                         0, 
@@ -386,7 +386,7 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
     float dpsi = Xsig_pred_(4,i);
     Z_aug_(0,i) = sqrt(px*px+py*py);
     Z_aug_(1,i) = atan2(py,px);
-    if (abs(Z_aug_(0,i))<0.000001){
+    if (abs(Z_aug_(0,i))<0.0001){
       Z_aug_(2,i) = (px*cos(psi)*v + py*sin(psi)*v)/Z_aug_(0,i);
     }else{
       Z_aug_(2,i) = 0;
