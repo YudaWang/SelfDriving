@@ -227,11 +227,11 @@ void UKF::Prediction(double delta_t) {
     dx_(3) = AngleNorm(dx_(3));
     // cout<<"---> dx_ = "<<endl<<dx_<<endl;///////////
     // cout<<"---> P_ ="<<endl<<P_<<endl;///////////
-    cout<<"---> dP_ = "<<endl<<weights_(i)*dx_*dx_.transpose()<<endl;/////
+    // cout<<"---> dP_ = "<<endl<<weights_(i)*dx_*dx_.transpose()<<endl;/////
     P_ += weights_(i)*dx_*dx_.transpose();
   }
-  // cout<<"x_ = " <<endl<<x_<<endl;///////
-  // cout<<"P_ = "<<endl<<P_<<endl;///////////
+  cout<<"x_ = " <<endl<<x_<<endl;///////
+  cout<<"P_ = "<<endl<<P_<<endl;///////////
   cout<<"===========End: Prediction============"<<endl;
 }
 
@@ -312,8 +312,8 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
   P_ -= K_*S_*K_.transpose();
   // cout << "T_ = " << endl << T_ << endl;///////
   // cout << "K_ = " << endl << K_ << endl;//////////
-  // cout<<"x_ = " <<endl<<x_<<endl;///////
-  // cout<<"P_ = "<<endl<<P_<<endl;///////////
+  cout<<"x_ = " <<endl<<x_<<endl;///////
+  cout<<"P_ = "<<endl<<P_<<endl;///////////
 
   /// NIS
   dz_ = meas_package.raw_measurements_ - z_;
@@ -424,8 +424,8 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
   x_ += K_*(meas_package.raw_measurements_ - z_);
   x_(3) = AngleNorm(x_(3));
   P_ -= K_*S_*K_.transpose();
-  // cout<<"x_ = " <<endl<<x_<<endl;///////
-  // cout<<"P_ = "<<endl<<P_<<endl;///////////
+  cout<<"x_ = " <<endl<<x_<<endl;///////
+  cout<<"P_ = "<<endl<<P_<<endl;///////////
 
   /// NIS
   dz_ = meas_package.raw_measurements_ - z_;
