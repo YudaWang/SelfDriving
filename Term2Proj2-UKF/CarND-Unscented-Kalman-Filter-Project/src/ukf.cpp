@@ -129,6 +129,8 @@ void UKF::Prediction(double delta_t) {
   vector, x_. Predict sigma points, the state, and the state covariance matrix.
   */
   cout<<"========Start: Prediction========="<<endl;/////////////
+  cout<<"x_ = " <<endl<<x_<<endl;///////
+  cout<<"P_ = "<<endl<<P_<<endl;///////////
   VectorXd dx_ = VectorXd(n_x_);
   VectorXd x_aug_ = VectorXd(n_aug_);
   MatrixXd X_aug_sig_pred_ = MatrixXd(n_aug_, 2*n_aug_+1);
@@ -197,9 +199,9 @@ void UKF::Prediction(double delta_t) {
   for(int i=0; i<2*n_aug_+1; i++){
     dx_ = Xsig_pred_.col(i) - x_;
     dx_(3) = AngleNorm(dx_(3));
-    cout<<"---> dx_ = "<<endl<<dx_<<endl;///////////
-    cout<<"---> P_ ="<<endl<<P_<<endl;///////////
-    cout<<"---> dP_ = "<<endl<<weights_(i)*dx_*dx_.transpose()<<endl;/////
+    // cout<<"---> dx_ = "<<endl<<dx_<<endl;///////////
+    // cout<<"---> P_ ="<<endl<<P_<<endl;///////////
+    // cout<<"---> dP_ = "<<endl<<weights_(i)*dx_*dx_.transpose()<<endl;/////
     P_ += weights_(i)*dx_*dx_.transpose();
   }
   cout<<"x_ = " <<endl<<x_<<endl;///////
@@ -223,6 +225,8 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
   You'll also need to calculate the lidar NIS.
   */
   cout<<"=========Start: Update Lidar==========="<<endl;//////
+  cout<<"x_ = " <<endl<<x_<<endl;///////
+  cout<<"P_ = "<<endl<<P_<<endl;///////////
   int n_z_ = 2;
   VectorXd dx_ = VectorXd(n_x_);
   VectorXd dz_ = VectorXd(n_z_);
@@ -289,6 +293,8 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
   You'll also need to calculate the radar NIS.
   */
   cout<<"============Start: Update Radar=============="<<endl;//////
+  cout<<"x_ = " <<endl<<x_<<endl;///////
+  cout<<"P_ = "<<endl<<P_<<endl;///////////
   VectorXd dx_ = VectorXd(n_x_);
   int n_z_ = 3;
   MatrixXd Z_aug_ = MatrixXd(n_z_, 2*n_aug_+1);
