@@ -135,6 +135,7 @@ void UKF::Prediction(double delta_t) {
   MatrixXd P_aug_sig_pred_ = MatrixXd(n_aug_, n_aug_);
   /// Generate x,P Augmented Sigma Points
   x_aug_.head(n_x_) = x_;
+  x_aug_(3) = AngleNorm(x_aug_(3));
   x_aug_(n_x_) = 0;
   x_aug_(n_x_+1) = 0;
   P_aug_sig_pred_.topLeftCorner(n_x_, n_x_) = P_;
@@ -144,7 +145,9 @@ void UKF::Prediction(double delta_t) {
   X_aug_sig_pred_.col(0) = x_aug_;
   for (int i=0; i<n_aug_; i++){
     X_aug_sig_pred_.col(1+i) = x_aug_ + sqrt(lambda_+n_aug_)*P_aug_sig_sqrt_.col(i);
+    X_aug_sig_pred_(3, 1+i) = AngleNorm(X_aug_sig_pred_(3, 1+i));
     X_aug_sig_pred_.col(1+n_aug_+i) = x_aug_ - sqrt(lambda_+n_aug_)*P_aug_sig_sqrt_.col(i);
+    X_aug_sig_pred_(3, 1+n_aug_+i) = AngleNorm(X_aug_sig_pred_(3, 1+n_aug_+i));
   }
   cout<<"X_aug_sig_pred_ = "<<endl<<X_aug_sig_pred_<<endl;///////////
   /// Predict x,P Sigma Points
@@ -157,7 +160,7 @@ void UKF::Prediction(double delta_t) {
     float psi_k_dot = x_temp(4);
     float a_k = x_temp(5);
     float a_psi_k = x_temp(6);
-    if (abs(psi_k_dot)<0.001){
+    if (abs(psi_k_dot)<0.000001){
         vt_pred_temp << v_k*cos(psi_k)*delta_t, 
                         v_k*sin(psi_k)*delta_t, 
                         0, 
@@ -181,6 +184,7 @@ void UKF::Prediction(double delta_t) {
                       delta_t*a_psi_k;
     }
     Xsig_pred_.col(i) = x_temp.head(n_x_) + vt_pred_temp + att_pred_temp;
+    Xsig_pred_(3,i) = AngleNorm(Xsig_pred_(3,i));
   }
   cout<<"Xsig_pred_ = "<<endl<<Xsig_pred_<<endl;/////////////
   /// Predict next x,P
@@ -188,6 +192,7 @@ void UKF::Prediction(double delta_t) {
   //   Xsig_pred_(3,i) = AngleNorm(Xsig_pred_(3,i));
   // }
   x_ = Xsig_pred_*weights_;
+  x_(3) = AngleNorm(x_(3));
   P_ = MatrixXd(n_x_, n_x_);
   for(int i=0; i<2*n_aug_+1; i++){
     dx_ = Xsig_pred_.col(i) - x_;
@@ -251,6 +256,7 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
   }
   K_ = T_*S_.inverse();
   x_ += K_*(meas_package.raw_measurements_ - z_);
+  x_(3) = AngleNorm(x_(3));
   P_ -= K_*S_*K_.transpose();
   cout << "T_ = " << endl << T_ << endl;///////
   cout << "K_ = " << endl << K_ << endl;//////////
@@ -295,7 +301,7 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
     float dpsi = Xsig_pred_(4,i);
     Z_aug_(0,i) = sqrt(px*px+py*py);
     Z_aug_(1,i) = atan2(py,px);
-    if (abs(Z_aug_(0,i))<0.001){
+    if (abs(Z_aug_(0,i))<0.000001){
       Z_aug_(2,i) = (px*cos(psi)*v + py*sin(psi)*v)/Z_aug_(0,i);
     }else{
       Z_aug_(2,i) = 0;
@@ -304,6 +310,7 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
   }
   cout<<"Z_aug_ = "<<endl<<Z_aug_<<endl;////////////
   z_ = Z_aug_ * weights_;
+  z_(1) = AngleNorm(z_(1));
   VectorXd dz_ = VectorXd(n_z_);
   for(int i=0; i<2*n_aug_+1; i++){
     dz_ = Z_aug_.col(i) - z_;
@@ -323,8 +330,10 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
   for (int i=0; i<2*n_aug_+1; i++){
     dx_ = Xsig_pred_.col(i) - x_;
     dx_(3) = AngleNorm(dx_(3));
+    cout<<"dx_ = "<<endl<<dx_<<endl;//////////
     dz_ = Z_aug_.col(i) - z_;
     dz_(1) = AngleNorm(dz_(1));
+    cout<<"dz_ = "<<endl<<dz_<<endl;///////////
     T_ += weights_(i)*dx_*dz_.transpose();
   }
   K_ = T_*S_.inverse();
@@ -332,6 +341,7 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
   cout<<"T_ = "<<endl<<T_<<endl;///////////
   cout<<"K_ = " <<endl<<K_<<endl;///////
   x_ += K_*(meas_package.raw_measurements_ - z_);
+  x_(3) = AngleNorm(x_(3));
   P_ -= K_*S_*K_.transpose();
   cout<<"x_ = " <<endl<<x_<<endl;///////
   cout<<"P_ = "<<endl<<P_<<endl;///////////
@@ -346,7 +356,8 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
 
 float UKF::AngleNorm(float a){
   //angle normalization
-  while (a> M_PI) a-=2.*M_PI;
-  while (a<-M_PI) a+=2.*M_PI;
+  float pi = 3.1415926;
+  while (a> pi) a-=2.*pi;
+  while (a<-pi) a+=2.*pi;
   return a;
 }
