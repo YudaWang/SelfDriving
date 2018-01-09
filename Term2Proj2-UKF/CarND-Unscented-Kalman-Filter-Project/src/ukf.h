@@ -67,6 +67,13 @@ public:
   ///* Sigma point spreading parameter
   double lambda_;
 
+  ///// Count NIS3df > or < 95%
+  int NIS3df95up;
+  int NIS3df95down;
+
+  ///// Count NIS2df > or < 95%
+  int NIS2df95up;
+  int NIS2df95down;
 
   /**
    * Constructor
