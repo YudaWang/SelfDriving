@@ -101,13 +101,13 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
     is_initialized_ = true;
   }
 
+  dt = (meas_package.timestamp_ - time_us_) / 1000000.0;
+  cout << "time interval (sec) = "<<dt<<endl;
   if (meas_package.sensor_type_ == MeasurementPackage::LASER && use_laser_ == true){
-    dt = (meas_package.timestamp_ - time_us_) / 1000000;
     time_us_ = meas_package.timestamp_;
     Prediction(dt);
     UpdateLidar(meas_package);
   }else if(meas_package.sensor_type_ == MeasurementPackage::RADAR && use_radar_ == true){
-    dt = (meas_package.timestamp_ - time_us_) / 1000000;
     time_us_ = meas_package.timestamp_;
     Prediction(dt);
     UpdateRadar(meas_package);
@@ -128,12 +128,12 @@ void UKF::Prediction(double delta_t) {
   Complete this function! Estimate the object's location. Modify the state
   vector, x_. Predict sigma points, the state, and the state covariance matrix.
   */
-  cout<<"Start: Prediction"<<endl;/////////////
+  cout<<"========Start: Prediction========="<<endl;/////////////
   VectorXd dx_ = VectorXd(n_x_);
   VectorXd x_aug_ = VectorXd(n_aug_);
   MatrixXd X_aug_sig_pred_ = MatrixXd(n_aug_, 2*n_aug_+1);
   MatrixXd P_aug_sig_pred_ = MatrixXd(n_aug_, n_aug_);
-  /// Generate x,P Sigma Points
+  /// Generate x,P Augmented Sigma Points
   x_aug_.head(n_x_) = x_;
   x_aug_(n_x_) = 0;
   x_aug_(n_x_+1) = 0;
@@ -146,6 +146,7 @@ void UKF::Prediction(double delta_t) {
     X_aug_sig_pred_.col(1+i) = x_aug_ + sqrt(lambda_+n_aug_)*P_aug_sig_sqrt_.col(i);
     X_aug_sig_pred_.col(1+n_aug_+i) = x_aug_ - sqrt(lambda_+n_aug_)*P_aug_sig_sqrt_.col(i);
   }
+  cout<<"X_aug_sig_pred_ = "<<endl<<X_aug_sig_pred_<<endl;///////////
   /// Predict x,P Sigma Points
   for (int i=0; i<2*n_aug_+1; i++){
     VectorXd vt_pred_temp = VectorXd(n_x_);
@@ -156,7 +157,7 @@ void UKF::Prediction(double delta_t) {
     float psi_k_dot = x_temp(4);
     float a_k = x_temp(5);
     float a_psi_k = x_temp(6);
-    if (psi_k_dot<0.01){
+    if (abs(psi_k_dot)<0.001){
         vt_pred_temp << v_k*cos(psi_k)*delta_t, 
                         v_k*sin(psi_k)*delta_t, 
                         0, 
@@ -181,19 +182,21 @@ void UKF::Prediction(double delta_t) {
     }
     Xsig_pred_.col(i) = x_temp.head(n_x_) + vt_pred_temp + att_pred_temp;
   }
+  cout<<"Xsig_pred_ = "<<endl<<Xsig_pred_<<endl;/////////////
   /// Predict next x,P
-  for (int i=0; i<2*n_aug_+1; i++){
-    Xsig_pred_(3,i) = AngleNorm(Xsig_pred_(3,i));
-  }
+  // for (int i=0; i<2*n_aug_+1; i++){
+  //   Xsig_pred_(3,i) = AngleNorm(Xsig_pred_(3,i));
+  // }
   x_ = Xsig_pred_*weights_;
   P_ = MatrixXd(n_x_, n_x_);
   for(int i=0; i<2*n_aug_+1; i++){
     dx_ = Xsig_pred_.col(i) - x_;
+    dx_(3) = AngleNorm(dx_(3));
     P_ += weights_(i)*dx_*dx_.transpose();
   }
-    cout<<"x_ = " <<endl<<x_<<endl;///////
+  cout<<"x_ = " <<endl<<x_<<endl;///////
   cout<<"P_ = "<<endl<<P_<<endl;///////////
-  cout<<"End: Prediction"<<endl;
+  cout<<"===========End: Prediction============"<<endl;
 }
 
 
@@ -211,7 +214,7 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
 
   You'll also need to calculate the lidar NIS.
   */
-  cout<<"Start: Update Lidar"<<endl;//////
+  cout<<"=========Start: Update Lidar==========="<<endl;//////
   int n_z_ = 2;
   VectorXd dx_ = VectorXd(n_x_);
   VectorXd dz_ = VectorXd(n_z_);
@@ -234,6 +237,8 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
   R_(0,0) = std_laspx_*std_laspx_;
   R_(1,1) = std_laspy_*std_laspy_;
   S_ += R_;
+  cout << "z_ = " << endl << z_ << endl;///////////
+  cout << "S_ = " << endl << S_ << endl;////////////
 
   ///Measurement Update 
   MatrixXd T_ = MatrixXd(n_x_,n_z_);
@@ -247,14 +252,17 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
   K_ = T_*S_.inverse();
   x_ += K_*(meas_package.raw_measurements_ - z_);
   P_ -= K_*S_*K_.transpose();
+  cout << "T_ = " << endl << T_ << endl;///////
+  cout << "K_ = " << endl << K_ << endl;//////////
+  cout<<"x_ = " <<endl<<x_<<endl;///////
+  cout<<"P_ = "<<endl<<P_<<endl;///////////
 
   /// NIS
   dz_ = meas_package.raw_measurements_ - z_;
   nis = dz_.transpose()*S_.inverse()*dz_;
   cout<<"LIDAR Measurement NIS = " << nis << endl;/////////
-    cout<<"x_ = " <<endl<<x_<<endl;///////
-  cout<<"P_ = "<<endl<<P_<<endl;///////////
-  cout<<"End: Update Lidar"<<endl;//////
+
+  cout<<"==========End: Update Lidar==========="<<endl;//////
 }
 
 
@@ -271,7 +279,7 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
 
   You'll also need to calculate the radar NIS.
   */
-  cout<<"Start: Update Radar"<<endl;//////
+  cout<<"============Start: Update Radar=============="<<endl;//////
   VectorXd dx_ = VectorXd(n_x_);
   int n_z_ = 3;
   MatrixXd Z_aug_ = MatrixXd(n_z_, 2*n_aug_+1);
@@ -279,7 +287,6 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
   MatrixXd S_ = MatrixXd(n_z_,n_z_);
   float nis = 0;
   ///Measurement Predict
-  cout<<"Xsig_pred_ = "<<endl<<Xsig_pred_<<endl;/////////////
   for (int i=0; i<2*n_aug_+1; i++){
     float px = Xsig_pred_(0,i);
     float py = Xsig_pred_(1,i);
@@ -288,7 +295,12 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
     float dpsi = Xsig_pred_(4,i);
     Z_aug_(0,i) = sqrt(px*px+py*py);
     Z_aug_(1,i) = atan2(py,px);
-    Z_aug_(2,i) = (px*cos(psi)*v + py*sin(psi)*v)/Z_aug_(0,i);
+    if (abs(Z_aug_(0,i))<0.001){
+      Z_aug_(2,i) = (px*cos(psi)*v + py*sin(psi)*v)/Z_aug_(0,i);
+    }else{
+      Z_aug_(2,i) = 0;
+    }
+    
   }
   cout<<"Z_aug_ = "<<endl<<Z_aug_<<endl;////////////
   z_ = Z_aug_ * weights_;
@@ -310,14 +322,13 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
   MatrixXd K_ = MatrixXd(n_x_,n_z_);
   for (int i=0; i<2*n_aug_+1; i++){
     dx_ = Xsig_pred_.col(i) - x_;
+    dx_(3) = AngleNorm(dx_(3));
     dz_ = Z_aug_.col(i) - z_;
     dz_(1) = AngleNorm(dz_(1));
     T_ += weights_(i)*dx_*dz_.transpose();
   }
   K_ = T_*S_.inverse();
-  cout<<"x_ = " <<endl<<x_<<endl;///////
-  cout<<"P_ = "<<endl<<P_<<endl;///////////
-    cout<<"K_ = " <<endl<<K_<<endl;///////
+  cout<<"K_ = " <<endl<<K_<<endl;///////
   cout<<"T_ = "<<endl<<T_<<endl;///////////
   x_ += K_*(meas_package.raw_measurements_ - z_);
   P_ -= K_*S_*K_.transpose();
@@ -329,7 +340,7 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
   dz_(1) = AngleNorm(dz_(1));
   nis = dz_.transpose()*S_.inverse()*dz_;
   cout<<"RADAR Measurement NIS = " << nis << endl;/////////
-  cout<<"Start: Update Radar"<<endl;//////
+  cout<<"============Start: Update Radar==========="<<endl;//////
 }
 
 float UKF::AngleNorm(float a){
