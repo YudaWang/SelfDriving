@@ -64,7 +64,7 @@ UKF::UKF() {
   n_x_ = 5;
   n_aug_ = 7;
   lambda_ = 3-n_x_;
-  
+
   Xsig_pred_ = MatrixXd(n_x_, 2*n_aug_+1);
   Xsig_pred_ << 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
                 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -150,8 +150,8 @@ void UKF::Prediction(double delta_t) {
   vector, x_. Predict sigma points, the state, and the state covariance matrix.
   */
   cout<<"========Start: Prediction========="<<endl;/////////////
-  // cout<<"x_ = " <<endl<<x_<<endl;///////
-  // cout<<"P_ = "<<endl<<P_<<endl;///////////
+  cout<<"x_ = " <<endl<<x_<<endl;///////
+  cout<<"P_ = "<<endl<<P_<<endl;///////////
   VectorXd dx_ = VectorXd(n_x_);
   dx_ << 0,0,0,0,0;
   VectorXd x_aug_ = VectorXd(n_aug_);
@@ -186,7 +186,7 @@ void UKF::Prediction(double delta_t) {
     X_aug_sig_pred_.col(1+n_aug_+i) = x_aug_ - sqrt(lambda_+n_aug_)*P_aug_sig_sqrt_.col(i);
     X_aug_sig_pred_(3, 1+n_aug_+i) = AngleNorm(X_aug_sig_pred_(3, 1+n_aug_+i));
   }
-  // cout<<"X_aug_sig_pred_ = "<<endl<<X_aug_sig_pred_<<endl;///////////
+  cout<<"X_aug_sig_pred_ = "<<endl<<X_aug_sig_pred_<<endl;///////////
   /// Predict x,P Sigma Points
   for (int i=0; i<2*n_aug_+1; i++){
     VectorXd vt_pred_temp = VectorXd(n_x_);
@@ -197,7 +197,7 @@ void UKF::Prediction(double delta_t) {
     float psi_k_dot = x_temp(4);
     float a_k = x_temp(5);
     float a_psi_k = x_temp(6);
-    if (abs(psi_k_dot)<0.000001){
+    if (abs(psi_k_dot)<0.00001){
         vt_pred_temp << v_k*cos(psi_k)*delta_t, 
                         v_k*sin(psi_k)*delta_t, 
                         0, 
@@ -223,11 +223,8 @@ void UKF::Prediction(double delta_t) {
     Xsig_pred_.col(i) = x_temp.head(n_x_) + vt_pred_temp + att_pred_temp;
     Xsig_pred_(3,i) = AngleNorm(Xsig_pred_(3,i));
   }
-  // cout<<"Xsig_pred_ = "<<endl<<Xsig_pred_<<endl;/////////////
+  cout<<"Xsig_pred_ = "<<endl<<Xsig_pred_<<endl;/////////////
   /// Predict next x,P
-  // for (int i=0; i<2*n_aug_+1; i++){
-  //   Xsig_pred_(3,i) = AngleNorm(Xsig_pred_(3,i));
-  // }
   x_ = Xsig_pred_*weights_;
   x_(3) = AngleNorm(x_(3));
   for(int i=0; i<2*n_aug_+1; i++){
@@ -259,8 +256,8 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
   You'll also need to calculate the lidar NIS.
   */
   cout<<"=========Start: Update Lidar==========="<<endl;//////
-  // cout<<"x_ = " <<endl<<x_<<endl;///////
-  // cout<<"P_ = "<<endl<<P_<<endl;///////////
+  cout<<"x_ = " <<endl<<x_<<endl;///////
+  cout<<"P_ = "<<endl<<P_<<endl;///////////
   int n_z_ = 2;
   VectorXd dx_ = VectorXd(n_x_);
   dx_ << 0,0,0,0,0;
@@ -274,6 +271,9 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
   MatrixXd S_ = MatrixXd(n_z_,n_z_);
   S_ << 0,0,
         0,0;
+  MatrixXd R_ = MatrixXd(n_z_,n_z_);
+  R_ << 0,0,
+        0,0;
   float nis = 0;
 
   ///Measurement Predict
@@ -286,14 +286,11 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
     dz_ = Z_aug_.col(i) - z_;
     S_ += weights_(i)*dz_*dz_.transpose();
   }
-  MatrixXd R_ = MatrixXd(n_z_,n_z_);
-  R_ << 0,0,
-        0,0;
   R_(0,0) = std_laspx_*std_laspx_;
   R_(1,1) = std_laspy_*std_laspy_;
   S_ += R_;
-  // cout << "z_ = " << endl << z_ << endl;///////////
-  // cout << "S_ = " << endl << S_ << endl;////////////
+  cout << "z_ = " << endl << z_ << endl;///////////
+  cout << "S_ = " << endl << S_ << endl;////////////
 
   ///Measurement Update 
   MatrixXd T_ = MatrixXd(n_x_,n_z_);
@@ -318,8 +315,8 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
   x_ += K_*(meas_package.raw_measurements_ - z_);
   x_(3) = AngleNorm(x_(3));
   P_ -= K_*S_*K_.transpose();
-  // cout << "T_ = " << endl << T_ << endl;///////
-  // cout << "K_ = " << endl << K_ << endl;//////////
+  cout << "T_ = " << endl << T_ << endl;///////
+  cout << "K_ = " << endl << K_ << endl;//////////
   cout<<"x_ = " <<endl<<x_<<endl;///////
   cout<<"P_ = "<<endl<<P_<<endl;///////////
 
@@ -351,8 +348,8 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
   You'll also need to calculate the radar NIS.
   */
   cout<<"============Start: Update Radar=============="<<endl;//////
-  // cout<<"x_ = " <<endl<<x_<<endl;///////
-  // cout<<"P_ = "<<endl<<P_<<endl;///////////
+  cout<<"x_ = " <<endl<<x_<<endl;///////
+  cout<<"P_ = "<<endl<<P_<<endl;///////////
   int n_z_ = 3;
   VectorXd dx_ = VectorXd(n_x_);
   dx_ << 0,0,0,0,0;
@@ -368,6 +365,10 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
   S_ << 0,0,0,
         0,0,0,
         0,0,0;
+  MatrixXd R_ = MatrixXd(n_z_,n_z_);
+  R_ << 0,0,0,
+        0,0,0,
+        0,0,0;
   float nis = 0;
   ///Measurement Predict
   for (int i=0; i<2*n_aug_+1; i++){
@@ -378,13 +379,13 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
     float dpsi = Xsig_pred_(4,i);
     Z_aug_(0,i) = sqrt(px*px+py*py);
     Z_aug_(1,i) = atan2(py,px);
-    if (abs(Z_aug_(0,i))<0.000001){
+    if (abs(Z_aug_(0,i))<0.00001){
       Z_aug_(2,i) = (px*cos(psi)*v + py*sin(psi)*v)/Z_aug_(0,i);
     }else{
       Z_aug_(2,i) = 0;
     }
   }
-  // cout<<"Z_aug_ = "<<endl<<Z_aug_<<endl;////////////
+  cout<<"Z_aug_ = "<<endl<<Z_aug_<<endl;////////////
   z_ = Z_aug_ * weights_;
   z_(1) = AngleNorm(z_(1));
   for(int i=0; i<2*n_aug_+1; i++){
@@ -392,15 +393,11 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
     dz_(1) = AngleNorm(dz_(1));
     S_ += weights_(i)*dz_*dz_.transpose();
   }
-  MatrixXd R_ = MatrixXd(n_z_,n_z_);
-  R_ << 0,0,0,
-        0,0,0,
-        0,0,0;
   R_(0,0) = std_radr_*std_radr_;
   R_(1,1) = std_radphi_*std_radphi_;
   R_(2,2) = std_radrd_*std_radrd_;
   S_ += R_;
-  // cout<<"S_ = "<<endl<<S_<<endl;////////////
+  cout<<"S_ = "<<endl<<S_<<endl;////////////
 
   ///Measurement Update 
   MatrixXd T_ = MatrixXd(n_x_,n_z_);
@@ -427,8 +424,8 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
   }
   K_ = T_*S_.inverse();
 
-  // cout<<"T_ = "<<endl<<T_<<endl;///////////
-  // cout<<"K_ = " <<endl<<K_<<endl;///////
+  cout<<"T_ = "<<endl<<T_<<endl;///////////
+  cout<<"K_ = " <<endl<<K_<<endl;///////
   x_ += K_*(meas_package.raw_measurements_ - z_);
   x_(3) = AngleNorm(x_(3));
   P_ -= K_*S_*K_.transpose();
