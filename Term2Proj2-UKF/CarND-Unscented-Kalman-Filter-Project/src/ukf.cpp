@@ -64,7 +64,7 @@ UKF::UKF() {
   for (int i=1; i<2*n_aug_+1; i++){
     weights_(i) = 1.0/2/(lambda_+2*n_aug_+1);
   }
-  
+  cout << "weights_ = "<< endl << weights_ << endl;/////////////
 }
 
 UKF::~UKF() {}
@@ -328,8 +328,9 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
     T_ += weights_(i)*dx_*dz_.transpose();
   }
   K_ = T_*S_.inverse();
-  cout<<"K_ = " <<endl<<K_<<endl;///////
+
   cout<<"T_ = "<<endl<<T_<<endl;///////////
+  cout<<"K_ = " <<endl<<K_<<endl;///////
   x_ += K_*(meas_package.raw_measurements_ - z_);
   P_ -= K_*S_*K_.transpose();
   cout<<"x_ = " <<endl<<x_<<endl;///////
