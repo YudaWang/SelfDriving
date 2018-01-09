@@ -60,9 +60,9 @@ UKF::UKF() {
   lambda_ = 3-n_x_;
   Xsig_pred_ = MatrixXd(n_x_, 2*n_aug_+1);
   weights_ = VectorXd(2*n_aug_+1);
-  weights_(0) = lambda_/(lambda_+2*n_aug_+1);
+  weights_(0) = lambda_/(lambda_+n_aug_);
   for (int i=1; i<2*n_aug_+1; i++){
-    weights_(i) = 1.0/2/(lambda_+2*n_aug_+1);
+    weights_(i) = 1.0/2/(lambda_+n_aug_);
   }
   cout << "weights_ = "<< endl << weights_ << endl;/////////////
 }
