@@ -198,6 +198,7 @@ void UKF::Prediction(double delta_t) {
     dx_ = Xsig_pred_.col(i) - x_;
     dx_(3) = AngleNorm(dx_(3));
     cout<<"---> dx_ = "<<endl<<dx_<<endl;///////////
+    cout<<"---> P_ ="<<endl<<P_<<endl;///////////
     cout<<"---> dP_ = "<<endl<<weights_(i)*dx_*dx_.transpose()<<endl;/////
     P_ += weights_(i)*dx_*dx_.transpose();
   }
