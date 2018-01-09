@@ -384,16 +384,16 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
 
   ///Measurement Update 
   MatrixXd T_ = MatrixXd(n_x_,n_z_);
-  T_ << 0,0,0
-        0,0,0
-        0,0,0
-        0,0,0
+  T_ << 0,0,0,
+        0,0,0,
+        0,0,0,
+        0,0,0,
         0,0,0;
   MatrixXd K_ = MatrixXd(n_x_,n_z_);
-  K_ << 0,0,0
-        0,0,0
-        0,0,0
-        0,0,0
+  K_ << 0,0,0,
+        0,0,0,
+        0,0,0,
+        0,0,0,
         0,0,0;
   for (int i=0; i<2*n_aug_+1; i++){
     dx_ = Xsig_pred_.col(i) - x_;
