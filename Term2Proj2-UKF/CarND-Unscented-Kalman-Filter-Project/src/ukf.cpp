@@ -77,6 +77,8 @@ UKF::UKF() {
   for (int i=1; i<2*n_aug_+1; i++){
     weights_(i) = 1.0/2/(lambda_+n_aug_);
   }
+  cout << "weights_ = "<< endl << weights_ << endl;/////////////
+
   ///// Count NIS3df > or < 95%
   NIS3df95up = 0;
   NIS3df95down = 0;
@@ -84,7 +86,7 @@ UKF::UKF() {
   ///// Count NIS2df > or < 95%
   NIS2df95up = 0;
   NIS2df95down = 0;
-  // cout << "weights_ = "<< endl << weights_ << endl;/////////////
+
 }
 
 UKF::~UKF() {}
@@ -132,7 +134,7 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
     Prediction(dt);
     UpdateRadar(meas_package);
   }
-  cout<<"***********************************"<<endl;//////////
+  cout<<"==================================================="<<endl;//////////
 
 }
 
@@ -227,6 +229,11 @@ void UKF::Prediction(double delta_t) {
   /// Predict next x,P
   x_ = Xsig_pred_*weights_;
   x_(3) = AngleNorm(x_(3));
+  P_ << 0,0,0,0,0,
+      0,0,0,0,0,
+      0,0,0,0,0,
+      0,0,0,0,0,
+      0,0,0,0,0;
   for(int i=0; i<2*n_aug_+1; i++){
     dx_ = Xsig_pred_.col(i) - x_;
     dx_(3) = AngleNorm(dx_(3));
@@ -443,7 +450,7 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
     NIS3df95down += 1;
   }
   cout<<"RADAR NIS 95\% upward count = "<<NIS3df95up<<" downward count = "<<NIS3df95down<<endl;
-  cout<<"============Start: Update Radar==========="<<endl;//////
+  cout<<"============End: Update Radar==========="<<endl;//////
 }
 
 float UKF::AngleNorm(float a){
