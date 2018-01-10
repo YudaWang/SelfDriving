@@ -2,18 +2,15 @@
 
 ## The goals / requirements of this project are:
 
-* Configure Windows10 Ubuntu-BASH environment and set up uWebSocketIO interface between running C++ scripts and term2 simulator.
 * Implement Kalman filter algorithms at C++ environment with both RADAR(polor coordinates) and LIDAR(linear coordinate) processes.
 * Compile and run C++ scripts to contorl term2 simulator such that final RMSE is within expected range. 
 
 [//]: # (Image References)
-[image1]: ./Dataset1EKFtracking.PNG
-[image2]: ./Dataset2EKFtracking.PNG
-[image3]: ./Dataset1EKFtracking-LidarOnly.PNG
-[image4]: ./Dataset1EKFtracking-RadarOnly.PNG
-[image5]: ./MeetSpec-compiled.PNG
-[image6]: ./MeetSpec-ProcessFlow.PNG
-[image7]: ./MeetSpec-1stMeasHandle.PNG
+[image1]: ./UKFdata1.png
+[image2]: ./UKFdata2.png
+[image3]: ./UKFdata1complete.png
+[image4]: ./UKFdata2complete.png
+[image5]: ./GeneralProcessFlow.PNG
 
 ---
 
