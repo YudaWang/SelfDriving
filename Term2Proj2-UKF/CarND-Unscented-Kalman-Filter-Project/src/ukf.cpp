@@ -156,25 +156,13 @@ void UKF::Prediction(double delta_t) {
   cout<<"x_ = " <<endl<<x_<<endl;///////
   cout<<"P_ = "<<endl<<P_<<endl;///////////
   VectorXd dx_ = VectorXd(n_x_);
-  dx_ << 0,0,0,0,0;
+  dx_.fill(0.0);
   VectorXd x_aug_ = VectorXd(n_aug_);
-  x_aug_ << 0,0,0,0,0,0,0;
+  x_aug_.fill(0.0);
   MatrixXd X_aug_sig_pred_ = MatrixXd(n_aug_, 2*n_aug_+1);
-  X_aug_sig_pred_ << 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0;
+  X_aug_sig_pred_.fill(0.0);
   MatrixXd P_aug_sig_pred_ = MatrixXd(n_aug_, n_aug_);
-  P_aug_sig_pred_ << 0,0,0,0,0,0,0,
-                    0,0,0,0,0,0,0,
-                    0,0,0,0,0,0,0,
-                    0,0,0,0,0,0,0,
-                    0,0,0,0,0,0,0,
-                    0,0,0,0,0,0,0,
-                    0,0,0,0,0,0,0;
+  P_aug_sig_pred_.fill(0.0);
   /// Generate x,P Augmented Sigma Points
   x_aug_.head(n_x_) = x_;
   x_aug_(3) = AngleNorm(x_aug_(3));
@@ -200,41 +188,32 @@ void UKF::Prediction(double delta_t) {
     float psi_k_dot = x_temp(4);
     float a_k = x_temp(5);
     float a_psi_k = x_temp(6);
-    if (abs(psi_k_dot)<0.0001){
+    if (abs(psi_k_dot)<0.001){
         vt_pred_temp << v_k*cos(psi_k)*delta_t, 
                         v_k*sin(psi_k)*delta_t, 
                         0, 
                         psi_k_dot*delta_t, 
                         0;
-        att_pred_temp << delta_t*delta_t*cos(psi_k)*a_k/2, 
-                        delta_t*delta_t*sin(psi_k)*a_k/2, 
-                        delta_t*a_k, 
-                        delta_t*delta_t*a_psi_k/2, 
-                        delta_t*a_psi_k;  
     }else{
         vt_pred_temp << v_k/psi_k_dot*(sin(psi_k+psi_k_dot*delta_t)-sin(psi_k)),
                       v_k/psi_k_dot*(-cos(psi_k+psi_k_dot*delta_t)+cos(psi_k)),
                       0, 
                       psi_k_dot*delta_t, 
                       0;
-        att_pred_temp << delta_t*delta_t*cos(psi_k)*a_k/2, 
-                      delta_t*delta_t*sin(psi_k)*a_k/2,
+    }
+    att_pred_temp << delta_t*delta_t*cos(psi_k)*a_k/2.0, 
+                      delta_t*delta_t*sin(psi_k)*a_k/2.0,
                       delta_t*a_k, 
                       delta_t*delta_t*a_psi_k/2, 
                       delta_t*a_psi_k;
-    }
     Xsig_pred_.col(i) = x_temp.head(n_x_) + vt_pred_temp + att_pred_temp;
     Xsig_pred_(3,i) = AngleNorm(Xsig_pred_(3,i));
   }
-  // cout<<"Xsig_pred_ = "<<endl<<Xsig_pred_<<endl;/////////////
+  cout<<"Xsig_pred_ = "<<endl<<Xsig_pred_<<endl;/////////////
   /// Predict next x,P
   x_ = Xsig_pred_*weights_;
   x_(3) = AngleNorm(x_(3));
-  P_ << 0,0,0,0,0,
-      0,0,0,0,0,
-      0,0,0,0,0,
-      0,0,0,0,0,
-      0,0,0,0,0;
+  P_.fill(0.0);
   for(int i=0; i<2*n_aug_+1; i++){
     dx_ = Xsig_pred_.col(i) - x_;
     dx_(3) = AngleNorm(dx_(3));
