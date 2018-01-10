@@ -251,8 +251,7 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
   VectorXd dz_ = VectorXd(n_z_);
   dz_ << 0,0;
   MatrixXd Z_aug_ = MatrixXd(n_z_, 2*n_aug_+1);
-  Z_aug_ << 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-            0,0,0,0,0,0,0,0,0,0,0,0,0,0,0;
+  Z_aug_.fill(0.0);
   VectorXd z_ = VectorXd(n_z_);
   z_ << 0,0;
   MatrixXd S_ = MatrixXd(n_z_,n_z_);
@@ -281,17 +280,9 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
 
   ///Measurement Update 
   MatrixXd T_ = MatrixXd(n_x_,n_z_);
-  T_ << 0,0,
-        0,0,
-        0,0,
-        0,0,
-        0,0;
+  T_.fill(0.0);
   MatrixXd K_ = MatrixXd(n_x_,n_z_);
-  K_ << 0,0,
-        0,0,
-        0,0,
-        0,0,
-        0,0;
+  K_.fill(0.0);
   for (int i=0; i<2*n_aug_+1; i++){
     dx_ = Xsig_pred_.col(i) - x_;
     dx_(3) = AngleNorm(dx_(3));
@@ -343,9 +334,7 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
   VectorXd dz_ = VectorXd(n_z_);
   dz_ << 0,0,0;
   MatrixXd Z_aug_ = MatrixXd(n_z_, 2*n_aug_+1);
-  Z_aug_ << 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-            0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-            0,0,0,0,0,0,0,0,0,0,0,0,0,0,0;  
+  Z_aug_.fill(0.0);
   VectorXd z_ = VectorXd(n_z_);
   z_ << 0,0,0;
   MatrixXd S_ = MatrixXd(n_z_,n_z_);
@@ -365,11 +354,16 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
     float psi = Xsig_pred_(3,i);
     float dpsi = Xsig_pred_(4,i);
     Z_aug_(0,i) = sqrt(px*px+py*py);
-    Z_aug_(1,i) = atan2(py,px);
-    if (abs(Z_aug_(0,i))<0.0001){
+    if (px>0.001){
+      Z_aug_(1,i) = atan2(py,px);
+    }else{
+      Z_aug_(1,i) = atan2(py,.001);
+    }
+    Z_aug_(1,i) = AngleNorm(Z_aug_(1,i));
+    if (abs(Z_aug_(0,i))<0.001){
       Z_aug_(2,i) = (px*cos(psi)*v + py*sin(psi)*v)/Z_aug_(0,i);
     }else{
-      Z_aug_(2,i) = 0;
+      Z_aug_(2,i) = 999;
     }
   }
   // cout<<"Z_aug_ = "<<endl<<Z_aug_<<endl;////////////
