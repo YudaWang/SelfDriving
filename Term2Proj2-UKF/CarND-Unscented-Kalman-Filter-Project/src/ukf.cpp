@@ -161,7 +161,7 @@ void UKF::Prediction(double delta_t) {
   P_aug_sig_pred_.fill(0.0);
   /// Generate x,P Augmented Sigma Points
   x_aug_.head(n_x_) = x_;
-  x_aug_(3) = AngleNorm(x_aug_(3));
+  // x_aug_(3) = AngleNorm(x_aug_(3));
   P_aug_sig_pred_.topLeftCorner(n_x_, n_x_) = P_;
   P_aug_sig_pred_(n_x_, n_x_) = std_a_*std_a_;
   P_aug_sig_pred_(n_x_+1, n_x_+1) = std_yawdd_*std_yawdd_;
@@ -169,9 +169,9 @@ void UKF::Prediction(double delta_t) {
   X_aug_sig_pred_.col(0) = x_aug_;
   for (int i=0; i<n_aug_; i++){
     X_aug_sig_pred_.col(1+i) = x_aug_ + sqrt(lambda_+n_aug_)*P_aug_sig_sqrt_.col(i);
-    X_aug_sig_pred_(3, 1+i) = AngleNorm(X_aug_sig_pred_(3, 1+i));
+    // X_aug_sig_pred_(3, 1+i) = AngleNorm(X_aug_sig_pred_(3, 1+i));
     X_aug_sig_pred_.col(1+n_aug_+i) = x_aug_ - sqrt(lambda_+n_aug_)*P_aug_sig_sqrt_.col(i);
-    X_aug_sig_pred_(3, 1+n_aug_+i) = AngleNorm(X_aug_sig_pred_(3, 1+n_aug_+i));
+    // X_aug_sig_pred_(3, 1+n_aug_+i) = AngleNorm(X_aug_sig_pred_(3, 1+n_aug_+i));
   }
   // cout<<"X_aug_sig_pred_ = "<<endl<<X_aug_sig_pred_<<endl;///////////
   /// Predict x,P Sigma Points
@@ -203,12 +203,12 @@ void UKF::Prediction(double delta_t) {
                       delta_t*delta_t*a_psi_k/2, 
                       delta_t*a_psi_k;
     Xsig_pred_.col(i) = x_temp.head(n_x_) + vt_pred_temp + att_pred_temp;
-    Xsig_pred_(3,i) = AngleNorm(Xsig_pred_(3,i));
+    // Xsig_pred_(3,i) = AngleNorm(Xsig_pred_(3,i));
   }
   cout<<"Xsig_pred_ = "<<endl<<Xsig_pred_<<endl;/////////////
   /// Predict next x,P
   x_ = Xsig_pred_*weights_;
-  x_(3) = AngleNorm(x_(3));
+  // x_(3) = AngleNorm(x_(3));
   P_.fill(0.0);
   for(int i=0; i<2*n_aug_+1; i++){
     dx_ = Xsig_pred_.col(i) - x_;
