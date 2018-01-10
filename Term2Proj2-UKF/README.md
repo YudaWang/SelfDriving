@@ -22,11 +22,12 @@
 * C++ scripts are capable of being compiled by cmake and make without any error.
 
 ### 2. Accuracy
-![alt text][image1]
-![alt text][image2]
+
+* Both dataset1 and dataset2 has been used to test UKF algorithm. Both data1 and data2 processes have been completed properly and the accuracy are within expectation.
 ![alt text][image3]
 ![alt text][image4]
-* Both dataset1 and dataset2 has been used to test UKF algorithm. Both data1 and data2 processes have been completed properly and the accuracy are within expectation.
+![alt text][image1]
+![alt text][image2]
 
 ### 3. General Process Flow
 ![alt text][image5]
