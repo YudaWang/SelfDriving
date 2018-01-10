@@ -77,7 +77,7 @@ UKF::UKF() {
   for (int i=1; i<2*n_aug_+1; i++){
     weights_(i) = 1.0/2/(lambda_+n_aug_);
   }
-  // cout << "weights_ = "<< endl << weights_ << endl;/////////////
+  cout << "weights_ = "<< endl << weights_ << endl;/////////////
 
   ///// Count NIS3df > or < 95%
   NIS3df95up = 0;
