@@ -103,6 +103,7 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
   measurements.
   */
   float dt = 0.0;
+  float microstep = 0.1;
 
   if (is_initialized_ == false){
     cout << "UKF: 1st time initialization" << endl; /////////////////
@@ -116,20 +117,18 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
       x_(1) = rho*sin(theta); //PositionY
     }
     time_us_ = meas_package.timestamp_;
-    // for (int i=0; i<5; i++){
-    //   P_(i,i) = 1; //Covariences
-    // } 
     cout << "Done: 1st time initialization" << endl;///////////////////
     is_initialized_ = true;
   }
 
-  float microstep = 0.1;
+
   dt = (meas_package.timestamp_ - time_us_) / 1000000.0;
   cout << "time interval (sec) = "<<dt<<endl;
   while (dt>=microstep){
     Prediction(microstep);
     dt -= microstep;
   }
+  Prediction(dt);
   time_us_ = meas_package.timestamp_;
   if (meas_package.sensor_type_ == MeasurementPackage::LASER && use_laser_ == true ){
     UpdateLidar(meas_package);
