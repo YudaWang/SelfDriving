@@ -123,19 +123,20 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
     is_initialized_ = true;
   }
 
-  
+  microstep = 0.1;
   dt = (meas_package.timestamp_ - time_us_) / 1000000.0;
   cout << "time interval (sec) = "<<dt<<endl;
-  if (meas_package.sensor_type_ == MeasurementPackage::LASER && use_laser_ == true){
-    time_us_ = meas_package.timestamp_;
-    Prediction(dt);
+  while (dt>=microstep){
+    Prediction(microstep);
+    dt -= microstep;
+  }
+  time_us_ = meas_package.timestamp_;
+  if (meas_package.sensor_type_ == MeasurementPackage::LASER && use_laser_ == true ){
     UpdateLidar(meas_package);
-  }else if(meas_package.sensor_type_ == MeasurementPackage::RADAR && use_radar_ == true){
-    time_us_ = meas_package.timestamp_;
-    Prediction(dt);
+  }else if(meas_package.sensor_type_ == MeasurementPackage::RADAR && use_radar_ == true ){
     UpdateRadar(meas_package);
   }
-  cout<<"==================================================="<<endl;//////////
+  cout<<"================================================================"<<endl;//////////
 
 }
 
