@@ -382,17 +382,9 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
 
   ///Measurement Update 
   MatrixXd T_ = MatrixXd(n_x_,n_z_);
-  T_ << 0,0,0,
-        0,0,0,
-        0,0,0,
-        0,0,0,
-        0,0,0;
+  T_.fill(0.0);
   MatrixXd K_ = MatrixXd(n_x_,n_z_);
-  K_ << 0,0,0,
-        0,0,0,
-        0,0,0,
-        0,0,0,
-        0,0,0;
+  K_.fill(0.0);
   ////////////
   for (int i=0; i<2*n_aug_+1; i++){
     dx_ = Xsig_pred_.col(i) - x_;
@@ -407,8 +399,9 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
 
   // cout<<"T_ = "<<endl<<T_<<endl;///////////
   // cout<<"K_ = " <<endl<<K_<<endl;///////
-  x_ += K_*(meas_package.raw_measurements_ - z_);
-  x_(3) = AngleNorm(x_(3));
+  dz_ = meas_package.raw_measurements_ - z_;
+  dz_(1) = AngleNorm(dz_(1));
+  x_ += K_*dz_;
   P_ -= K_*S_*K_.transpose();
   cout<<"x_ = " <<endl<<x_<<endl;///////
   cout<<"P_ = "<<endl<<P_<<endl;///////////
