@@ -123,7 +123,7 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
     is_initialized_ = true;
   }
 
-  microstep = 0.1;
+  float microstep = 0.1;
   dt = (meas_package.timestamp_ - time_us_) / 1000000.0;
   cout << "time interval (sec) = "<<dt<<endl;
   while (dt>=microstep){
