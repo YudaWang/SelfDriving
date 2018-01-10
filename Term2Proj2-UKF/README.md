@@ -8,8 +8,6 @@
 [//]: # (Image References)
 [image1]: ./UKFdata1.png
 [image2]: ./UKFdata2.png
-[image3]: ./UKFdata1complete.png
-[image4]: ./UKFdata2complete.png
 [image5]: ./GeneralProcessFlow.PNG
 [image6]: ./Compile.PNG
 
@@ -24,8 +22,6 @@
 ### 2. Accuracy
 
 * Both dataset1 and dataset2 has been used to test UKF algorithm. Both data1 and data2 processes have been completed properly and the accuracy are within expectation.
-![alt text][image3]
-![alt text][image4]
 ![alt text][image1]
 ![alt text][image2]
 
