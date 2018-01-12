@@ -73,6 +73,8 @@ UKF::UKF() {
   for (int i=1; i<2*n_aug_+1; i++){
     weights_(i) = 1.0/2/(lambda_+n_aug_);
   }
+  float test1= -0.123;///////////////
+  cout<<test1<<endl<<abs(test1)<<endl<<fabs(test1)<<endl;//////////////////
   cout << "weights_ = "<< endl << weights_ << endl;/////////////
 
   ///// Count NIS3df > or < 95%
