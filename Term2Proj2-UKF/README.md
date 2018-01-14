@@ -49,6 +49,7 @@ The process flow is implemented based on given architecture:
 
 ### 1. LIDAR v.s. RADAR
 * UKF with LIDAR only works better than UKF with RADAR only, esp on dataset#2.
+* The reason might be the fact we are using CTRV model which is more similar to linear coordinate than polar coordinate.
 ![alt text][image3]
 ![alt text][image4]
 ![alt text][image5]
