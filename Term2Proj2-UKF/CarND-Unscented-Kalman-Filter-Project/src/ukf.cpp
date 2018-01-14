@@ -302,7 +302,7 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
   // x_(3) = AngleNorm(x_(3));
   P_ -= K_*S_*K_.transpose();
   // cout << "T_ = " << endl << T_ << endl;///////
-  // cout << "K_ = " << endl << K_ << endl;//////////
+  cout << "K_ = " << endl << K_ << endl;//////////
   cout<<"x_ = " <<endl<<x_<<endl;///////
   cout<<"P_ = "<<endl<<P_<<endl;///////////
 
@@ -362,16 +362,18 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
     float psi = Xsig_pred_(3,i);
     float dpsi = Xsig_pred_(4,i);
     Z_aug_(0,i) = sqrt(px*px+py*py);
-    if (px>0.001){
+    if (px!=0 || py!=0){
       Z_aug_(1,i) = atan2(py,px);
     }else{
-      Z_aug_(1,i) = atan2(py,.001);
+      Z_aug_(1,i) = 0;
+      cout<<"EXCEPTION!!!"<<endl;//////////
     }
     // Z_aug_(1,i) = AngleNorm(Z_aug_(1,i));
     if (abs(Z_aug_(0,i))<0.001){
       Z_aug_(2,i) = (px*cos(psi)*v + py*sin(psi)*v)/Z_aug_(0,i);
     }else{
       Z_aug_(2,i) = 999;
+      cout << "EXCEPTION!!!" << endl; ////////////////
     }
   }
   // cout<<"Z_aug_ = "<<endl<<Z_aug_<<endl;////////////
@@ -406,7 +408,7 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
   K_ = T_*S_.inverse();
 
   // cout<<"T_ = "<<endl<<T_<<endl;///////////
-  // cout<<"K_ = " <<endl<<K_<<endl;///////
+  cout<<"K_ = " <<endl<<K_<<endl;///////
   dz_ = meas_package.raw_measurements_ - z_;
   dz_(1) = AngleNorm(dz_(1));
   x_ += K_*dz_;
