@@ -370,7 +370,7 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
       cout<<"EXCEPTION1!!!"<<endl;//////////
     }
     // Z_aug_(1,i) = AngleNorm(Z_aug_(1,i));
-    if (abs(Z_aug_(0,i))<0.001){
+    if (Z_aug_(0,i)>0.001){
       Z_aug_(2,i) = (px*cos(psi)*v + py*sin(psi)*v)/Z_aug_(0,i);
     }else{
       Z_aug_(2,i) = 999;
