@@ -81,6 +81,10 @@ UKF::UKF() {
   cout<<test3<<"\t"<<AngleNorm(test3)<<endl;
   cout<<M_PI<<endl;
   cout<<atan2(999,0.001)<<endl;
+
+  cout<<atan2(999,0.00)<<endl;
+
+  cout<<atan2(0,0.0)<<endl;
   cout << "weights_ = "<< endl << weights_ << endl;/////////////
 
   ///// Count NIS3df > or < 95%
