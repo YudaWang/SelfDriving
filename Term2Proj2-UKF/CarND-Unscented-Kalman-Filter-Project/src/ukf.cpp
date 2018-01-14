@@ -220,7 +220,7 @@ void UKF::Prediction(double delta_t) {
   }
   // cout<<"x_ = " <<endl<<x_<<endl;///////
   // cout<<"P_ = "<<endl<<P_<<endl;///////////
-  cout<<"===========End: Prediction============"<<endl;
+  // cout<<"===========End: Prediction============"<<endl;
 }
 
 
@@ -305,7 +305,7 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
   }
   cout<<"LIDAR NIS 95\% upward count = "<<NIS2df95up<<" downward count = "<<NIS2df95down
   	<<"\t"<<ceil(1.0*NIS2df95down/(NIS2df95down+NIS2df95up)*100)<<"% NIS w/in 95% X2" <<endl;
-  cout<<"==========End: Update Lidar==========="<<endl;//////
+  // cout<<"==========End: Update Lidar==========="<<endl;//////
 }
 
 
@@ -418,7 +418,7 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
   }
   cout<<"RADAR NIS 95\% upward count = "<<NIS3df95up<<" downward count = "<<NIS3df95down
   	<<"\t"<<ceil(1.0*NIS3df95down/(NIS3df95down+NIS3df95up)*100)<<"% NIS w/in 95% X2" <<endl;
-  cout<<"============End: Update Radar==========="<<endl;//////
+  // cout<<"============End: Update Radar==========="<<endl;//////
 }
 
 double UKF::AngleNorm(double a){
