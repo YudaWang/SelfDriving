@@ -362,18 +362,19 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
     double psi = Xsig_pred_(3,i);
     double dpsi = Xsig_pred_(4,i);
     Z_aug_(0,i) = sqrt(px*px+py*py);
+    cout<<"px= "<<px<<" py= "<<py<<" Z_aug_(0,i) = "<<Z_aug_(0,i);
     if (px!=0 || py!=0){
       Z_aug_(1,i) = atan2(py,px);
     }else{
       Z_aug_(1,i) = 0;
-      cout<<"EXCEPTION!!!"<<endl;//////////
+      cout<<"EXCEPTION1!!!"<<endl;//////////
     }
     // Z_aug_(1,i) = AngleNorm(Z_aug_(1,i));
     if (abs(Z_aug_(0,i))<0.001){
       Z_aug_(2,i) = (px*cos(psi)*v + py*sin(psi)*v)/Z_aug_(0,i);
     }else{
       Z_aug_(2,i) = 999;
-      cout << "EXCEPTION!!!" << endl; ////////////////
+      cout << "EXCEPTION2!!!" << endl; ////////////////
     }
   }
   // cout<<"Z_aug_ = "<<endl<<Z_aug_<<endl;////////////
