@@ -430,7 +430,7 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
   cout<<"============End: Update Radar==========="<<endl;//////
 }
 
-float UKF::AngleNorm(double a){
+double UKF::AngleNorm(double a){
   //angle normalization
   double pi = 3.1415926;
   while (a> pi) a-=2.*pi;
