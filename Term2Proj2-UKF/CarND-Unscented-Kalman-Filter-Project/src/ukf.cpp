@@ -119,8 +119,8 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
       x_(0) = meas_package.raw_measurements_(0); //PositionX
       x_(1) = meas_package.raw_measurements_(1); //PositionY
     }else if(meas_package.sensor_type_ == MeasurementPackage::RADAR){
-      float rho = meas_package.raw_measurements_(0);
-      float theta = meas_package.raw_measurements_(1);
+      double rho = meas_package.raw_measurements_(0);
+      double theta = meas_package.raw_measurements_(1);
       x_(0) = rho*cos(theta); //PositionX
       x_(1) = rho*sin(theta); //PositionY
     }
@@ -191,11 +191,11 @@ void UKF::Prediction(double delta_t) {
     VectorXd vt_pred_temp = VectorXd(n_x_);
     VectorXd att_pred_temp = VectorXd(n_x_);
     VectorXd x_temp = X_aug_sig_pred_.col(i);
-    float v_k = x_temp(2);
-    float psi_k = x_temp(3);
-    float psi_k_dot = x_temp(4);
-    float a_k = x_temp(5);
-    float a_psi_k = x_temp(6);
+    double v_k = x_temp(2);
+    double psi_k = x_temp(3);
+    double psi_k_dot = x_temp(4);
+    double a_k = x_temp(5);
+    double a_psi_k = x_temp(6);
     if (abs(psi_k_dot)<0.001){
         vt_pred_temp << v_k*cos(psi_k)*delta_t, 
                         v_k*sin(psi_k)*delta_t, 
@@ -268,7 +268,7 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
   MatrixXd R_ = MatrixXd(n_z_,n_z_);
   R_ << 0,0,
         0,0;
-  float nis = 0;
+  double nis = 0;
 
   ///Measurement Predict
   for (int i=0; i<2*n_aug_+1; i++){
@@ -356,11 +356,11 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
   float nis = 0;
   ///Measurement Predict
   for (int i=0; i<2*n_aug_+1; i++){
-    float px = Xsig_pred_(0,i);
-    float py = Xsig_pred_(1,i);
-    float v = Xsig_pred_(2,i);
-    float psi = Xsig_pred_(3,i);
-    float dpsi = Xsig_pred_(4,i);
+    double px = Xsig_pred_(0,i);
+    double py = Xsig_pred_(1,i);
+    double v = Xsig_pred_(2,i);
+    double psi = Xsig_pred_(3,i);
+    double dpsi = Xsig_pred_(4,i);
     Z_aug_(0,i) = sqrt(px*px+py*py);
     if (px!=0 || py!=0){
       Z_aug_(1,i) = atan2(py,px);
@@ -430,9 +430,9 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
   cout<<"============End: Update Radar==========="<<endl;//////
 }
 
-float UKF::AngleNorm(float a){
+float UKF::AngleNorm(double a){
   //angle normalization
-  float pi = 3.1415926;
+  double pi = 3.1415926;
   while (a> pi) a-=2.*pi;
   while (a<-pi) a+=2.*pi;
   return a;
