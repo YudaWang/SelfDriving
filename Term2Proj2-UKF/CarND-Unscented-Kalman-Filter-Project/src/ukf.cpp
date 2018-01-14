@@ -304,7 +304,7 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
     NIS2df95down += 1;
   }
   cout<<"LIDAR NIS 95\% upward count = "<<NIS2df95up<<" downward count = "<<NIS2df95down
-  	<<"\t"<<ceil(NIS2df95down/(NIS2df95down+NIS2df95up)*100)<<"% NIS w/in 95% X2" <<endl;
+  	<<"\t"<<ceil(1.0*NIS2df95down/(NIS2df95down+NIS2df95up)*100)<<"% NIS w/in 95% X2" <<endl;
   cout<<"==========End: Update Lidar==========="<<endl;//////
 }
 
@@ -416,7 +416,8 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
   }else{
     NIS3df95down += 1;
   }
-  cout<<"RADAR NIS 95\% upward count = "<<NIS3df95up<<" downward count = "<<NIS3df95down<<endl;
+  cout<<"RADAR NIS 95\% upward count = "<<NIS3df95up<<" downward count = "<<NIS3df95down
+  	<<"\t"<<ceil(1.0*NIS3df95down/(NIS3df95down+NIS3df95up)*100)<<"% NIS w/in 95% X2" <<endl;
   cout<<"============End: Update Radar==========="<<endl;//////
 }
 
