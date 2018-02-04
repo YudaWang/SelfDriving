@@ -52,9 +52,9 @@ void ParticleFilter::prediction(double delta_t, double std_pos[], double velocit
 	//  http://en.cppreference.com/w/cpp/numeric/random/normal_distribution
 	//  http://www.cplusplus.com/reference/random/default_random_engine/
 	default_random_engine gen;
-	normal_distribution<double> dist_x0(0, std[0]);
-	normal_distribution<double> dist_y0(0, std[1]);
-	normal_distribution<double> dist_theta0(0, std[2]);
+	normal_distribution<double> dist_x0(0, std_pos[0]);
+	normal_distribution<double> dist_y0(0, std_pos[1]);
+	normal_distribution<double> dist_theta0(0, std_pos[2]);
 
 	if(fabs(yaw_rate)>0.001){
 		for(int i=0; i<num_particles; i++){
@@ -127,8 +127,8 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 			float lm_x = map_landmarks.landmark_list[iLM].x_f;
 			float lm_y = map_landmarks.landmark_list[iLM].y_f;
 			int lm_id = map_landmarks.landmark_list[iLM].id_i;
-			if(fabs(lmx-p.x)<sensor_range && fabs(lmy-p.y)<sensor_range){
-				predicted.push_back(LandmarkObs{lm_id, lm_x, lm_y})
+			if(fabs(lm_x-p.x)<sensor_range && fabs(lm_y-p.y)<sensor_range){
+				predicted.push_back(LandmarkObs{lm_id, lm_x, lm_y});
 			}
 		}
 		//transform observation from car coordinate to map coordinate
@@ -145,11 +145,12 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 		for(int iO=0; iO<obs_map_frame.size(); iO++){
 			double o_x = obs_map_frame[iO].x;
 			double o_y = obs_map_frame[iO].y;
+			double p_x, p_y;
 
 			for(int iPre=0; iPre<predicted.size(); iPre++){
 				if(predicted[iPre].id == obs_map_frame[iO].id){
-					double p_x = predicted[iPre].x;
-					double p_y = predicted[iPre].y;
+					 p_x = predicted[iPre].x;
+					 p_y = predicted[iPre].y;
 				}
 			}
 
@@ -178,6 +179,7 @@ void ParticleFilter::resample() {
   	std::uniform_real_distribution<double> rand_weight(0.0,sum_weight);
 
   	int index = 0;
+  	float beta = 0;
 
 	for(int iPar=0; iPar<particles.size(); iPar++){
 		beta += rand_weight(gen);
