@@ -144,7 +144,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 		std::vector<LandmarkObs> obs_map_frame;
 		for(int iOBS=0; iOBS<observations.size(); iOBS++){
 			LandmarkObs obs = observations[iOBS];
-			cout<<"LM in car_coord x= "<<x<<" y= "<<y<<endl;//////////////
+			cout<<"LM in car_coord x= "<<obs.x<<" y= "<<obs.y<<endl;//////////////
 			double x = p.x + cos(p.theta)*obs.x - sin(p.theta)*obs.y;
 			double y = p.y + sin(p.theta)*obs.x + cos(p.theta)*obs.y;
 			obs_map_frame.push_back(LandmarkObs{iOBS, x, y});
@@ -164,9 +164,10 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 					 p_y = predicted[iPre].y;
 				}
 			}
-
+			cout<<"weight Gaussian o_x= "<<o_x<<" o_y= "<<o_y<<" p_x= "<<p_x<<" p_y= "<<p_y<<endl;//////////////
 			double obs_weight = exp(-pow(p_x-o_x,2)/2/pow(std_landmark[0],2)-pow(p_y-o_y,2)/2/pow(std_landmark[1],2));
 			obs_weight /= 2*M_PI*std_landmark[0]*std_landmark[1];
+			cout<<"weight result = "<<obs_weight<<endl;//////////////////
 			particles[iP].weight *= obs_weight;
 
 		}
@@ -185,6 +186,7 @@ void ParticleFilter::resample() {
 	for (int j=0; j<particles.size(); j++){
 		sum_weight += particles[j].weight;
 	}
+	cout << "weight sum = " << sum_weight << endl;////////////////////
 
 	std::default_random_engine gen;
   	std::uniform_real_distribution<double> rand_weight(0.0,sum_weight);
@@ -199,6 +201,7 @@ void ParticleFilter::resample() {
 			index = (index+1)%particles.size();
 		}
 		new_particles[iPar] = particles[index];
+		cout << "new_particles weight= "<<new_particles[iPar].weight<<endl;
 	} 
 	particles = new_particles;
 }
