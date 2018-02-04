@@ -95,11 +95,11 @@ void ParticleFilter::dataAssociation(std::vector<LandmarkObs> predicted, std::ve
 			dis = sqrt(pow(pre.x-obs.x,2) + pow(pre.y-obs.y,2));
 			if (iPre==0){
 				min_dis = dis;
-				min_dis_id = iPre;
+				min_dis_id = pre.id;
 			}else{
 				if (dis<min_dis){
 					min_dis = dis;
-					min_dis_id = iPre;	
+					min_dis_id = pre.id;	
 				}
 			}
 		}
