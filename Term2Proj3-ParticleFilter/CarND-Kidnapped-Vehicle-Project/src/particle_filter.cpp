@@ -106,7 +106,7 @@ void ParticleFilter::dataAssociation(std::vector<LandmarkObs> predicted, std::ve
 		observations[iOBS].id = min_dis_id;
 
 		///////////////////////////////////////////////////////////////////////////////////
-		for(int i=0; i<observation.size(); i++){///////////////////////////
+		for(int i=0; i<observations.size(); i++){///////////////////////////
 			LandmarkObs o = observations[i];
 			if (o.id == min_dis_id){
 				cout<<"Association: o id= "<<o.id<<" ox= "<<o.x<<" oy= "<<o.y<<endl;//////////////
