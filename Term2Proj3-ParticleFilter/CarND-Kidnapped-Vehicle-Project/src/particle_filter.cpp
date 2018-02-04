@@ -104,10 +104,21 @@ void ParticleFilter::dataAssociation(std::vector<LandmarkObs> predicted, std::ve
 		}
 		//use observations id's to transfer matching id back to updateWeights function
 		observations[iOBS].id = min_dis_id;
-		cout<<"Association: Pred id= "<<predicted[min_dis_id].id<<" x= "<<predicted[min_dis_id].x
-									<<" y= "<<predicted[min_dis_id].y<<endl;//////////////
-		cout<<"Association: OBS id= "<<observations[min_dis_id].id<<" x= "<<observations[min_dis_id].x
-									<<" y= "<<observations[min_dis_id].y<<endl;//////////////
+
+		///////////////////////////////////////////////////////////////////////////////////
+		for(int i=0; i<observation.size(); i++){///////////////////////////
+			LandmarkObs o = observations[i];
+			if (o.id == min_dis_id){
+				cout<<"Association: o id= "<<o.id<<" ox= "<<o.x<<" oy= "<<o.y<<endl;//////////////
+			}
+		}////////////////////////////////
+		for(int i=0; i<predicted.size(); i++){//////////////////////
+			LandmarkObs p = predicted[i];
+			if (p.id == min_dis_id){
+				cout<<"Association: p id= "<<p.id<<" px= "<<p.x<<" py= "<<p.y<<endl;//////////////
+			}
+		}///////////////////
+		////////////////////////////////////////////////////////////////////////////////////////////
 	}
 }
 
@@ -137,7 +148,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 			int lm_id = map_landmarks.landmark_list[iLM].id_i;
 			if(fabs(lm_x-p.x)<sensor_range && fabs(lm_y-p.y)<sensor_range){
 				predicted.push_back(LandmarkObs{lm_id, lm_x, lm_y});
-				cout<<"LM in sensor_range id= "<<lm_id<<" x= "<<lm_x<<" py= "<<lm_y<<endl;//////////////
+				cout<<"LM in sensor_range id= "<<lm_id<<" x= "<<lm_x<<" y= "<<lm_y<<endl;//////////////
 			}
 		}
 		//transform observation from car coordinate to map coordinate
@@ -166,7 +177,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 			}
 			cout<<"weight Gaussian o_x= "<<o_x<<" o_y= "<<o_y<<" p_x= "<<p_x<<" p_y= "<<p_y<<endl;//////////////
 			double obs_weight = exp(-pow(p_x-o_x,2)/2/pow(std_landmark[0],2)-pow(p_y-o_y,2)/2/pow(std_landmark[1],2));
-			obs_weight /= 2*M_PI*std_landmark[0]*std_landmark[1];
+			obs_weight /= 2.0*M_PI*std_landmark[0]*std_landmark[1];
 			cout<<"weight result = "<<obs_weight<<endl;//////////////////
 			particles[iP].weight *= obs_weight;
 
