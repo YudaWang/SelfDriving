@@ -89,9 +89,10 @@ void ParticleFilter::dataAssociation(std::vector<LandmarkObs> predicted, std::ve
 		LandmarkObs obs = observations[iOBS];
 		float min_dis;
 		int min_dis_id;
+		float dis;
 		for(int iPre=0; iPre<predicted.size(); iPre++){
 			LandmarkObs pre = predicted[iPre];
-			float dis = sqrt(pow(pre.x-obs.x,2) + pow(pre.y-obs.y,2));
+			dis = sqrt(pow(pre.x-obs.x,2) + pow(pre.y-obs.y,2));
 			if (iPre==0){
 				min_dis = dis;
 				min_dis_id = iPre;
@@ -155,11 +156,11 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 		std::vector<LandmarkObs> obs_map_frame;
 		for(int iOBS=0; iOBS<observations.size(); iOBS++){
 			LandmarkObs obs = observations[iOBS];
-			cout<<"LM in car_coord x= "<<obs.x<<" y= "<<obs.y<<endl;//////////////
+			cout<<"LM in car_coord id= "<<obs.id<<" x= "<<obs.x<<" y= "<<obs.y<<endl;//////////////
 			double x = p.x + cos(p.theta)*obs.x - sin(p.theta)*obs.y;
 			double y = p.y + sin(p.theta)*obs.x + cos(p.theta)*obs.y;
 			obs_map_frame.push_back(LandmarkObs{iOBS, x, y});
-			cout<<"LM in map_coord x= "<<x<<" y= "<<y<<endl;//////////////
+			cout<<"LM in map_coord id= "<<obs.id<<" x= "<<x<<" y= "<<y<<endl;//////////////
 		}
 
 		dataAssociation(predicted, obs_map_frame);//the closest prediction id is recorded in obs_map_frame id
