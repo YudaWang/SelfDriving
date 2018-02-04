@@ -41,7 +41,7 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
 		p.theta = dist_theta(gen);
 		p.weight = 1.0;
 		particles.push_back(p);
-		cout<<"pid= "<<p.id<<" px= "<<p.x<<" py= "<<p.y<<" pt="<<p.theta<<endl;//////////////
+		// cout<<"pid= "<<p.id<<" px= "<<p.x<<" py= "<<p.y<<" pt="<<p.theta<<endl;//////////////
 	}
 
 	is_initialized = true; 
@@ -64,7 +64,7 @@ void ParticleFilter::prediction(double delta_t, double std_pos[], double velocit
 			p.y += velocity/yaw_rate*(cos(p.theta)-cos(p.theta+yaw_rate*delta_t))+dist_y0(gen);
 			p.theta += yaw_rate*delta_t+dist_theta0(gen);
 			particles[i] = p;
-			cout<<"Pred#1 pid= "<<p.id<<" px= "<<p.x<<" py= "<<p.y<<" pt="<<p.theta<<endl;//////////////
+			// cout<<"Pred#1 pid= "<<p.id<<" px= "<<p.x<<" py= "<<p.y<<" pt="<<p.theta<<endl;//////////////
 		}	
 	}else{
 		for(int i=0; i<num_particles; i++){
@@ -73,7 +73,7 @@ void ParticleFilter::prediction(double delta_t, double std_pos[], double velocit
 			p.y += velocity*sin(p.theta)*delta_t+dist_y0(gen);
 			p.theta += yaw_rate*delta_t+dist_theta0(gen);
 			particles[i] = p;
-			cout<<"Pred#2 pid= "<<p.id<<" px= "<<p.x<<" py= "<<p.y<<" pt="<<p.theta<<endl;//////////////
+			// cout<<"Pred#2 pid= "<<p.id<<" px= "<<p.x<<" py= "<<p.y<<" pt="<<p.theta<<endl;//////////////
 		}
 	}
 	
@@ -106,20 +106,20 @@ void ParticleFilter::dataAssociation(std::vector<LandmarkObs> predicted, std::ve
 		//use observations id's to transfer matching id back to updateWeights function
 		observations[iOBS].id = min_dis_id;
 
-		///////////////////////////////////////////////////////////////////////////////////
-		for(int i=0; i<observations.size(); i++){///////////////////////////
-			LandmarkObs o = observations[i];
-			if (o.id == min_dis_id){
-				cout<<"Association: o id= "<<o.id<<" ox= "<<o.x<<" oy= "<<o.y<<endl;//////////////
-			}
-		}////////////////////////////////
-		for(int i=0; i<predicted.size(); i++){//////////////////////
-			LandmarkObs p = predicted[i];
-			if (p.id == min_dis_id){
-				cout<<"Association: p id= "<<p.id<<" px= "<<p.x<<" py= "<<p.y<<endl;//////////////
-			}
-		}///////////////////
-		////////////////////////////////////////////////////////////////////////////////////////////
+		// ///////////////////////////////////////////////////////////////////////////////////
+		// for(int i=0; i<observations.size(); i++){///////////////////////////
+		// 	LandmarkObs o = observations[i];
+		// 	if (o.id == min_dis_id){
+		// 		cout<<"Association: o id= "<<o.id<<" ox= "<<o.x<<" oy= "<<o.y<<endl;//////////////
+		// 	}
+		// }////////////////////////////////
+		// for(int i=0; i<predicted.size(); i++){//////////////////////
+		// 	LandmarkObs p = predicted[i];
+		// 	if (p.id == min_dis_id){
+		// 		cout<<"Association: p id= "<<p.id<<" px= "<<p.x<<" py= "<<p.y<<endl;//////////////
+		// 	}
+		// }///////////////////
+		// ////////////////////////////////////////////////////////////////////////////////////////////
 	}
 }
 
@@ -140,7 +140,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 		std::vector<LandmarkObs> predicted;
 		Particle p = particles[iP];
 		particles[iP].weight = 1;
-		cout<<"Each Particle pid= "<<p.id<<" px= "<<p.x<<" py= "<<p.y<<" pt="<<p.theta<<endl;//////////////
+		// cout<<"Each Particle pid= "<<p.id<<" px= "<<p.x<<" py= "<<p.y<<" pt="<<p.theta<<endl;//////////////
 
 		//filter only landmarks in sensor_range
 		for(int iLM=0; iLM<map_landmarks.landmark_list.size(); iLM++){
@@ -149,18 +149,18 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 			int lm_id = map_landmarks.landmark_list[iLM].id_i;
 			if(fabs(lm_x-p.x)<sensor_range && fabs(lm_y-p.y)<sensor_range){
 				predicted.push_back(LandmarkObs{lm_id, lm_x, lm_y});
-				cout<<"LM in sensor_range id= "<<lm_id<<" x= "<<lm_x<<" y= "<<lm_y<<endl;//////////////
+				// cout<<"LM in sensor_range id= "<<lm_id<<" x= "<<lm_x<<" y= "<<lm_y<<endl;//////////////
 			}
 		}
 		//transform observation from car coordinate to map coordinate
 		std::vector<LandmarkObs> obs_map_frame;
 		for(int iOBS=0; iOBS<observations.size(); iOBS++){
 			LandmarkObs obs = observations[iOBS];
-			cout<<"LM in car_coord id= "<<obs.id<<" x= "<<obs.x<<" y= "<<obs.y<<endl;//////////////
+			// cout<<"LM in car_coord id= "<<obs.id<<" x= "<<obs.x<<" y= "<<obs.y<<endl;//////////////
 			double x = p.x + cos(p.theta)*obs.x - sin(p.theta)*obs.y;
 			double y = p.y + sin(p.theta)*obs.x + cos(p.theta)*obs.y;
 			obs_map_frame.push_back(LandmarkObs{iOBS, x, y});
-			cout<<"LM in map_coord id= "<<obs.id<<" x= "<<x<<" y= "<<y<<endl;//////////////
+			// cout<<"LM in map_coord id= "<<obs.id<<" x= "<<x<<" y= "<<y<<endl;//////////////
 		}
 
 		dataAssociation(predicted, obs_map_frame);//the closest prediction id is recorded in obs_map_frame id
@@ -176,10 +176,10 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 					 p_y = predicted[iPre].y;
 				}
 			}
-			cout<<"weight Gaussian o_x= "<<o_x<<" o_y= "<<o_y<<" p_x= "<<p_x<<" p_y= "<<p_y<<endl;//////////////
+			// cout<<"weight Gaussian o_x= "<<o_x<<" o_y= "<<o_y<<" p_x= "<<p_x<<" p_y= "<<p_y<<endl;//////////////
 			double obs_weight = exp(-pow(p_x-o_x,2)/2/pow(std_landmark[0],2)-pow(p_y-o_y,2)/2/pow(std_landmark[1],2));
 			obs_weight /= 2.0*M_PI*std_landmark[0]*std_landmark[1];
-			cout<<"weight result = "<<obs_weight<<endl;//////////////////
+			// cout<<"weight result = "<<obs_weight<<endl;//////////////////
 			particles[iP].weight *= obs_weight;
 
 		}
@@ -198,7 +198,7 @@ void ParticleFilter::resample() {
 	for (int j=0; j<particles.size(); j++){
 		sum_weight += particles[j].weight;
 	}
-	cout << "weight sum = " << sum_weight << endl;////////////////////
+	// cout << "weight sum = " << sum_weight << endl;////////////////////
 
 	std::default_random_engine gen;
   	std::uniform_real_distribution<double> rand_weight(0.0,sum_weight);
@@ -213,7 +213,7 @@ void ParticleFilter::resample() {
 			index = (index+1)%particles.size();
 		}
 		new_particles[iPar] = particles[index];
-		cout << "new_particles weight= "<<new_particles[iPar].weight<<endl;
+		// cout << "new_particles weight= "<<new_particles[iPar].weight<<endl;
 	} 
 	particles = new_particles;
 }
