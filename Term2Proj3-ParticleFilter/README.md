@@ -25,5 +25,8 @@
 
 ### 1. Resampling vs Centroiding
 * This is only a mind experiment. For centroiding, I mean instead of randomly re-pick all samples based on their weight as probability, each sample locations will be updated based on their weights -- where higher weight particles stay stable and smaller weight particles move closer to the centroid of all particles. (by centroid, I mean the gravitational center of all the particles based on their weight) 
-Resampling: Pro-quick converging    Con-quick diverging       suitable - for systems with not so good measurement/mapping accuracies
-Centroiding: Pro-slow diverging     Con-slow converging       Suitable- for systems with better measurement/mapping accuracies
+
+|           | Pro               | Con             | Suitable                                                    |
+|-----------|-------------------|-----------------|-------------------------------------------------------------|
+|Resampling |quick converging   |quick diverging  | for systems with not so good measurement/mapping accuracies |
+|Centroiding|slow diverging     |slow converging  | for systems with better measurement/mapping accuracies      |
