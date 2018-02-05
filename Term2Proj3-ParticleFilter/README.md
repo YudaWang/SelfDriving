@@ -24,9 +24,15 @@
 ## Discussions
 
 ### 1. Resampling vs Centroiding
-* This is only a mind experiment. For centroiding, I mean instead of randomly re-pick all samples based on their weight as probability, each sample locations will be updated based on their weights -- where higher weight particles stay stable and smaller weight particles move closer to the centroid of all particles. (by centroid, I mean the gravitational center of all the particles based on their weight) 
+* This is only a mind experiment. And it seems to me the wheel resampling process is effective for general case but when measurement/mapping is very good, my 'centroiding' method might provide less noisy control.
 
-|           | Pro               | Con             | Suitable                                                    |
-|-----------|-------------------|-----------------|-------------------------------------------------------------|
-|Resampling |quick converging   |quick diverging  | for systems with not so good measurement/mapping accuracies |
-|Centroiding|slow diverging     |slow converging  | for systems with better measurement/mapping accuracies      |
+|           | Methodology                                             |
+|-----------|---------------------------------------------------------|
+|Resampling |randomly re-pick all samples based on their weight as probability|
+|Centroiding|each sample updated based on its weight, where higher weight particles stay stable and smaller weight particles move closer to centroid of all particles|
+* Centroid: weight/gravitational center of all particles
+
+|           | Pro            | Con           | Suitable                                                    |
+|-----------|----------------|---------------|-------------------------------------------------------------|
+|Resampling |quick converging|quick diverging| for systems with generally mediacre measurement/mapping accuracies with lots of outliers|
+|Centroiding|slow diverging  |slow converging| for systems with generally better measurement/mapping accuracies but few outliers|
