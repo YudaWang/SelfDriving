@@ -6,7 +6,11 @@ using namespace std;
 * TODO: Complete the PID class.
 */
 
-PID::PID() p_error(0), i_error(0), d_error(0) {}
+PID::PID() {
+	p_error = 0;
+	i_error = 0;
+	d_error = 0;
+}
 
 PID::~PID() {}
 
