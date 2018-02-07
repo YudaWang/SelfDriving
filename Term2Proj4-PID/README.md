@@ -1,20 +1,21 @@
-# Particle Filter Localization Project
+# PID Project
 
 ## The goals / requirements of this project are:
 
-* Implement Particle filter localization algorithms at C++ environment.
+* Implement and optimize a PID controller at C++ environment.
 
 [//]: # (Image References)
-[image1]: ./Term2Proj3PASS.PNG
+[image1]: ./Compile.PNG
+[video1]: ./ScreenCaptureProject2.mp4
 
 ---
 
 ## Project Specs
 
-### 1. Accuracy
+### 1. Compilation
 ![alt text][image1]
 * C++ scripts with only 10 particles are capable of passing the simulator with x_error=0.158 and y_error=0.131 and yaw_error=0.005.
-
+![alt text][video1]
 ### 2. Performance
 * Test passed in 50sec < 100sec!
 
