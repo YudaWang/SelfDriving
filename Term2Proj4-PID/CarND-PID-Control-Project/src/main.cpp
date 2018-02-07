@@ -63,7 +63,7 @@ int main()
           steer_value = atan(-pid.TotalError())/(M_PI/2);
 
           // DEBUG
-          std::cout << "Speed = " << speed << " Angle = " << angle << std::endl;
+          // std::cout << "Speed = " << speed << " Angle = " << angle << std::endl;
           std::cout << " errSum = " << pid.errorSum << " Total Error = " << pid.TotalError() << std::endl;
           std::cout << "CTE: " << cte << " Steering Value: " << steer_value << std::endl;
 
