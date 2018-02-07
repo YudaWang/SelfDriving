@@ -10,6 +10,7 @@ PID::PID() {
 	p_error = 0;
 	i_error = 0;
 	d_error = 0;
+	errorSum = 0;
 }
 
 PID::~PID() {}
@@ -24,10 +25,12 @@ void PID::UpdateError(double cte) {
 	d_error = cte - p_error;
 	i_error += cte*cte;
 	p_error = cte;
+	errorSum += cte*cte;
 }
 
 double PID::TotalError() {
 
 	return Kp*p_error + Ki*i_error + Kd*d_error;
 }
+
 
