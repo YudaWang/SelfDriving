@@ -36,7 +36,6 @@ int main()
   // TODO: Initialize the pid variable.
   pid.Init(0.4, 0.00, 0.8);
   std::cout << "Kp = " << pid.Kp << " Ki = " << pid.Ki << " Kd = " << pid.Kd << std::endl;
-  double errorsum = 0;
 
   h.onMessage([&pid](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
     // "42" at the start of the message means there's a websocket message event.
@@ -62,11 +61,10 @@ int main()
           */
           pid.UpdateError(cte);
           steer_value = atan(-pid.TotalError())/(M_PI/2);
-          errorsum += cte*cte;
 
           // DEBUG
           std::cout << "Speed = " << speed << " Angle = " << angle << std::endl;
-          std::cout << "Error Sum = " << errorsum << " Total Error = " << pid.TotalError() << std::endl;
+          std::cout << " Total Error = " << pid.TotalError() << std::endl;
           std::cout << "CTE: " << cte << " Steering Value: " << steer_value << std::endl;
 
           json msgJson;
