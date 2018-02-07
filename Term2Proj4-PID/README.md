@@ -6,7 +6,7 @@
 
 [//]: # (Image References)
 [image1]: ./Compile.PNG
-[video1]: ./ScreenCaptureProject2.mp4
+[video1]: ./ScreenCaptureProject2_1.gif
 
 ---
 
