@@ -38,11 +38,11 @@ int main()
   pid.Init(5, 0.0001, 100);
   std::cout << "Kp = " << pid.Kp << " Ki = " << pid.Ki << " Kd = " << pid.Kd << std::endl;
 
-  PID pidThtSpd;
-  pidThtSpd.Init(0,0,0);
+  // PID pidThtSpd;
+  // pidThtSpd.Init(0,0,0);
 
-  PID pidThtAng;
-  pidThtAng.Init(0,0,0);
+  // PID pidThtAng;
+  // pidThtAng.Init(0,0,0);
 
 
   h.onMessage([&pid](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
@@ -58,8 +58,8 @@ int main()
         if (event == "telemetry") {
           // j[1] is the data JSON object
           double cte = std::stod(j[1]["cte"].get<std::string>());
-          double speed = std::stod(j[1]["speed"].get<std::string>());
-          double angle = std::stod(j[1]["steering_angle"].get<std::string>());
+          // double speed = std::stod(j[1]["speed"].get<std::string>());
+          // double angle = std::stod(j[1]["steering_angle"].get<std::string>());
           double steer_value;
           double spdTarget = 30;
           /*
@@ -70,8 +70,8 @@ int main()
           */
           pid.UpdateError(cte);
           steer_value = atan(-pid.TotalError())/(M_PI/2);
-          pidThtSpd.UpdateError(speed-spdTarget);
-          pidThtAng.UpdateError(angle);
+          // pidThtSpd.UpdateError(speed-spdTarget);
+          // pidThtAng.UpdateError(angle);
 
           // DEBUG
           // std::cout << "Speed = " << speed << " Angle = " << angle << std::endl;
@@ -80,7 +80,7 @@ int main()
 
           json msgJson;
           msgJson["steering_angle"] = steer_value;
-          msgJson["throttle"] = spdTarget/10 + pidThtSpd + pidThtAng;
+          msgJson["throttle"] = spdTarget/10;// + pidThtSpd + pidThtAng;
           auto msg = "42[\"steer\"," + msgJson.dump() + "]";
           std::cout << msg << std::endl;
           ws.send(msg.data(), msg.length(), uWS::OpCode::TEXT);
