@@ -29,17 +29,14 @@
 |d=200  |         |         | 215     |           |
 |d=500  |         | 570     |         |           |
 
-### 3. General
-* Yes I am using the exact particle filters as taught in class.
+* For intergral gain i, its value(i=0.005) was optimized by a 1D scan with twiddle method after p and d values are close to optimization.
 
-## Discussions
+### 3. Reflection
+* P parameter works as expected: to directly correct the deviation towards the opposite direction. However, only P will lead to oscillation of car in the controled dimension -- steering.
+![alt text][video1]
+* D parameter works as expected: when P corrects deviation, D will reduce the amount of correction based on deviation correction rate. So overshoot/over-correct will be prevented. That is why when P=5, D=100 gives a very small overshooting driving behavior.
+![alt text][video2]
+* I parameter is supposed to correct any long term offset as an integration effect. Its effect is not obvious in the given simulator example, which might indicates the model car offset is not significant.
 
-### 1. Resampling vs Centroiding
-* This is only a mind experiment. And it seems to me the wheel resampling process is effective for general case but when measurement/mapping is very good, my 'centroiding' method might provide less noisy control.
-
-|           | Methodology                                             |
-|-----------|---------------------------------------------------------|
-|Resampling |randomly re-pick all samples based on their weight as probability|
-|Centroiding|each sample updated based on its weight, where higher weight particles stay stable and smaller weight particles move closer to centroid of all particles|
-* Centroid: weight/gravitational center of all particles
-
+### 4. Simulation
+* As show in the video above, the virtual car drive thru the entire track with acceptable performance at turns.
