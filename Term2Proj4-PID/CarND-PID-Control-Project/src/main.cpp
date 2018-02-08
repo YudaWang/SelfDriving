@@ -35,7 +35,7 @@ int main()
   PID pid;
   // TODO: Initialize the pid variable.
   // pid.Init(5, 0.0005, 100);
-  pid.Init(5, 0.0005, 100);
+  pid.Init(5, 0.000, 100);
   std::cout << "Kp = " << pid.Kp << " Ki = " << pid.Ki << " Kd = " << pid.Kd << std::endl;
 
   h.onMessage([&pid](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
