@@ -8,6 +8,7 @@
 [image1]: ./Compile.PNG
 [video1]: ./P.gif
 [video2]: ./PID.gif
+
 ---
 
 ## Project Specs
@@ -33,9 +34,13 @@
 
 ### 3. Reflection
 * P parameter works as expected: to directly correct the deviation towards the opposite direction. However, only P will lead to oscillation of car in the controled dimension -- steering.
+
 ![alt text][video1]
+
 * D parameter works as expected: when P corrects deviation, D will reduce the amount of correction based on deviation correction rate. So overshoot/over-correct will be prevented. That is why when P=5, D=100 gives a very small overshooting driving behavior.
+
 ![alt text][video2]
+
 * I parameter is supposed to correct any long term offset as an integration effect. Its effect is not obvious in the given simulator example, which might indicates the model car offset is not significant.
 
 ### 4. Simulation
