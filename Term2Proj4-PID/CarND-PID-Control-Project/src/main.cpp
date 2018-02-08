@@ -39,10 +39,10 @@ int main()
   std::cout << "Kp = " << pid.Kp << " Ki = " << pid.Ki << " Kd = " << pid.Kd << std::endl;
 
   PID pidThtSpd;
-  pidThtSpd.Ini(0,0,0);
+  pidThtSpd.Init(0,0,0);
 
   PID pidThtAng;
-  pidThtAng.Ini(0,0,0);
+  pidThtAng.Init(0,0,0);
 
 
   h.onMessage([&pid](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
