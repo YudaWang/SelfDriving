@@ -6,18 +6,28 @@
 
 [//]: # (Image References)
 [image1]: ./Compile.PNG
-[video1]: ./ScreenCaptureProject2_1.gif
-
+[video1]: ./P.gif
+[video2]: ./PID.gif
 ---
 
 ## Project Specs
 
 ### 1. Compilation
 ![alt text][image1]
-* C++ scripts with only 10 particles are capable of passing the simulator with x_error=0.158 and y_error=0.131 and yaw_error=0.005.
-![alt text][video1]
-### 2. Performance
-* Test passed in 50sec < 100sec!
+* C++ scripts are compilable and executable to run simulator.
+
+### 2. Implementation
+* Twiddle method was not directly used to find the best PID parameters since the iterative process was too slow.
+* 2D (proportional gain as one dimension and dirivative gain as another dimension, both in log scale) scan was used to find the global minimum of total driving error (sum of cte^2) in one track. Details shown as below. Only p and d gains are optimized since i gain is usually very small value.
+
+|       | p=1     | p=2     | p=5     | p=10      |
+|-------|---------|---------|---------|-----------|
+|d=10   |         | 4000    |  10000  |           |
+|d=20   |         |         |         |           |
+|d=50   |         |         | 290     |           |
+|d=100  | 1090    |  433    | 207     |    400    |
+|d=200  |         |         | 215     |           |
+|d=500  |         | 570     |         |           |
 
 ### 3. General
 * Yes I am using the exact particle filters as taught in class.
@@ -33,7 +43,3 @@
 |Centroiding|each sample updated based on its weight, where higher weight particles stay stable and smaller weight particles move closer to centroid of all particles|
 * Centroid: weight/gravitational center of all particles
 
-|           | Pro            | Con           | Suitable                                                    |
-|-----------|----------------|---------------|-------------------------------------------------------------|
-|Resampling |quick converging|quick diverging| for systems with generally mediacre measurement/mapping accuracies with lots of outliers|
-|Centroiding|slow diverging  |slow converging| for systems with generally better measurement/mapping accuracies but few outliers|
