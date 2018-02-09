@@ -43,10 +43,7 @@ int main()
 
   // PID pidThtAng;
   // pidThtAng.Init(0,0,0);
-  float tht_spd_P = 0;
-  // float tht_spd_D = 0;
-  float tht_ang_P = 0;
-  // float tht_ang_D = 0;
+
 
 
 
@@ -77,7 +74,10 @@ int main()
           steer_value = atan(-pid.TotalError())/(M_PI/2);
           // pidThtSpd.UpdateError(speed-spdTarget);
           // pidThtAng.UpdateError(angle);
-
+          float tht_spd_P = 0.1;
+          // float tht_spd_D = 0;
+          float tht_ang_P = 0;
+          // float tht_ang_D = 0;
 
           // DEBUG
           // std::cout << "Speed = " << speed << " Angle = " << angle << std::endl;
