@@ -76,7 +76,7 @@ int main()
           // pidThtAng.UpdateError(angle);
           float tht_spd_P = 0.1;
           // float tht_spd_D = 0;
-          float tht_ang_P = 0;
+          float tht_ang_P = 0.1;
           // float tht_ang_D = 0;
 
           // DEBUG
