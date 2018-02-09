@@ -75,8 +75,8 @@ int main()
           // pidThtSpd.UpdateError(speed-spdTarget);
           // pidThtAng.UpdateError(angle);
           float tht_spd_P = 1;
-          float tht_ang_P = 0.1;
-          float tht_cte_P = 100;
+          float tht_ang_P = 0.2;
+          float tht_cte_P = 10;
 
           // DEBUG
           // std::cout << "Speed = " << speed << " Angle = " << angle << std::endl;
