@@ -63,7 +63,7 @@ int main()
           double speed = std::stod(j[1]["speed"].get<std::string>());
           double angle = std::stod(j[1]["steering_angle"].get<std::string>());
           double steer_value;
-          double spdTarget = 100;
+          double spdTarget = 50;
           /*
           * TODO: Calcuate steering value here, remember the steering value is
           * [-1, 1].
@@ -75,8 +75,8 @@ int main()
           // pidThtSpd.UpdateError(speed-spdTarget);
           // pidThtAng.UpdateError(angle);
           float tht_spd_P = 0.01;
-          float tht_ang_P = 0.1;
-          float tht_cte_P = 1;
+          float tht_ang_P = 0.05;
+          float tht_cte_P = 0.5;
 
           // DEBUG
           // std::cout << "Speed = " << speed << " Angle = " << angle << std::endl;
