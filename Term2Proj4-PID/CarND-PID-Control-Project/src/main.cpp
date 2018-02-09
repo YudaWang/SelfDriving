@@ -35,7 +35,7 @@ int main()
   PID pid;
   // TODO: Initialize the pid variable.
   // pid.Init(5  , 0.0005, 100);
-  pid.Init(3, 0.0001, 100);
+  pid.Init(5, 0.0001, 100);
   std::cout << "Kp = " << pid.Kp << " Ki = " << pid.Ki << " Kd = " << pid.Kd << std::endl;
 
   // PID pidThtSpd;
@@ -63,7 +63,7 @@ int main()
           double speed = std::stod(j[1]["speed"].get<std::string>());
           double angle = std::stod(j[1]["steering_angle"].get<std::string>());
           double steer_value;
-          double spdTarget = 50;
+          double spdTarget = 100;
           /*
           * TODO: Calcuate steering value here, remember the steering value is
           * [-1, 1].
@@ -76,7 +76,7 @@ int main()
           // pidThtAng.UpdateError(angle);
           float tht_spd_P = 0.1;
           // float tht_spd_D = 0;
-          float tht_ang_P = 0.1;
+          float tht_ang_P = 0.2;
           // float tht_ang_D = 0;
 
           // DEBUG
