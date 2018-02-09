@@ -35,7 +35,7 @@ int main()
   PID pid;
   // TODO: Initialize the pid variable.
   // pid.Init(5  , 0.0005, 100);
-  pid.Init(2, 0.0001, 100);
+  pid.Init(2, 0.0001, 200);
   std::cout << "Kp = " << pid.Kp << " Ki = " << pid.Ki << " Kd = " << pid.Kd << std::endl;
 
   // PID pidThtSpd;
@@ -76,7 +76,7 @@ int main()
           // pidThtAng.UpdateError(angle);
           float tht_spd_P = 0.5;
           float tht_ang_P = 1;
-          float tht_cte_P = 1;
+          float tht_cte_P = 10000;
 
           // DEBUG
           // std::cout << "Speed = " << speed << " Angle = " << angle << std::endl;
