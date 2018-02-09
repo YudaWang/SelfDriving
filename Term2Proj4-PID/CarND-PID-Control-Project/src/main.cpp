@@ -86,7 +86,7 @@ int main()
           json msgJson;
           msgJson["steering_angle"] = steer_value;
           msgJson["throttle"] = spdTarget/100 - tht_spd_P*(speed-spdTarget)
-                                - tht_ang_P*angle*angle - tht_cte_P*cte*cte;
+                                - tht_ang_P*fabs(angle) - tht_cte_P*cte*cte;
           auto msg = "42[\"steer\"," + msgJson.dump() + "]";
           std::cout << msg << std::endl;
           ws.send(msg.data(), msg.length(), uWS::OpCode::TEXT);
