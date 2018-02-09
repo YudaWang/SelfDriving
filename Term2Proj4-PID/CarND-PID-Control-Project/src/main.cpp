@@ -74,8 +74,8 @@ int main()
           steer_value = atan(-pid.TotalError())/(M_PI/2);
           // pidThtSpd.UpdateError(speed-spdTarget);
           // pidThtAng.UpdateError(angle);
-          float tht_spd_P = 0.15;
-          float tht_ang_P = 0.15;
+          float tht_spd_P = 0.1;
+          float tht_ang_P = 0.1;
           float tht_cte_P = 15;
 
           // DEBUG
