@@ -75,9 +75,8 @@ int main()
           // pidThtSpd.UpdateError(speed-spdTarget);
           // pidThtAng.UpdateError(angle);
           float tht_spd_P = 0.5;
-          // float tht_spd_D = 0;
           float tht_ang_P = 1;
-          // float tht_ang_D = 0;
+          float tht_cte_P = 0.1;
 
           // DEBUG
           // std::cout << "Speed = " << speed << " Angle = " << angle << std::endl;
@@ -86,7 +85,7 @@ int main()
 
           json msgJson;
           msgJson["steering_angle"] = steer_value;
-          msgJson["throttle"] = spdTarget/100 + tht_spd_P*(spdTarget-speed) - tht_ang_P*angle;
+          msgJson["throttle"] = spdTarget/100+tht_spd_P*(spdTarget-speed)-tht_ang_P*angle-tht_cte_P*cte*cte;
           auto msg = "42[\"steer\"," + msgJson.dump() + "]";
           std::cout << msg << std::endl;
           ws.send(msg.data(), msg.length(), uWS::OpCode::TEXT);
