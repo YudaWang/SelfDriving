@@ -45,8 +45,6 @@ int main()
   // pidThtAng.Init(0,0,0);
 
 
-
-
   h.onMessage([&pid](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
     // "42" at the start of the message means there's a websocket message event.
     // The 4 signifies a websocket message
@@ -79,10 +77,10 @@ int main()
           float tht_cte_P = 0.5;
 
           // DEBUG
-          // std::cout << "Speed = " << speed << " Angle = " << angle << std::endl;
           std::cout << " errSum = " << pid.errorSum << " Total Error = " << pid.TotalError() << std::endl;
           std::cout << "CTE: " << cte << " Steering Value: " << steer_value << std::endl;
           std::cout << "speed = " << speed << " angle = "<<angle<< std::endl;
+          
           json msgJson;
           msgJson["steering_angle"] = steer_value;
           msgJson["throttle"] = spdTarget/100 - tht_spd_P*(speed-spdTarget)
