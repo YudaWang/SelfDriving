@@ -335,15 +335,33 @@ int main() {
   // Plot values
   // NOTE: feel free to play around with this.
   // It's useful for debugging!
-  plt::subplot(3, 1, 1);
+  plt::subplot(8, 1, 1);
   plt::title("CTE");
   plt::plot(cte_vals);
-  plt::subplot(3, 1, 2);
+  plt::subplot(8, 1, 2);
   plt::title("Delta (Radians)");
   plt::plot(delta_vals);
-  plt::subplot(3, 1, 3);
+  plt::subplot(8, 1, 3);
   plt::title("Velocity");
   plt::plot(v_vals);
+
+  plt::subplot(8, 1, 4);
+  plt::title("x");
+  plt::plot(x_vals);
+  plt::subplot(8, 1, 5);
+  plt::title("y");
+  plt::plot(y_vals);
+  plt::subplot(8, 1, 6);
+  plt::title("Psi");
+  plt::plot(psi_vals);
+
+  plt::subplot(8, 1, 7);
+  plt::title("epsi");
+  plt::plot(epsi_vals);
+  plt::subplot(8, 1, 8);
+  plt::title("a");
+  plt::plot(a_vals);
+
 
   plt::show();
 }
