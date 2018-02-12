@@ -12,7 +12,7 @@ using CppAD::AD;
 
 // TODO: Set N and dt
 size_t N = 50 ;
-double dt = 1 ;
+double dt = .1 ;
 
 // This value assumes the model presented in the classroom is used.
 //
@@ -59,6 +59,25 @@ class FG_eval {
     // Reference State Cost
     // TODO: Define the cost related the reference state and
     // any anything you think may be beneficial.
+
+// The part of the cost based on the reference state.
+    for (int t = 0; t < N; t++) {
+      fg[0] += CppAD::pow(vars[cte_start + t], 2);
+      fg[0] += CppAD::pow(vars[epsi_start + t], 2);
+      fg[0] += CppAD::pow(vars[v_start + t] - ref_v, 2);
+    }
+
+    // Minimize the use of actuators.
+    for (int t = 0; t < N - 1; t++) {
+      fg[0] += CppAD::pow(vars[delta_start + t], 2);
+      fg[0] += CppAD::pow(vars[a_start + t], 2);
+    }
+
+    // Minimize the value gap between sequential actuations.
+    for (int t = 0; t < N - 2; t++) {
+      fg[0] += CppAD::pow(vars[delta_start + t + 1] - vars[delta_start + t], 2);
+      fg[0] += CppAD::pow(vars[a_start + t + 1] - vars[a_start + t], 2);
+    }
 
     //
     // Setup Constraints
@@ -108,10 +127,10 @@ class FG_eval {
       fg[1 + y_start + t] = y1 - (y0 + v0 * CppAD::sin(psi0) * dt);
       fg[1 + psi_start + t] = psi1 - (psi0 + v0 * delta0 * dt / Lf);
       fg[1 + v_start + t] = v1 - (v0 + a0 * dt);
-      fg[1 + cte_start + t] = cte1 - (cte0 + v0 * CppAD::sin(epsi0) * dt);
-      fg[1 + epsi_start + t] = psi1 - (epsi0 + v0 * delta0 * dt / Lf);
+      fg[1 + cte_start + t] = cte1 - ((coeffs[0]+coeffs[1]*x0-y0) + v0*CppAD::sin(epsi0)*dt);
+      fg[1 + epsi_start + t] = epsi1 - ((psi0-CppAD::atan(coeffs[1])) + v0*delta0*dt/Lf);
 
-      fg[0] += cte1*cte1 + epsi1*epsi1;
+      // fg[0] += cte1*cte1 + epsi1*epsi1;
     }
   }
 };
@@ -291,7 +310,7 @@ int main() {
   // TODO: calculate the cross track error
   double cte = y - polyeval(coeffs, x) ;
   // TODO: calculate the orientation error
-  double epsi = psi - (polyeval(coeffs, x+0.1) - polyeval(coeffs, x))/0.1 ;
+  double epsi = psi - atan(coeffs[1]);
 
   Eigen::VectorXd state(6);
   state << x, y, psi, v, cte, epsi;
