@@ -11,7 +11,7 @@ namespace plt = matplotlibcpp;
 using CppAD::AD;
 
 // TODO: Set N and dt
-size_t N = 50 ;
+size_t N = 100 ;
 double dt = .1 ;
 
 // This value assumes the model presented in the classroom is used.
@@ -28,7 +28,7 @@ const double Lf = 2.67;
 
 // NOTE: feel free to play around with this
 // or do something completely different
-double ref_v = 40;
+double ref_v = 15;
 
 // The solver takes all the state variables and actuator
 // variables in a singular vector. Thus, we should to establish
