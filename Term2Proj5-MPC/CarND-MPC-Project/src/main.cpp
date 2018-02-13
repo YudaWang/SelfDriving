@@ -119,7 +119,8 @@ int main() {
           Eigen::VectorXd state(6);
           state << px, py, psi, v, cte, epsi;
           auto vars = mpc.Solve(state, coeffs);
-
+          std::cout<<"vars = "<<vars[0]<<"\t"<<vars[1]<<"\t"<<vars[2]<<"\t"<<vars[3]<<"\t"<<std::endl;/////////
+          std::cout<<"vars = "<<vars[4]<<"\t"<<vars[5]<<"\t"<<vars[6]<<"\t"<<vars[7]<<"\t"<<std::endl;/////////
           double steer_value = vars[6];
           double throttle_value = vars[7];
 
