@@ -102,13 +102,18 @@ int main() {
           ptsxVXd.fill(0.0);
           for (int j=0; j<ptsx.size(); j++){
             ptsxVXd(j) = ptsx[j];
+            std::cout<< ptsxVXd(j) << "\t";////////////////////
           }
+          std::cout<<std::endl;////////////////////
           Eigen::VectorXd ptsyVXd(ptsy.size());
           ptsyVXd.fill(0.0);
           for (int j=0; j<ptsy.size(); j++){
             ptsyVXd(j) = ptsy[j];
+            std::cout<< ptsyVXd(j) << "\t";//////////////
           }
+          std::cout<< std::endl;///////////////
           Eigen::VectorXd coeffs = polyfit(ptsxVXd, ptsyVXd, 2);
+          std::cout<< "coeffs = " << coeffs[0] << "\t" << coeffs[1] << "\t" << coeffs[2] << std::endl;/////////
           double cte = py - polyeval(coeffs, px);
           double epsi = psi - atan(coeffs[1] + 2*coeffs[2]*px);
           Eigen::VectorXd state(6);
