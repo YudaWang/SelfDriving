@@ -95,8 +95,8 @@ class FG_eval {
       fg[1 + y_start + t] = y1 - (y0 + v0 * CppAD::sin(psi0) * dt);
       fg[1 + psi_start + t] = psi1 - (psi0 + v0 * delta0 * dt / Lf);
       fg[1 + v_start + t] = v1 - (v0 + a0 * dt);
-      fg[1 + cte_start + t] = cte1 - ((coeffs[0]+coeffs[1]*x0-y0) + v0*CppAD::sin(epsi0)*dt);
-      fg[1 + epsi_start + t] = epsi1 - ((psi0-CppAD::atan(coeffs[1])) + v0*delta0*dt/Lf);
+      fg[1 + cte_start + t] = cte1 - ((coeffs[0]+coeffs[1]*x0+coeffs[2]*x0*x0-y0) + v0*CppAD::sin(epsi0)*dt);
+      fg[1 + epsi_start + t] = epsi1 - ((psi0-CppAD::atan(coeffs[1]+2*coeffs[2]*x0)) + v0*delta0*dt/Lf);
     }
   }
 };
@@ -232,5 +232,8 @@ vector<double> MPC::Solve(Eigen::VectorXd state, Eigen::VectorXd coeffs) {
   //
   // {...} is shorthand for creating a vector, so auto x1 = {1.0,2.0}
   // creates a 2 element double vector.
-  return {};
+  return {solution.x[x_start + 1],   solution.x[y_start + 1],
+          solution.x[psi_start + 1], solution.x[v_start + 1],
+          solution.x[cte_start + 1], solution.x[epsi_start + 1],
+          solution.x[delta_start],   solution.x[a_start]};
 }
