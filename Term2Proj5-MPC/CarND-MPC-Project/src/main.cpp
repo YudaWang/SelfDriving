@@ -98,7 +98,17 @@ int main() {
           * Both are in between [-1, 1].
           *
           */
-          Eigen::VectorXd coeffs = polyfit(ptsx, ptsy, 2);
+          Eigen::VectorXd ptsxVXd(ptsx.size());
+          ptsxVXd.fill(0.0);
+          for (int j=0; j<ptsx.size(); j++){
+            ptsxVXd(j) = ptsx[j];
+          }
+          Eigen::VectorXd ptsyVXd(ptsy.size());
+          ptsyVXd.fill(0.0);
+          for (int j=0; j<ptsy.size(); j++){
+            ptsyVXd(j) = ptsy[j];
+          }
+          Eigen::VectorXd coeffs = polyfit(ptsxVXd, ptsyVXd, 2);
           double cte = py - polyeval(coeffs, px);
           double epsi = psi - atan(coeffs[1] + 2*coeffs[2]*px);
           Eigen::VectorXd state(6);
