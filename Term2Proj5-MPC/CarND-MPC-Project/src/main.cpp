@@ -148,8 +148,15 @@ int main() {
           vector<double> next_x_vals;
           vector<double> next_y_vals;
 
-          next_x_vals = {10, 20};
-          next_y_vals = {0, 0};
+          // next_x_vals = {10, 20};
+          // next_y_vals = {0, 0};
+
+          for (int iL=0; iL<ptsx.size(); iL++){
+            double x = ptsx[i];
+            double y = ptsy[i];
+            next_x_vals.push_back(x*cos(psi)+y*sin(psi)-px);
+            next_y_vals.push_back(-x*sin(psi)+y*cos(psi)-py);
+          }
 
           //.. add (x,y) points to list here, points are in reference to the vehicle's coordinate system
           // the points in the simulator are connected by a Yellow line
