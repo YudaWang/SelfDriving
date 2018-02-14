@@ -91,6 +91,7 @@ int main() {
           double py = j[1]["y"];
           double psi = j[1]["psi"];
           double v = j[1]["speed"];
+          std::cout << "px= " << px << " py= " << py << " psi= " << psi << " v= "<<v<<std::endl;
 
           /*
           * TODO: Calculate steering angle and throttle using MPC.
@@ -100,14 +101,14 @@ int main() {
           */
           Eigen::VectorXd ptsxVXd(ptsx.size());
           ptsxVXd.fill(0.0);
-          for (int j=0; j<ptsx.size(); j++){
+          for (size_t j=0; j<ptsx.size(); j++){
             ptsxVXd(j) = ptsx[j];
             std::cout<< ptsxVXd(j) << "\t";////////////////////
           }
           std::cout<<std::endl;////////////////////
           Eigen::VectorXd ptsyVXd(ptsy.size());
           ptsyVXd.fill(0.0);
-          for (int j=0; j<ptsy.size(); j++){
+          for (size_t j=0; j<ptsy.size(); j++){
             ptsyVXd(j) = ptsy[j];
             std::cout<< ptsyVXd(j) << "\t";//////////////
           }
