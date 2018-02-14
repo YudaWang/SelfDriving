@@ -147,8 +147,8 @@ int main() {
           vector<double> next_x_vals;
           vector<double> next_y_vals;
 
-          next_x = {10, 20};
-          next_y = {0, 0};
+          next_x_vals = {10, 20};
+          next_y_vals = {0, 0};
 
           //.. add (x,y) points to list here, points are in reference to the vehicle's coordinate system
           // the points in the simulator are connected by a Yellow line
