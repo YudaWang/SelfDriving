@@ -152,8 +152,8 @@ int main() {
           // next_y_vals = {0, 0};
 
           for (int iL=0; iL<ptsx.size(); iL++){
-            double x = ptsx[i];
-            double y = ptsy[i];
+            double x = ptsx[iL];
+            double y = ptsy[iL];
             next_x_vals.push_back(x*cos(psi)+y*sin(psi)-px);
             next_y_vals.push_back(-x*sin(psi)+y*cos(psi)-py);
           }
