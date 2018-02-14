@@ -155,7 +155,7 @@ int main() {
             double x = ptsx[iL];
             double y = ptsy[iL];
             next_x_vals.push_back((x-px)*cos(psi)+(y-py)*sin(psi));
-            next_y_vals.push_back(-(x-px)*sin(psi)+(y-py)*cos(psi)-py);
+            next_y_vals.push_back(-(x-px)*sin(psi)+(y-py)*cos(psi));
           }
 
           //.. add (x,y) points to list here, points are in reference to the vehicle's coordinate system
