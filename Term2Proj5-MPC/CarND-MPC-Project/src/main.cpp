@@ -92,9 +92,9 @@ int main() {
           double psi = j[1]["psi"];
           double v = j[1]["speed"];
           // steering angle pos-direction different from psi pos-direction
-          double delta = -j[1]["steering_angle"];
-          double a = j[1]["throttle"];
-          std::cout<<"px="<<px<<" py="<<py<<" psi="<<psi<<" v="<<v<<" delta="<<delta<<" a="<<a<<std::endl;
+          // double delta = -j[1]["steering_angle"];
+          // double a = j[1]["throttle"];
+          std::cout<<"px="<<px<<" py="<<py<<" psi="<<psi<<" v="<<v<<std::endl;
 
           /*
           * TODO: Calculate steering angle and throttle using MPC.
@@ -107,8 +107,8 @@ int main() {
           double latency = 0.1;
           double px_now = px + v*cos(psi)*latency;
           double py_now = py + v*sin(psi)*latency;
-          double psi_now = psi + v*delta*latency/Lf;
-          double v_now = v + a*latency;
+          // double psi_now = psi + v*delta*latency/Lf;
+          // double v_now = v + a*latency;
 
           Eigen::VectorXd ptsx_carframe(ptsx.size());
           ptsx_carframe.fill(0.0);
@@ -159,8 +159,8 @@ int main() {
           vector<double> next_y_vals;
 
           for (size_t iL=0; iL<ptsx.size(); iL++){
-            next_x_vals[i] = ptsy_carframe[i];
-            next_y_vals[i] = ptsy_carframe[i];
+            next_x_vals[iL] = ptsy_carframe[iL];
+            next_y_vals[iL] = ptsy_carframe[iL];
           }
 
           //.. add (x,y) points to list here, points are in reference to the vehicle's coordinate system
