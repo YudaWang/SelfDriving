@@ -145,8 +145,8 @@ int main() {
           vector<double> mpc_x_vals;
           vector<double> mpc_y_vals;
 
-          // mpc_x_vals = {5,10};
-          // mpc_y_vals = {0,0};
+          mpc_x_vals = {5,10};
+          mpc_y_vals = {0,0};
 
           //.. add (x,y) points to list here, points are in reference to the vehicle's coordinate system
           // the points in the simulator are connected by a Green line
@@ -158,10 +158,10 @@ int main() {
           vector<double> next_x_vals;
           vector<double> next_y_vals;
 
-          // for (size_t iL=0; iL<ptsx.size(); iL++){
-          //   next_x_vals[iL] = ptsy_carframe[iL];
-          //   next_y_vals[iL] = ptsy_carframe[iL];
-          // }
+          for (size_t iL=0; iL<ptsx.size(); iL++){
+            next_x_vals.push_back(ptsy_carframe[iL]);
+            next_y_vals.push_back(ptsy_carframe[iL]);
+          }
 
           //.. add (x,y) points to list here, points are in reference to the vehicle's coordinate system
           // the points in the simulator are connected by a Yellow line
