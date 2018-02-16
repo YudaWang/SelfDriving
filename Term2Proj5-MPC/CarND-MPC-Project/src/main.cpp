@@ -102,7 +102,7 @@ int main() {
           * Both are in between [-1, 1].
           *
           */
-          const double Lf = 2.67;
+          // const double Lf = 2.67;
 
           double latency = 0.1;
           double px_now = px + v*cos(psi)*latency;
@@ -128,7 +128,7 @@ int main() {
           double cte =  -polyeval(coeffs, 0);
           double epsi = -atan(coeffs[1]);
           Eigen::VectorXd state(6);
-          state << px, py, psi, v, cte, epsi;
+          state << 0,0,0, v, cte, epsi;
           auto vars = mpc.Solve(state, coeffs);
           std::cout<<"vars = "<<vars[0]<<"\t"<<vars[1]<<"\t"<<vars[2]<<"\t"<<vars[3]<<"\t"<<std::endl;/////////
           std::cout<<"vars = "<<vars[4]<<"\t"<<vars[5]<<"\t"<<vars[6]<<"\t"<<vars[7]<<"\t"<<std::endl;/////////
