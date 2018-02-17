@@ -104,7 +104,7 @@ int main() {
           */
           // const double Lf = 2.67;
 
-          double latency = 0.1;
+          double latency = 0.001;
           double px_now = px + v*cos(psi)*latency;
           double py_now = py + v*sin(psi)*latency;
           // double psi_now = psi + v*delta*latency/Lf;
