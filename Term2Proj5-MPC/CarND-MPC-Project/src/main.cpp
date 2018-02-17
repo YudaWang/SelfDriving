@@ -146,7 +146,7 @@ int main() {
           double sum_psi = 0 ;
           for (unsigned iPsi=0; iPsi<sol.psi.size(); iPsi++){
             if (sol.psi.at(iPsi) > max_psi){
-              sum_psi += sol.psi.at(iPsi);
+              sum_psi += fabs(sol.psi.at(iPsi));
             }
           }
           throttle_value -= P_gain_v_psi*fabs(sum_psi/sol.psi.size());
