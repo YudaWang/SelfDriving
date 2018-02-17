@@ -153,6 +153,11 @@ int main() {
             sum_epsi += fabs(sol.cte.at(iPsi));
             sum_delta += fabs(sol.delta.at(iPsi));
           }
+          std::cout << "# of MPC ponits = " << sol.psi.size() << std::endl;////////////
+          std::cout << "sum_psi = " << sum_psi << "\t"
+                    << "sum_cte = " << sum_cte << "\t"
+                    << "sum_epsi = " << sum_epsi << "\t"
+                    << "sum_delta = " << sum_delta << std::endl;///////////////////
           throttle_value -= P_gain_v_psi*fabs(sum_psi/sol.psi.size());
           throttle_value -= P_gain_v_cte*fabs(sum_cte/sol.psi.size());
           throttle_value -= P_gain_v_epsi*fabs(sum_epsi/sol.psi.size());
