@@ -129,15 +129,22 @@ int main() {
           double epsi = -atan(coeffs[1]);
           Eigen::VectorXd state(6);
           state << 0,0,0, v, cte, epsi;
-          auto vars = mpc.Solve(state, coeffs);
-          std::cout<<"vars = "<<vars[0]<<"\t"<<vars[1]<<"\t"<<vars[2]<<"\t"<<vars[3]<<"\t"<<std::endl;/////////
-          std::cout<<"vars = "<<vars[4]<<"\t"<<vars[5]<<"\t"<<vars[6]<<"\t"<<vars[7]<<"\t"<<std::endl;/////////
+          auto sol = mpc.Solve(state, coeffs);
+          int lenMPC = sol.x.size();
+          std::cout<<"x, y, psi, v = "<<sol.x.at(idx_dt_now)<<"\t"<<sol.y.at(idx_dt_now)<<"\t"
+                                  <<sol.psi.at(idx_dt_now)<<"\t"<<sol.v.at(idx_dt_now)<<"\t"<<std::endl;/////////
+          std::cout<<"cte, epsi, delta, a = "<<sol.cte.at(idx_dt_now)<<"\t"<<sol.epsi.at(idx_dt_now)<<"\t"
+                              <<sol.delta.at(idx_dt_now)<<"\t"<<sol.a.at(idx_dt_now)<<std::endl;/////////
           const double P_gain_v_psi = 0.1;
           const double P_gain_v_cte = 0.2;
           const double P_gain_v_epsi = 1;
           const double P_gain_v_steer = 1;
-          double steer_value = vars[6];
-          double throttle_value=vars[7]-P_gain_v_steer*fabs(vars[6])-P_gain_v_epsi*fabs(vars[5])-P_gain_v_cte*fabs(vars[4])-P_gain_v_psi*fabs(psi);
+          double steer_value = sol.delta.at(idx_dt_now);
+          double throttle_value = sol.a.at(idx_dt_now);
+          throttle_value -= P_gain_v_steer*fabs(sol.delta.at(idx_dt_now));
+          throttle_value -= P_gain_v_epsi*fabs(sol.epsi.at(idx_dt_now));
+          throttle_value -= P_gain_v_cte*fabs(sol.cte.at(idx_dt_now));
+          throttle_value -= P_gain_v_psi*fabs(psi);
 
           json msgJson;
           // NOTE: Remember to divide by deg2rad(25) before you send the steering value back.
@@ -146,17 +153,17 @@ int main() {
           msgJson["throttle"] = throttle_value;
 
           //Display the MPC predicted trajectory 
-          vector<double> mpc_x_vals;
-          vector<double> mpc_y_vals;
+          // vector<double> mpc_x_vals;
+          // vector<double> mpc_y_vals;
 
-          mpc_x_vals = {vars[0],vars[8],vars[10],vars[12],vars[14]};
-          mpc_y_vals = {vars[1],vars[9],vars[11],vars[13],vars[15]};
+          // mpc_x_vals = {vars[0],vars[8],vars[10],vars[12],vars[14]};
+          // mpc_y_vals = {vars[1],vars[9],vars[11],vars[13],vars[15]};
 
           //.. add (x,y) points to list here, points are in reference to the vehicle's coordinate system
           // the points in the simulator are connected by a Green line
 
-          msgJson["mpc_x"] = mpc_x_vals;
-          msgJson["mpc_y"] = mpc_y_vals;
+          msgJson["mpc_x"] = sol.x;
+          msgJson["mpc_y"] = sol.y;
 
           //Display the waypoints/reference line
           vector<double> next_x_vals;

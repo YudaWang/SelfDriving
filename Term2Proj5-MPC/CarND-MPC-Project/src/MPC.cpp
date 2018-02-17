@@ -5,9 +5,7 @@
 
 using CppAD::AD;
 
-// TODO: Set the timestep length and duration
-size_t N = 20;
-double dt = 0.05;
+
 
 // This value assumes the model presented in the classroom is used.
 //
@@ -111,7 +109,7 @@ class FG_eval {
 MPC::MPC() {}
 MPC::~MPC() {}
 
-vector<double> MPC::Solve(Eigen::VectorXd state, Eigen::VectorXd coeffs) {
+Solution MPC::Solve(Eigen::VectorXd state, Eigen::VectorXd coeffs) {
   bool ok = true;
   size_t i;
   typedef CPPAD_TESTVECTOR(double) Dvector;
@@ -236,12 +234,23 @@ vector<double> MPC::Solve(Eigen::VectorXd state, Eigen::VectorXd coeffs) {
   //
   // {...} is shorthand for creating a vector, so auto x1 = {1.0,2.0}
   // creates a 2 element double vector.
-  return {solution.x[x_start + 1],   solution.x[y_start + 1],
-          solution.x[psi_start + 1], solution.x[v_start + 1],
-          solution.x[cte_start + 1], solution.x[epsi_start + 1],
-          solution.x[delta_start],   solution.x[a_start],
-        solution.x[x_start + 2],   solution.x[y_start + 2],
-        solution.x[x_start + 3],   solution.x[y_start + 3],
-        solution.x[x_start + 4],   solution.x[y_start + 4],
-        solution.x[x_start + 5],   solution.x[y_start + 5]};
+
+  Solution sol;
+  for (unsigned iS=0; iS<N-1; iS++){
+    sol.x.push_back(solution.x[x_start+1+iS]);
+    sol.y.push_back(solution.x[y_start+1+iS]);
+    sol.psi.push_back(solution.x[psi_start+1+iS]);
+    sol.v.push_back(solution.x[v_start+1+iS]);
+    sol.cte.push_back(solution.x[cte_start+1+iS]);
+    sol.epsi.push_back(solution.x[epsi_start+1+iS]);
+    sol.delta.push_back(solution.x[delta_start+1+iS]);
+    sol.a.push_back(solution.x[a_start+1+iS]);
+  }
+    sol.x.push_back(solution.x[x_start+1+iS]);
+    sol.y.push_back(solution.x[y_start+1+iS]);
+    sol.psi.push_back(solution.x[psi_start+1+iS]);
+    sol.v.push_back(solution.x[v_start+1+iS]);
+    sol.cte.push_back(solution.x[cte_start+1+iS]);
+
+  return sol;
 }

@@ -91,7 +91,10 @@ int main() {
           double py = j[1]["y"];
           double psi = j[1]["psi"];
           double v = j[1]["speed"];
-          std::cout << "px= " << px << " py= " << py << " psi= " << psi << " v= "<<v<<std::endl;
+          // steering angle pos-direction different from psi pos-direction
+          // double delta = -j[1]["steering_angle"];
+          // double a = j[1]["throttle"];
+          std::cout<<"px="<<px<<" py="<<py<<" psi="<<psi<<" v="<<v<<std::endl;
 
           /*
           * TODO: Calculate steering angle and throttle using MPC.
@@ -99,31 +102,42 @@ int main() {
           * Both are in between [-1, 1].
           *
           */
-          Eigen::VectorXd ptsxVXd(ptsx.size());
-          ptsxVXd.fill(0.0);
-          for (size_t j=0; j<ptsx.size(); j++){
-            ptsxVXd(j) = ptsx[j];
-            std::cout<< ptsxVXd(j) << "\t";////////////////////
+          // const double Lf = 2.67;
+
+          double latency = 0.1;
+          double px_now = px + v*cos(psi)*latency;
+          double py_now = py + v*sin(psi)*latency;
+          // double psi_now = psi + v*delta*latency/Lf;
+          // double v_now = v + a*latency;
+
+          Eigen::VectorXd ptsx_carframe(ptsx.size());
+          ptsx_carframe.fill(0.0);
+          Eigen::VectorXd ptsy_carframe(ptsy.size());
+          ptsy_carframe.fill(0.0);
+          double dx = 0;
+          double dy = 0;
+          for (unsigned iConv = 0; iConv<ptsx.size(); iConv++){
+            dx = ptsx[iConv] - px_now;
+            dy = ptsy[iConv] - py_now;
+            ptsx_carframe[iConv] = dx*cos(psi) + dy*sin(psi);
+            ptsy_carframe[iConv] = -dx*sin(psi) + dy*cos(psi);
           }
-          std::cout<<std::endl;////////////////////
-          Eigen::VectorXd ptsyVXd(ptsy.size());
-          ptsyVXd.fill(0.0);
-          for (size_t j=0; j<ptsy.size(); j++){
-            ptsyVXd(j) = ptsy[j];
-            std::cout<< ptsyVXd(j) << "\t";//////////////
-          }
-          std::cout<< std::endl;///////////////
-          Eigen::VectorXd coeffs = polyfit(ptsxVXd, ptsyVXd, 2);
+
+          Eigen::VectorXd coeffs = polyfit(ptsx_carframe, ptsy_carframe, 2);
           std::cout<< "coeffs = " << coeffs[0] << "\t" << coeffs[1] << "\t" << coeffs[2] << std::endl;/////////
-          double cte = py - polyeval(coeffs, px);
-          double epsi = psi - atan(coeffs[1] + 2*coeffs[2]*px);
+          double cte =  -polyeval(coeffs, 0);
+          double epsi = -atan(coeffs[1]);
           Eigen::VectorXd state(6);
-          state << px, py, psi, v, cte, epsi;
+          state << 0,0,0, v, cte, epsi;
           auto vars = mpc.Solve(state, coeffs);
           std::cout<<"vars = "<<vars[0]<<"\t"<<vars[1]<<"\t"<<vars[2]<<"\t"<<vars[3]<<"\t"<<std::endl;/////////
           std::cout<<"vars = "<<vars[4]<<"\t"<<vars[5]<<"\t"<<vars[6]<<"\t"<<vars[7]<<"\t"<<std::endl;/////////
+          const double P_gain_v_psi = 0.1;
+          const double P_gain_v_cte = 0.2;
+          const double P_gain_v_epsi = 1;
+          const double P_gain_v_steer = 1;
           double steer_value = vars[6];
-          double throttle_value = vars[7];
+          double throttle_value=vars[7]-P_gain_v_steer*fabs(vars[6])-P_gain_v_epsi*fabs(vars[5])-P_gain_v_cte*fabs(vars[4])-P_gain_v_psi*fabs(psi);
 
           json msgJson;
           // NOTE: Remember to divide by deg2rad(25) before you send the steering value back.
@@ -135,8 +149,8 @@ int main() {
           vector<double> mpc_x_vals;
           vector<double> mpc_y_vals;
 
-          mpc_x_vals = {5,15,25};
-          mpc_y_vals = {0,0,0};
+          mpc_x_vals = {vars[0],vars[8],vars[10],vars[12],vars[14]};
+          mpc_y_vals = {vars[1],vars[9],vars[11],vars[13],vars[15]};
 
           //.. add (x,y) points to list here, points are in reference to the vehicle's coordinate system
           // the points in the simulator are connected by a Green line
@@ -148,14 +162,9 @@ int main() {
           vector<double> next_x_vals;
           vector<double> next_y_vals;
 
-          // next_x_vals = {10, 20};
-          // next_y_vals = {0, 0};
-
           for (size_t iL=0; iL<ptsx.size(); iL++){
-            double x = ptsx[iL];
-            double y = ptsy[iL];
-            next_x_vals.push_back((x-px)*cos(psi)+(y-py)*sin(psi));
-            next_y_vals.push_back(-(x-px)*sin(psi)+(y-py)*cos(psi));
+            next_x_vals.push_back(ptsx_carframe[iL]);
+            next_y_vals.push_back(ptsy_carframe[iL]);
           }
 
           //.. add (x,y) points to list here, points are in reference to the vehicle's coordinate system
