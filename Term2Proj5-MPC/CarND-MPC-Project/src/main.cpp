@@ -132,9 +132,9 @@ int main() {
           auto vars = mpc.Solve(state, coeffs);
           std::cout<<"vars = "<<vars[0]<<"\t"<<vars[1]<<"\t"<<vars[2]<<"\t"<<vars[3]<<"\t"<<std::endl;/////////
           std::cout<<"vars = "<<vars[4]<<"\t"<<vars[5]<<"\t"<<vars[6]<<"\t"<<vars[7]<<"\t"<<std::endl;/////////
-          const double P_gain_v_cte = 0.000;
-          const double P_gain_v_epsi = 0.000;
-          const double P_gain_v_steer = 0.000;
+          const double P_gain_v_cte = 0.1;
+          const double P_gain_v_epsi = 1;
+          const double P_gain_v_steer = 1;
           double steer_value = vars[6];
           double throttle_value=vars[7]-P_gain_v_steer*fabs(vars[6])-P_gain_v_epsi*fabs(vars[5])-P_gain_v_cte*fabs(vars[4]);
 
