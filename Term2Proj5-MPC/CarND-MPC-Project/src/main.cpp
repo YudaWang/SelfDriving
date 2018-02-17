@@ -136,16 +136,17 @@ int main() {
                                   <<sol.psi.at(0)<<"\t"<<sol.v.at(0)<<"\t"<<std::endl;/////////
           std::cout<<"MPC-Sol: cte, epsi, delta, a = "<<sol.cte.at(0)<<"\t"<<sol.epsi.at(0)<<"\t"
                               <<sol.delta.at(0)<<"\t"<<sol.a.at(0)<<std::endl;/////////
-          const double P_gain_v_psi = 0.123;
+          const double P_gain_v_psi = 0.1;
           const double P_gain_v_cte = 0.2;
           const double P_gain_v_epsi = 1;
           const double P_gain_v_steer = 1;
           double steer_value = sol.delta.at(0);
           double throttle_value = sol.a.at(0);
-          throttle_value -= P_gain_v_steer*fabs(sol.delta.at(0));
-          throttle_value -= P_gain_v_epsi*fabs(epsi);
+          
+          throttle_value -= P_gain_v_psi*fabs(sol.psi.at(N-2));
           throttle_value -= P_gain_v_cte*fabs(cte);
-          throttle_value -= P_gain_v_psi*fabs(psi);
+          throttle_value -= P_gain_v_epsi*fabs(epsi);
+          throttle_value -= P_gain_v_steer*fabs(sol.delta.at(0));
 
           json msgJson;
           // NOTE: Remember to divide by deg2rad(25) before you send the steering value back.
