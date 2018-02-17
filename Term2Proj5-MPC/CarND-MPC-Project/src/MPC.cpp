@@ -237,21 +237,29 @@ Solution MPC::Solve(Eigen::VectorXd state, Eigen::VectorXd coeffs) {
 
   Solution sol;
   unsigned iS;
-  for (iS=0; iS<N-1; iS++){
-    sol.x.push_back(solution.x[x_start+1+iS]);
-    sol.y.push_back(solution.x[y_start+1+iS]);
-    sol.psi.push_back(solution.x[psi_start+1+iS]);
-    sol.v.push_back(solution.x[v_start+1+iS]);
-    sol.cte.push_back(solution.x[cte_start+1+iS]);
-    sol.epsi.push_back(solution.x[epsi_start+1+iS]);
-    sol.delta.push_back(solution.x[delta_start+1+iS]);
-    sol.a.push_back(solution.x[a_start+1+iS]);
-  }
+  // for (iS=0; iS<N-1; iS++){
+  //   sol.x.push_back(solution.x[x_start+1+iS]);
+  //   sol.y.push_back(solution.x[y_start+1+iS]);
+  //   sol.psi.push_back(solution.x[psi_start+1+iS]);
+  //   sol.v.push_back(solution.x[v_start+1+iS]);
+  //   sol.cte.push_back(solution.x[cte_start+1+iS]);
+  //   sol.epsi.push_back(solution.x[epsi_start+1+iS]);
+  //   sol.delta.push_back(solution.x[delta_start+1+iS]);
+  //   sol.a.push_back(solution.x[a_start+1+iS]);
+  // }
     // sol.x.push_back(solution.x[x_start+1+iS]);
     // sol.y.push_back(solution.x[y_start+1+iS]);
     // sol.psi.push_back(solution.x[psi_start+1+iS]);
     // sol.v.push_back(solution.x[v_start+1+iS]);
     // sol.cte.push_back(solution.x[cte_start+1+iS]);
+    sol.x.push_back(solution.x[x_start+1]);
+    sol.y.push_back(solution.x[y_start+1]);
+    sol.psi.push_back(solution.x[psi_start+1]);
+    sol.v.push_back(solution.x[v_start+1]);
+    sol.cte.push_back(solution.x[cte_start+1]);
+    sol.epsi.push_back(solution.x[epsi_start+1]);
+    sol.delta.push_back(solution.x[delta_start+1]);
+    sol.a.push_back(solution.x[a_start+1]);
 
   return sol;
 }
