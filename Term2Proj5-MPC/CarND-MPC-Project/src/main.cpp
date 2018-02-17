@@ -94,7 +94,7 @@ int main() {
           // steering angle pos-direction different from psi pos-direction
           // double delta = -j[1]["steering_angle"];
           // double a = j[1]["throttle"];
-          std::cout<<"px="<<px<<" py="<<py<<" psi="<<psi<<" v="<<v<<std::endl;
+          std::cout<<"JSON: px="<<px<<" py="<<py<<" psi="<<psi<<" v="<<v<<std::endl;
 
           /*
           * TODO: Calculate steering angle and throttle using MPC.
@@ -124,16 +124,17 @@ int main() {
           }
 
           Eigen::VectorXd coeffs = polyfit(ptsx_carframe, ptsy_carframe, 2);
-          std::cout<< "coeffs = " << coeffs[0] << "\t" << coeffs[1] << "\t" << coeffs[2] << std::endl;/////////
+          std::cout<< "Car-Frame: fit coeffs = " << coeffs[0] << "\t" << coeffs[1] << "\t" << coeffs[2] << std::endl;/////////
           double cte =  -polyeval(coeffs, 0);
           double epsi = -atan(coeffs[1]);
+          std::cout << "Car-Frame: cte = " << cte << "\t" << "epsi = " << epsi << std::endl;//////////////
           Eigen::VectorXd state(6);
           state << 0,0,0, v, cte, epsi;
           auto sol = mpc.Solve(state, coeffs);
 
-          std::cout<<"x, y, psi, v = "<<sol.x.at(0)<<"\t"<<sol.y.at(0)<<"\t"
+          std::cout<<"MPC-Sol: x, y, psi, v = "<<sol.x.at(0)<<"\t"<<sol.y.at(0)<<"\t"
                                   <<sol.psi.at(0)<<"\t"<<sol.v.at(0)<<"\t"<<std::endl;/////////
-          std::cout<<"cte, epsi, delta, a = "<<sol.cte.at(0)<<"\t"<<sol.epsi.at(0)<<"\t"
+          std::cout<<"MPC-Sol: cte, epsi, delta, a = "<<sol.cte.at(0)<<"\t"<<sol.epsi.at(0)<<"\t"
                               <<sol.delta.at(0)<<"\t"<<sol.a.at(0)<<std::endl;/////////
           const double P_gain_v_psi = 0.1;
           const double P_gain_v_cte = 0.2;
@@ -142,8 +143,8 @@ int main() {
           double steer_value = sol.delta.at(0);
           double throttle_value = sol.a.at(0);
           throttle_value -= P_gain_v_steer*fabs(sol.delta.at(0));
-          throttle_value -= P_gain_v_epsi*fabs(sol.epsi.at(0));
-          throttle_value -= P_gain_v_cte*fabs(sol.cte.at(0));
+          throttle_value -= P_gain_v_epsi*fabs(epsi);
+          throttle_value -= P_gain_v_cte*fabs(cte);
           throttle_value -= P_gain_v_psi*fabs(psi);
 
           json msgJson;

@@ -237,29 +237,20 @@ Solution MPC::Solve(Eigen::VectorXd state, Eigen::VectorXd coeffs) {
 
   Solution sol;
   unsigned iS;
-  // for (iS=0; iS<N-1; iS++){
-  //   sol.x.push_back(solution.x[x_start+1+iS]);
-  //   sol.y.push_back(solution.x[y_start+1+iS]);
-  //   sol.psi.push_back(solution.x[psi_start+1+iS]);
-  //   sol.v.push_back(solution.x[v_start+1+iS]);
-  //   sol.cte.push_back(solution.x[cte_start+1+iS]);
-  //   sol.epsi.push_back(solution.x[epsi_start+1+iS]);
-  //   sol.delta.push_back(solution.x[delta_start+1+iS]);
-  //   sol.a.push_back(solution.x[a_start+1+iS]);
-  // }
-    // sol.x.push_back(solution.x[x_start+1+iS]);
-    // sol.y.push_back(solution.x[y_start+1+iS]);
-    // sol.psi.push_back(solution.x[psi_start+1+iS]);
-    // sol.v.push_back(solution.x[v_start+1+iS]);
-    // sol.cte.push_back(solution.x[cte_start+1+iS]);
-    sol.x.push_back(solution.x[x_start+1]);
-    sol.y.push_back(solution.x[y_start+1]);
-    sol.psi.push_back(solution.x[psi_start+1]);
-    sol.v.push_back(solution.x[v_start+1]);
-    sol.cte.push_back(solution.x[cte_start+1]);
-    sol.epsi.push_back(solution.x[epsi_start+1]);
-    sol.delta.push_back(solution.x[delta_start+1]);
-    sol.a.push_back(solution.x[a_start+1]);
+  // x,y,psi,v,cte,epsi start from 0 to N-1
+  // delta, a start from 0 to N-2
+  // so only last N-1 items are taken from final computation to match dimensions of all parameters
+  // also the x,y,psi,v,cte,epsi very first/inital values are fixed and known
+  for (iS=0; iS<N-1; iS++){
+    sol.x.push_back(solution.x[x_start+1+iS]);
+    sol.y.push_back(solution.x[y_start+1+iS]);
+    sol.psi.push_back(solution.x[psi_start+1+iS]);
+    sol.v.push_back(solution.x[v_start+1+iS]);
+    sol.cte.push_back(solution.x[cte_start+1+iS]);
+    sol.epsi.push_back(solution.x[epsi_start+1+iS]);
+    sol.delta.push_back(solution.x[delta_start+iS]);
+    sol.a.push_back(solution.x[a_start+iS]);
+  }
 
   return sol;
 }
