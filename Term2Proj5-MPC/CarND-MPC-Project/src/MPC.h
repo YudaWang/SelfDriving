@@ -7,10 +7,10 @@
 using namespace std;
 
 // TODO: Set the timestep length and duration
-const size_t N = 2;
+const size_t N = 20;
 const double dt = 0.05; 
-// too large dt cause total MPC range out of way point range, so out-of-range part get terrrible fit
-// too littl dt cause no prediction at all
+// too large N, dt cause total MPC range out of way point range, so out-of-range part get terrrible fit
+// too littl N, dt cause no prediction at all
 
 struct Solution {
 	vector<double> x;
