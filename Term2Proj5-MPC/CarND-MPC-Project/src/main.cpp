@@ -136,21 +136,27 @@ int main() {
                                   <<sol.psi.at(0)<<"\t"<<sol.v.at(0)<<"\t"<<std::endl;/////////
           std::cout<<"MPC-Sol: cte, epsi, delta, a = "<<sol.cte.at(0)<<"\t"<<sol.epsi.at(0)<<"\t"
                               <<sol.delta.at(0)<<"\t"<<sol.a.at(0)<<std::endl;/////////
-          const double P_gain_v_psi = 1;
-          const double P_gain_v_cte = 0.2;
-          const double P_gain_v_epsi = 1;
-          const double P_gain_v_steer = 1;
+          const double P_gain_v_psi = 0;
+          const double P_gain_v_cte = 0;
+          const double P_gain_v_epsi = 0;
+          const double P_gain_v_steer = 0;
           double steer_value = sol.delta.at(0);
           double throttle_value = sol.a.at(0);
           
-          double sum_psi = 0 ;
+          double sum_psi = 0;
+          double sum_cte = 0;
+          double sum_epsi = 0;
+          double sum_delta = 0;
           for (unsigned iPsi=0; iPsi<sol.psi.size(); iPsi++){
             sum_psi += fabs(sol.psi.at(iPsi));
+            sum_cte += fabs(sol.cte.at(iPsi));
+            sum_epsi += fabs(sol.cte.at(iPsi));
+            sum_delta += fabs(sol.delta.at(iPsi));
           }
           throttle_value -= P_gain_v_psi*fabs(sum_psi/sol.psi.size());
-          throttle_value -= P_gain_v_cte*fabs(cte);
-          throttle_value -= P_gain_v_epsi*fabs(epsi);
-          throttle_value -= P_gain_v_steer*fabs(sol.delta.at(0));
+          throttle_value -= P_gain_v_cte*fabs(sum_cte/sol.psi.size());
+          throttle_value -= P_gain_v_epsi*fabs(sum_epsi/sol.psi.size());
+          throttle_value -= P_gain_v_steer*fabs(sum_delta/sol.psi.size());
 
           json msgJson;
           // NOTE: Remember to divide by deg2rad(25) before you send the steering value back.
