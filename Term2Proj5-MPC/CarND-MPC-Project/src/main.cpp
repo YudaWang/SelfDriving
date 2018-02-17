@@ -149,8 +149,8 @@ int main() {
           vector<double> mpc_x_vals;
           vector<double> mpc_y_vals;
 
-          mpc_x_vals = {0,10};
-          mpc_y_vals = {0,0};
+          mpc_x_vals = {vars[0],vars[8],vars[10],vars[12],vars[14]};
+          mpc_y_vals = {vars[1],vars[9],vars[11],vars[13],vars[15]};
 
           //.. add (x,y) points to list here, points are in reference to the vehicle's coordinate system
           // the points in the simulator are connected by a Green line
