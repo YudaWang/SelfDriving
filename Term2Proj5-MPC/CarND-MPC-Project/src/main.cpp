@@ -143,7 +143,13 @@ int main() {
           double steer_value = sol.delta.at(0);
           double throttle_value = sol.a.at(0);
           
-          throttle_value -= P_gain_v_psi*fabs(sol.psi.at(N-2));
+          double max_psi = 0 ;
+          for (unsigned iPsi=0; iPsi<sol.psi.size(); iPsi++){
+            if (sol.psi.at(iPsi) > max_psi){
+              max_psi = sol.psi.at(iPsi);
+            }
+          }
+          throttle_value -= P_gain_v_psi*fabs(max_psi);
           throttle_value -= P_gain_v_cte*fabs(cte);
           throttle_value -= P_gain_v_epsi*fabs(epsi);
           throttle_value -= P_gain_v_steer*fabs(sol.delta.at(0));
