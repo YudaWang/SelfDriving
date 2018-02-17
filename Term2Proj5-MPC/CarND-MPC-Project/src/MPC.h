@@ -8,7 +8,7 @@ using namespace std;
 
 // TODO: Set the timestep length and duration
 const size_t N = 20;
-const double dt = 0.05;
+const double dt = 0.5;
 
 struct Solution {
 	vector<double> x;
