@@ -130,7 +130,7 @@ int main() {
           Eigen::VectorXd state(6);
           state << 0,0,0, v, cte, epsi;
           auto sol = mpc.Solve(state, coeffs);
-          int lenMPC = sol.x.size();
+          
           std::cout<<"x, y, psi, v = "<<sol.x.at(idx_dt_now)<<"\t"<<sol.y.at(idx_dt_now)<<"\t"
                                   <<sol.psi.at(idx_dt_now)<<"\t"<<sol.v.at(idx_dt_now)<<"\t"<<std::endl;/////////
           std::cout<<"cte, epsi, delta, a = "<<sol.cte.at(idx_dt_now)<<"\t"<<sol.epsi.at(idx_dt_now)<<"\t"
