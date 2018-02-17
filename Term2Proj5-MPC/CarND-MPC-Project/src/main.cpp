@@ -132,8 +132,8 @@ int main() {
           auto vars = mpc.Solve(state, coeffs);
           std::cout<<"vars = "<<vars[0]<<"\t"<<vars[1]<<"\t"<<vars[2]<<"\t"<<vars[3]<<"\t"<<std::endl;/////////
           std::cout<<"vars = "<<vars[4]<<"\t"<<vars[5]<<"\t"<<vars[6]<<"\t"<<vars[7]<<"\t"<<std::endl;/////////
-          const double P_gain_v_psi = 0.5;
-          const double P_gain_v_cte = 0.5;
+          const double P_gain_v_psi = 0.1;
+          const double P_gain_v_cte = 0.2;
           const double P_gain_v_epsi = 1;
           const double P_gain_v_steer = 1;
           double steer_value = vars[6];
