@@ -130,20 +130,20 @@ int main() {
           Eigen::VectorXd state(6);
           state << 0,0,0, v, cte, epsi;
           auto sol = mpc.Solve(state, coeffs);
-          
-          std::cout<<"x, y, psi, v = "<<sol.x.at(idx_dt_now)<<"\t"<<sol.y.at(idx_dt_now)<<"\t"
-                                  <<sol.psi.at(idx_dt_now)<<"\t"<<sol.v.at(idx_dt_now)<<"\t"<<std::endl;/////////
-          std::cout<<"cte, epsi, delta, a = "<<sol.cte.at(idx_dt_now)<<"\t"<<sol.epsi.at(idx_dt_now)<<"\t"
-                              <<sol.delta.at(idx_dt_now)<<"\t"<<sol.a.at(idx_dt_now)<<std::endl;/////////
+
+          std::cout<<"x, y, psi, v = "<<sol.x.at(0)<<"\t"<<sol.y.at(0)<<"\t"
+                                  <<sol.psi.at(0)<<"\t"<<sol.v.at(0)<<"\t"<<std::endl;/////////
+          std::cout<<"cte, epsi, delta, a = "<<sol.cte.at(0)<<"\t"<<sol.epsi.at(0)<<"\t"
+                              <<sol.delta.at(0)<<"\t"<<sol.a.at(0)<<std::endl;/////////
           const double P_gain_v_psi = 0.1;
           const double P_gain_v_cte = 0.2;
           const double P_gain_v_epsi = 1;
           const double P_gain_v_steer = 1;
-          double steer_value = sol.delta.at(idx_dt_now);
-          double throttle_value = sol.a.at(idx_dt_now);
-          throttle_value -= P_gain_v_steer*fabs(sol.delta.at(idx_dt_now));
-          throttle_value -= P_gain_v_epsi*fabs(sol.epsi.at(idx_dt_now));
-          throttle_value -= P_gain_v_cte*fabs(sol.cte.at(idx_dt_now));
+          double steer_value = sol.delta.at(0);
+          double throttle_value = sol.a.at(0);
+          throttle_value -= P_gain_v_steer*fabs(sol.delta.at(0));
+          throttle_value -= P_gain_v_epsi*fabs(sol.epsi.at(0));
+          throttle_value -= P_gain_v_cte*fabs(sol.cte.at(0));
           throttle_value -= P_gain_v_psi*fabs(psi);
 
           json msgJson;
