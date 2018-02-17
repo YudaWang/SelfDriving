@@ -104,7 +104,7 @@ int main() {
           */
           // const double Lf = 2.67;
 
-          double latency = 0.001;
+          double latency = 0.1;
           double px_now = px + v*cos(psi)*latency;
           double py_now = py + v*sin(psi)*latency;
           // double psi_now = psi + v*delta*latency/Lf;
@@ -132,8 +132,11 @@ int main() {
           auto vars = mpc.Solve(state, coeffs);
           std::cout<<"vars = "<<vars[0]<<"\t"<<vars[1]<<"\t"<<vars[2]<<"\t"<<vars[3]<<"\t"<<std::endl;/////////
           std::cout<<"vars = "<<vars[4]<<"\t"<<vars[5]<<"\t"<<vars[6]<<"\t"<<vars[7]<<"\t"<<std::endl;/////////
+          const double P_gain_v_cte = 0.000;
+          const double P_gain_v_epsi = 0.000;
+          const double P_gain_v_steer = 0.000;
           double steer_value = vars[6];
-          double throttle_value = vars[7];
+          double throttle_value=vars[7]-P_gain_v_steer*fabs(var[6])-P_gain_v_epsi*fabs(var[5])-P_gain_v_cte*fabs(var[4]);
 
           json msgJson;
           // NOTE: Remember to divide by deg2rad(25) before you send the steering value back.
@@ -181,7 +184,7 @@ int main() {
           //
           // NOTE: REMEMBER TO SET THIS TO 100 MILLISECONDS BEFORE
           // SUBMITTING.
-          this_thread::sleep_for(chrono::milliseconds(1));
+          this_thread::sleep_for(chrono::milliseconds(100));
           ws.send(msg.data(), msg.length(), uWS::OpCode::TEXT);
         }
       } else {
