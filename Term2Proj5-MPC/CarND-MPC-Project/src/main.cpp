@@ -136,7 +136,7 @@ int main() {
           const double P_gain_v_epsi = 0.000;
           const double P_gain_v_steer = 0.000;
           double steer_value = vars[6];
-          double throttle_value=vars[7]-P_gain_v_steer*fabs(var[6])-P_gain_v_epsi*fabs(var[5])-P_gain_v_cte*fabs(var[4]);
+          double throttle_value=vars[7]-P_gain_v_steer*fabs(vars[6])-P_gain_v_epsi*fabs(vars[5])-P_gain_v_cte*fabs(vars[4]);
 
           json msgJson;
           // NOTE: Remember to divide by deg2rad(25) before you send the steering value back.
