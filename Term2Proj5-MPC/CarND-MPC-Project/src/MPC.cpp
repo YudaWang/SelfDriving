@@ -236,7 +236,8 @@ Solution MPC::Solve(Eigen::VectorXd state, Eigen::VectorXd coeffs) {
   // creates a 2 element double vector.
 
   Solution sol;
-  for (unsigned iS=0; iS<N-1; iS++){
+  unsigned iS;
+  for (iS=0; iS<N-1; iS++){
     sol.x.push_back(solution.x[x_start+1+iS]);
     sol.y.push_back(solution.x[y_start+1+iS]);
     sol.psi.push_back(solution.x[psi_start+1+iS]);
