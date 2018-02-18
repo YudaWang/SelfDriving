@@ -18,7 +18,7 @@ using namespace std;
 //
 // This is the length from front to CoG that has a similar radius.
 const double Lf = 2.67;
-const double ref_v = 30;
+const double ref_v = 50;
 
 // TODO: Set the timestep length and duration
 const size_t N = 10;
