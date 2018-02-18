@@ -147,21 +147,22 @@ int main() {
           double sum_cte = 0;
           double sum_epsi = 0;
           double sum_delta = 0;
-          for (unsigned iPsi=0; iPsi<int(sol.psi.size()/2); iPsi++){
+          int sol_spd_red_points = int(sol.psi.size()/2);
+          for (int iPsi=0; iPsi<sol_spd_red_points; iPsi++){
             sum_psi += fabs(sol.psi.at(iPsi));
             sum_cte += fabs(sol.cte.at(iPsi));
             sum_epsi += fabs(sol.cte.at(iPsi));
             sum_delta += fabs(sol.delta.at(iPsi));
           }
-          std::cout << "# of MPC ponits = " << sol.psi.size() << std::endl;////////////
+          std::cout << "# of MPC ponits = " << sol_spd_red_points << std::endl;////////////
           std::cout << "sum_psi = " << sum_psi << "\t"
                     << "sum_cte = " << sum_cte << "\t"
                     << "sum_epsi = " << sum_epsi << "\t"
                     << "sum_delta = " << sum_delta << std::endl;///////////////////
-          throttle_value -= P_gain_v_psi*fabs(sum_psi/sol.psi.size());
-          throttle_value -= P_gain_v_cte*fabs(sum_cte/sol.psi.size());
-          throttle_value -= P_gain_v_epsi*fabs(sum_epsi/sol.psi.size());
-          throttle_value -= P_gain_v_steer*fabs(sum_delta/sol.psi.size());
+          throttle_value -= P_gain_v_psi*fabs(sum_psi/sol_spd_red_points);
+          throttle_value -= P_gain_v_cte*fabs(sum_cte/sol_spd_red_points);
+          throttle_value -= P_gain_v_epsi*fabs(sum_epsi/sol_spd_red_points);
+          throttle_value -= P_gain_v_steer*fabs(sum_delta/sol_spd_red_points);
 
           json msgJson;
           // NOTE: Remember to divide by deg2rad(25) before you send the steering value back.
