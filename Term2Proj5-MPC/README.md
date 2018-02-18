@@ -23,6 +23,7 @@
 ### 2. Implementation
 
 #### The Model
+
 * The model starts with a car moving in the global coordinate with states: 
 - px: car x-position in global coordinate 
 - py: car y-position in global coordinate 
@@ -30,10 +31,13 @@
 - v: car velocity
 - cte: cross track error (Position.current - Position.target)
 - epsi: yaw angle error (Angle.current - Angle.target)
+
 * The model involves actuators:
 - delta: steering angle change
 - a: acceleration
+
 * The model use update equations:
+
 ```
 x_[t+1] = x[t] + v[t] * cos(psi[t]) * dt
 y_[t+1] = y[t] + v[t] * sin(psi[t]) * dt
