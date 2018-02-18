@@ -147,7 +147,7 @@ int main() {
           double sum_cte = 0;
           double sum_epsi = 0;
           double sum_delta = 0;
-          for (unsigned iPsi=0; iPsi<sol.psi.size(); iPsi++){
+          for (unsigned iPsi=0; iPsi<int(sol.psi.size()/2); iPsi++){
             sum_psi += fabs(sol.psi.at(iPsi));
             sum_cte += fabs(sol.cte.at(iPsi));
             sum_epsi += fabs(sol.cte.at(iPsi));
