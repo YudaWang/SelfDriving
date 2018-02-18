@@ -65,30 +65,33 @@ epsi[t+1] = psi[t] - psides[t] + v[t] * delta[t] * dt / Lf
 
 |       | dt=0.001  | dt=0.01   | dt=0.1     | p=1       |
 |-------|-----------|-----------|------------|-----------|
-|N=1    |         |      |     |           |
-|N=10   |         |         |         |           |
+|N=1    |    bad     |      |          |      bad     |
+|N=10   |         |  good    |  good    |           |
 |N=20   |         |         |       |           |
 |N=50   |      |      |        |         |
-|N=100  |         |         |       |           |
+|N=100  |  bad    |         |       |  bad     |
 
-* For intergral gain i, its value(i=0.0001) was optimized by a 1D scan with twiddle method when p and d values are close to optimization.
 
-* After optimization of steering angle PID parameters, throttle value has been constructed such that it becomes a P-only function of speed, angle and cte. Its parameters are tuned such that car will quickly reach top speed if not turning and cte is small. However, whenever car is in an angle or cte is large, throttle will decrease, where negative throttle corresponding to braking.
+#### Model Predictive Control with Latency &  Polynomial Fitting and MPC Preprocessing
+
+* After data fetched from simulator, latency was compromised by calculating the current car global location based on its position/speed received and amount of latency.
+
+* Then a coordinate transformation is performed to bring waypoints from global coordinate to car coordinate, using the latency corrected current car position.
+
+* Finally a polynomial fitting is performed so car-frame waypoint trajectory can be described by only 3 parameters.
 
 ![alt text][video3]
 
-### 3. Reflection
+#### MPC Processing & Final Speed Control
 
-* Proportional parameter works as expected: to directly correct the deviation towards the opposite direction. However, P-gain only will lead to oscillation of car in the controled dimension -- steering angle.
+* The MPC processing is optimized by tuning cost function equations and weights. The most critical one is steering smoothness, where a very large weight is applied to ensure vehicle not over-shooting.
+
+* Finally after MPC processing, throttle value will be optimized based on predicted path points cte, epsi, psi, delta to ensure car reduce its speed when off-trajectory or wheel-turning is currently happening or will happen in the next couple of steps.
+
+
+### 3. The vehicle must successfully drive a lap around the track.
+
+* Yes.
 
 ![alt text][video1]
 
-* Derivative parameter works as expected: when P corrects deviation, D will reduce the amount of correction based on deviation correction rate, so overshoot/over-correct will be prevented. That is why when P=5, large value D=100 gives a very insignificant overshooting driving behavior.
-
-![alt text][video2]
-
-* Integral parameter is supposed to correct any long term offset as an integration effect. Its effect is not obvious in the given simulator example, which might indicates the model car offset is not significant.
-
-### 4. Simulation
-
-* As show in the video above, the virtual car drive thru the entire track with acceptable performance at turns with P=2, I=0.0001, D=100.
