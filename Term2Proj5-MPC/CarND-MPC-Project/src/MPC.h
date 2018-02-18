@@ -21,7 +21,7 @@ const double Lf = 2.67;
 const double ref_v = 50;
 
 // TODO: Set the timestep length and duration
-const size_t N = 10;
+const size_t N = 20;
 const double dt = 0.05; 
 // too large N, dt cause total MPC range out of way point range, so out-of-range part get terrrible fit
 // too littl N, dt cause no prediction at all
