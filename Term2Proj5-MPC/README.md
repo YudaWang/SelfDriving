@@ -1,8 +1,8 @@
-# PID Project
+# MPC Project
 
 ## The goals / requirements of this project are:
 
-* Implement and optimize a PID controller at C++ environment.
+* Implement and optimize a MPC controller at C++ environment.
 
 [//]: # (Image References)
 [image1]: ./Compile.PNG
@@ -22,9 +22,29 @@
 
 ### 2. Implementation
 
-* Twiddle method was not directly used to find the best PID parameters since the iterative process was too slow.
+#### The Model
+* The model starts with a car moving in the global coordinate with states: 
+- px: car x-position in global coordinate 
+- py: car y-position in global coordinate 
+- psi: car yaw angle in standerd math format 
+- v: car velocity
+- cte: cross track error (Position.current - Position.target)
+- epsi: yaw angle error (Angle.current - Angle.target)
+* The model involves actuators:
+- delta: steering angle change
+- a: acceleration
+* The model use update equations:
+```
+x_[t+1] = x[t] + v[t] * cos(psi[t]) * dt
+y_[t+1] = y[t] + v[t] * sin(psi[t]) * dt
+psi_[t+1] = psi[t] + v[t] * delta[t] * dt / Lf
+v_[t+1] = v[t] + a[t] * dt
+cte[t+1] = y[t] - f(x[t]) + v[t] * sin(epsi[t]) * dt
+epsi[t+1] = psi[t] - psides[t] + v[t] * delta[t] * dt / Lf
 
-* 2D (Proportional gain as one dimension and Dirivative gain as another dimension, both in log scale) scan was used to find the global minimum of total driving error (sum of cte^2) in one track. Details shown below. Only p and d gains are optimized since i gain is usually very small value.
+```
+
+
 
 |       | p=1     | p=2     | p=5     | p=10      |
 |-------|---------|---------|---------|-----------|
