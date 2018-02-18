@@ -25,16 +25,21 @@
 #### The Model
 
 * The model starts with a car moving in the global coordinate with states: 
+
+```
 - px: car x-position in global coordinate 
 - py: car y-position in global coordinate 
 - psi: car yaw angle in standerd math format 
 - v: car velocity
 - cte: cross track error (Position.current - Position.target)
 - epsi: yaw angle error (Angle.current - Angle.target)
+```
 
 * The model involves actuators:
+```
 - delta: steering angle change
 - a: acceleration
+```
 
 * The model use update equations:
 
@@ -48,7 +53,8 @@ epsi[t+1] = psi[t] - psides[t] + v[t] * delta[t] * dt / Lf
 
 ```
 
-
+#### N / dt Picking Process
+*
 
 |       | p=1     | p=2     | p=5     | p=10      |
 |-------|---------|---------|---------|-----------|
