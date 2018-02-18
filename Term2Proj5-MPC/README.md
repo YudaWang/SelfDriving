@@ -27,18 +27,18 @@
 * The model starts with a car moving in the global coordinate with states: 
 
 ```
-- px: car x-position in global coordinate 
-- py: car y-position in global coordinate 
-- psi: car yaw angle in standerd math format 
-- v: car velocity
-- cte: cross track error (Position.current - Position.target)
-- epsi: yaw angle error (Angle.current - Angle.target)
+px: car x-position in global coordinate 
+py: car y-position in global coordinate 
+psi: car yaw angle in standerd math format 
+v: car velocity
+cte: cross track error (Position.current - Position.target)
+epsi: yaw angle error (Angle.current - Angle.target)
 ```
 
 * The model involves actuators:
 ```
-- delta: steering angle change
-- a: acceleration
+delta: steering angle change
+a: acceleration
 ```
 
 * The model use update equations:
@@ -54,16 +54,16 @@ epsi[t+1] = psi[t] - psides[t] + v[t] * delta[t] * dt / Lf
 ```
 
 #### N / dt Picking Process
-*
 
-|       | p=1     | p=2     | p=5     | p=10      |
-|-------|---------|---------|---------|-----------|
-|d=10   |         | 4000    |  10000  |           |
-|d=20   |         |         |         |           |
-|d=50   |         |         | 290     |           |
-|d=100  | 1090    |  433    | 207     |    400    |
-|d=200  |         |         | 215     |           |
-|d=500  |         | 570     |         |           |
+* N(from 1 to 100) and dt(0.001~1) has
+
+|       | dt=0.001  | dt=0.01   | dt=0.1     | p=1       |
+|-------|-----------|-----------|------------|-----------|
+|N=1    |         | 4000    |  10000  |           |
+|N=10   |         |         |         |           |
+|N=20   |         |         | 290     |           |
+|N=50   | 1090    |  433    | 207     |    400    |
+|N=100  |         |         | 215     |           |
 
 * For intergral gain i, its value(i=0.0001) was optimized by a 1D scan with twiddle method when p and d values are close to optimization.
 
