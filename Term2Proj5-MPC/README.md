@@ -6,9 +6,8 @@
 
 [//]: # (Image References)
 [image1]: ./Compile.PNG
-[video1]: ./P.gif
-[video2]: ./PID.gif
-[video3]: ./Braking.gif
+[image2]: ./NdtLargeOverShoot.PNG
+[video1]: ./CompleteTrack.gif
 
 ---
 
@@ -61,6 +60,8 @@ epsi[t+1] = psi[t] - psides[t] + v[t] * delta[t] * dt / Lf
 
 * When N or dt is very large, there will be a lot of prediction points (at the far side) well optimized to match waypoints so the algorithm is not doing very hard to compensate the prediction points that is close to car. So the current (first step) recommendation of actuator will not be best optimized as well, causing over-steering.
 
+![alt text][image2]
+
 * So I finally picked N / dt such that at nominal speed, all prediction points are always shorter than total waypoints and usually there are not too many prediction points very far from the car that are always close to the waypoints.
 
 |       | dt=0.001  | dt=0.01   | dt=0.1     | p=1       |
@@ -105,7 +106,6 @@ Eigen::VectorXd state(6);
 state << 0,0,0, v, cte, epsi;
 auto sol = mpc.Solve(state, coeffs);
 ```
-![alt text][video3]
 
 #### MPC Processing & Final Speed Control
 
