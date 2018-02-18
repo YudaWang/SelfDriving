@@ -55,15 +55,21 @@ epsi[t+1] = psi[t] - psides[t] + v[t] * delta[t] * dt / Lf
 
 #### N / dt Picking Process
 
-* N(from 1 to 100) and dt(0.001~1) has
+* N(from 1 to 100) and dt(0.001~1) has been tested and final value is optimized at N=10/dt=0.05
+
+* When N or dt is very small, there is not enough path prediction to optimized w.r.t. waypoints given. So the current(first step) recommendation of actuator will not be the best for next several steps, which caused vehicle over-steering.
+
+* When N or dt is very large, there will be a lot of prediction points (at the far side) well optimized to match waypoints so the algorithm is not doing very hard to compensate the prediction points that is close to car. So the current (first step) recommendation of actuator will not be best optimized as well, causing over-steering.
+
+* So I finally picked N / dt such that at nominal speed, all prediction points are always shorter than total waypoints and usually there are not too many prediction points very far from the car that are always close to the waypoints.
 
 |       | dt=0.001  | dt=0.01   | dt=0.1     | p=1       |
 |-------|-----------|-----------|------------|-----------|
-|N=1    |         | 4000    |  10000  |           |
+|N=1    |         |      |     |           |
 |N=10   |         |         |         |           |
-|N=20   |         |         | 290     |           |
-|N=50   | 1090    |  433    | 207     |    400    |
-|N=100  |         |         | 215     |           |
+|N=20   |         |         |       |           |
+|N=50   |      |      |        |         |
+|N=100  |         |         |       |           |
 
 * For intergral gain i, its value(i=0.0001) was optimized by a 1D scan with twiddle method when p and d values are close to optimization.
 
