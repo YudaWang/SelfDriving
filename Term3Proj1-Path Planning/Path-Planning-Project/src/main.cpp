@@ -245,7 +245,7 @@ int main() {
 
           	// TODO: define a path made up of (x,y) points that the car will visit sequentially every .02 seconds
           	
-          	double dist_inc = 0.2;
+          	double dist_inc = 0.1;
     		    for(int i = 0; i < 2; i++)
     		    {
     		          next_x_vals.push_back(car_x+(dist_inc*i)*cos(deg2rad(car_yaw)));
