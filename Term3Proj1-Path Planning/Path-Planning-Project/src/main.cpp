@@ -326,14 +326,14 @@ int main() {
               next_y_vals.push_back(previous_path_y[i]);
             }
 
-            double target_x = 30;
+            double target_x = 3;
             double target_y = s(target_x);
             double target_dist = sqrt(target_x*target_x + target_y*target_y);
             double x_add_on = 0;
             cout<<"target_dist = "<<target_dist<<endl;///////////////////
 
             // fill up path planner to 50 pts
-            for (int i = 1; i<= 50-previous_path_x.size(); i++)
+            for (int i = 1; i<= 10-previous_path_x.size(); i++)
             {
               double N = target_dist/(0.02*ref_vel)/2.24; // to convert mile/hr to m/s
               double x_point = x_add_on + target_x/N;
