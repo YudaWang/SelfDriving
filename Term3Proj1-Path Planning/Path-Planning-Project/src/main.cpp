@@ -226,7 +226,7 @@ int main() {
         
         if (event == "telemetry") {
           // j[1] is the data JSON object
-            cout<<"New Main Loop"; ///////////////////////////////
+            cout<<"New Main Loop"<<endl; ///////////////////////////////
         	// Main car's localization Data
           	double car_x = j[1]["x"];
           	double car_y = j[1]["y"];
@@ -247,6 +247,7 @@ int main() {
 
             // remaining steps previously didn't finish
             int prev_size = previous_path_y.size();
+            cout<<"previously didn't finished path size = "<<prev_size<<endl;/////////////////////////
 
             // original sparse (x,y) waypoint, which will be splined later
             vector<double> ptsx;
@@ -303,6 +304,7 @@ int main() {
             tk::spline s;
 
             s.set_points(ptsx, ptsy);
+            cout<<"spline : "<<endl; /////////////////////
 
 
 
@@ -311,7 +313,7 @@ int main() {
           	vector<double> next_x_vals;
           	vector<double> next_y_vals;
 
-            // add all left-ove(un-used) path points from last time
+            // add all left-over(un-used) path points from last time
             for(int i = 0; i < previous_path_x.size(); i++)
             {
               next_x_vals.push_back(previous_path_x[i]);
@@ -322,6 +324,7 @@ int main() {
             double target_y = s(target_x);
             double target_dist = sqrt(target_x*target_x + target_y*target_y);
             double x_add_on = 0;
+            cout<<"target_dist = "<<target_dist<<endl;///////////////////
 
             // fill up path planner to 50 pts
             for (int i = 1; i<= 50-previous_path_x.size(); i++)
