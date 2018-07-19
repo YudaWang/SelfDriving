@@ -226,7 +226,7 @@ int main() {
         
         if (event == "telemetry") {
           // j[1] is the data JSON object
-          
+            cout<<"New Main Loop"; ///////////////////////////////
         	// Main car's localization Data
           	double car_x = j[1]["x"];
           	double car_y = j[1]["y"];
