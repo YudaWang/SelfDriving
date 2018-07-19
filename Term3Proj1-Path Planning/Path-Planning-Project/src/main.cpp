@@ -226,13 +226,14 @@ int main() {
         
         if (event == "telemetry") {
           // j[1] is the data JSON object
-            cout<<"New Main Loop"<<endl; ///////////////////////////////
+            cout<<"New Main Loop Start ====================>"<<endl; ///////////////////////////////
         	// Main car's localization Data
           	double car_x = j[1]["x"];
           	double car_y = j[1]["y"];
           	double car_s = j[1]["s"];
           	double car_d = j[1]["d"];
-          	double car_yaw = j[1]["yaw"];
+          	double car_yaw = j[1]["yaw"]; //unit: deg
+            cout<<"car_yaw = "<<car_yaw<<endl;///////////////////////////////
           	double car_speed = j[1]["speed"];
 
           	// Previous path data given to the Planner
@@ -261,8 +262,8 @@ int main() {
             if(prev_size<2)
             {
               // two point path tangent to car
-              double prev_car_x = car_x - cos(car_yaw);
-              double prev_car_y = car_y - sin(car_yaw);
+              double prev_car_x = car_x - cos(ref_yaw);//car_yaw);/////////////////should use ref_yaw due to deg/rad
+              double prev_car_y = car_y - sin(ref_yaw);//car_yaw);/////////////////
 
               ptsx.push_back(prev_car_x);
               ptsx.push_back(car_x);
@@ -281,7 +282,7 @@ int main() {
               ptsx.push_back(ref_x_prev); ptsx.push_back(ref_x);
               ptsy.push_back(ref_y_prev); ptsy.push_back(ref_y);
             }
-
+            cout<<"ref_yaw = "<<ref_yaw<<endl;////////////////////////
             // add 3 more points far ahead
             vector<double> next_wp0 = getXY(car_s+30, (2+4*lane), map_waypoints_s, map_waypoints_x, map_waypoints_y);
             vector<double> next_wp1 = getXY(car_s+60, (2+4*lane), map_waypoints_s, map_waypoints_x, map_waypoints_y);
@@ -289,6 +290,9 @@ int main() {
 
             ptsx.push_back(next_wp0[0]); ptsx.push_back(next_wp1[0]); ptsx.push_back(next_wp2[0]);
             ptsy.push_back(next_wp0[1]); ptsy.push_back(next_wp1[1]); ptsy.push_back(next_wp2[1]);
+            
+            cout<<"ptsx="<<ptsx<<endl;/////////////////////////
+            cout<<"ptsy="<<ptsy<<endl;/////////////////////////
 
             // transform all pts to car reference frame
             for (int i = 0; i<ptsx.size(); i++)
@@ -296,9 +300,11 @@ int main() {
               double shift_x = ptsx[i]-ref_x;
               double shift_y = ptsy[i]-ref_y;
 
-              ptsx[i] = shift_x*cos(0-ref_yaw) - shift_y*sin(0-ref_yaw);
-              ptsy[i] = shift_x*sin(0-ref_yaw) + shift_y*cos(0-ref_yaw);
+              ptsx[i] = shift_x*cos(0-ref_yaw) - shift_y*sin(0-ref_yaw);////////////////
+              ptsy[i] = shift_x*sin(0-ref_yaw) + shift_y*cos(0-ref_yaw);////////////////
             }
+            cout<<"ptsx[car_frame]="<<ptsx<<endl;/////////////////////////
+            cout<<"ptsy[car_frame]="<<ptsy<<endl;/////////////////////////
 
             // create spline
             tk::spline s;
