@@ -303,8 +303,8 @@ int main() {
               ptsx[i] = shift_x*cos(0-ref_yaw) - shift_y*sin(0-ref_yaw);////////////////
               ptsy[i] = shift_x*sin(0-ref_yaw) + shift_y*cos(0-ref_yaw);////////////////
             }
-            cout<<"ptsx[car_frame]="<<ptsx[0]<<"\t"<<ptsx[1]<<"\t"<<ptsx[2]<<"\t...\t"<<ptsx[ptsx.size()-3]<<"\t"<<ptsx[ptsx.size()-2]<<"\t"<<ptsx[ptsx.size()-1]<<endl;/////////////////////////
-            cout<<"ptsy[car_frame]="<<ptsy[0]<<"\t"<<ptsy[1]<<"\t"<<ptsy[2]<<"\t...\t"<<ptsy[ptsx.size()-3]<<"\t"<<ptsy[ptsx.size()-2]<<"\t"<<ptsy[ptsx.size()-1]<<endl;/////////////////////////
+            cout<<"ptsx[car frame]="<<ptsx[0]<<"\t"<<ptsx[1]<<"\t"<<ptsx[2]<<"\t"<<ptsx[3]<<"\t"<<ptsx[4]<<endl;/////////////////////////
+            cout<<"ptsy[car frame]="<<ptsy[0]<<"\t"<<ptsy[1]<<"\t"<<ptsy[2]<<"\t"<<ptsy[3]<<"\t"<<ptsy[4]<<endl;/////////////////////////
 
             // create spline
             tk::spline s;
@@ -354,6 +354,9 @@ int main() {
               next_x_vals.push_back(x_point);
               next_y_vals.push_back(y_point);
             }
+
+            cout<<"next_x="<<next_x_vals[0]<<"\t"<<next_x_vals[1]<<"\t"<<next_x_vals[2]<<"\t...\t"<<next_x_vals[next_x_vals.size()-3]<<"\t"<<next_x_vals[next_x_vals.size()-2]<<"\t"<<next_x_vals[next_x_vals.size()-1]<<endl;/////////////////////////
+            cout<<"next_y="<<next_y_vals[0]<<"\t"<<next_y_vals[1]<<"\t"<<next_y_vals[2]<<"\t...\t"<<next_y_vals[next_y_vals.size()-3]<<"\t"<<next_y_vals[next_y_vals.size()-2]<<"\t"<<next_y_vals[next_y_vals.size()-1]<<endl;/////////////////////////
 
           	// TODO: define a path made up of (x,y) points that the car will visit sequentially every .02 seconds
           	// double dist_inc = 0.1;
