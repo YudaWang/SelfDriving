@@ -284,9 +284,9 @@ int main() {
             }
             cout<<"ref_yaw = "<<ref_yaw<<endl;////////////////////////
             // add 3 more points far ahead
-            vector<double> next_wp0 = getXY(car_s+3, (2+4*lane), map_waypoints_s, map_waypoints_x, map_waypoints_y);
-            vector<double> next_wp1 = getXY(car_s+6, (2+4*lane), map_waypoints_s, map_waypoints_x, map_waypoints_y);
-            vector<double> next_wp2 = getXY(car_s+9, (2+4*lane), map_waypoints_s, map_waypoints_x, map_waypoints_y);
+            vector<double> next_wp0 = getXY(car_s+30, (2+4*lane), map_waypoints_s, map_waypoints_x, map_waypoints_y);
+            vector<double> next_wp1 = getXY(car_s+60, (2+4*lane), map_waypoints_s, map_waypoints_x, map_waypoints_y);
+            vector<double> next_wp2 = getXY(car_s+90, (2+4*lane), map_waypoints_s, map_waypoints_x, map_waypoints_y);
 
             ptsx.push_back(next_wp0[0]); ptsx.push_back(next_wp1[0]); ptsx.push_back(next_wp2[0]);
             ptsy.push_back(next_wp0[1]); ptsy.push_back(next_wp1[1]); ptsy.push_back(next_wp2[1]);
@@ -303,8 +303,8 @@ int main() {
               ptsx[i] = shift_x*cos(0-ref_yaw) - shift_y*sin(0-ref_yaw);////////////////
               ptsy[i] = shift_x*sin(0-ref_yaw) + shift_y*cos(0-ref_yaw);////////////////
             }
-            cout<<"ptsx[car_frame]="<<ptsx[0]<<"\t"<<ptsx[1]<<"\t"<<ptsx[2]<<"\t..."<<ptsx[ptsx.size()-3]<<"\t"<<ptsx[ptsx.size()-2]<<"\t"<<ptsx[ptsx.size()-1]<<endl;/////////////////////////
-            cout<<"ptsy[car_frame]="<<ptsy[0]<<"\t"<<ptsy[1]<<"\t"<<ptsy[2]<<"\t..."<<ptsy[ptsx.size()-3]<<"\t"<<ptsy[ptsx.size()-2]<<"\t"<<ptsy[ptsx.size()-1]<<endl;/////////////////////////
+            cout<<"ptsx[car_frame]="<<ptsx[0]<<"\t"<<ptsx[1]<<"\t"<<ptsx[2]<<"\t...\t"<<ptsx[ptsx.size()-3]<<"\t"<<ptsx[ptsx.size()-2]<<"\t"<<ptsx[ptsx.size()-1]<<endl;/////////////////////////
+            cout<<"ptsy[car_frame]="<<ptsy[0]<<"\t"<<ptsy[1]<<"\t"<<ptsy[2]<<"\t...\t"<<ptsy[ptsx.size()-3]<<"\t"<<ptsy[ptsx.size()-2]<<"\t"<<ptsy[ptsx.size()-1]<<endl;/////////////////////////
 
             // create spline
             tk::spline s;
@@ -326,14 +326,14 @@ int main() {
               next_y_vals.push_back(previous_path_y[i]);
             }
 
-            double target_x = 3;
+            double target_x = 30;
             double target_y = s(target_x);
             double target_dist = sqrt(target_x*target_x + target_y*target_y);
             double x_add_on = 0;
-            cout<<"target_dist = "<<target_dist<<endl;///////////////////
+            cout<<"target_y = "<<target_y<<"\t"<<"target_dist = "<<target_dist<<endl;///////////////////
 
             // fill up path planner to 50 pts
-            for (int i = 1; i<= 10-previous_path_x.size(); i++)
+            for (int i = 1; i<= 50-previous_path_x.size(); i++)
             {
               double N = target_dist/(0.02*ref_vel)/2.24; // to convert mile/hr to m/s
               double x_point = x_add_on + target_x/N;
