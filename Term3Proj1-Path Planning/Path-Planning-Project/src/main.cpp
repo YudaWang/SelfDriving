@@ -291,8 +291,8 @@ int main() {
             ptsx.push_back(next_wp0[0]); ptsx.push_back(next_wp1[0]); ptsx.push_back(next_wp2[0]);
             ptsy.push_back(next_wp0[1]); ptsy.push_back(next_wp1[1]); ptsy.push_back(next_wp2[1]);
             
-            cout<<"ptsx="<<ptsx[0]<<"\t"<<ptsx[1]<<"\t"<<ptsx[2]<<endl;/////////////////////////
-            cout<<"ptsy="<<ptsy[0]<<"\t"<<ptsy[1]<<"\t"<<ptsy[2]<<endl;/////////////////////////
+            cout<<"ptsx="<<ptsx[0]<<"\t"<<ptsx[1]<<"\t"<<ptsx[2]<<"\t"<<ptsx[3]<<"\t"<<ptsx[4]<<endl;/////////////////////////
+            cout<<"ptsy="<<ptsy[0]<<"\t"<<ptsy[1]<<"\t"<<ptsy[2]<<"\t"<<ptsy[3]<<"\t"<<ptsy[4]<<endl;/////////////////////////
 
             // transform all pts to car reference frame
             for (int i = 0; i<ptsx.size(); i++)
@@ -303,8 +303,8 @@ int main() {
               ptsx[i] = shift_x*cos(0-ref_yaw) - shift_y*sin(0-ref_yaw);////////////////
               ptsy[i] = shift_x*sin(0-ref_yaw) + shift_y*cos(0-ref_yaw);////////////////
             }
-            cout<<"ptsx[car_frame]="<<ptsx[0]<<"\t"<<ptsx[1]<<"\t"<<ptsx[2]<<endl;/////////////////////////
-            cout<<"ptsy[car_frame]="<<ptsy[0]<<"\t"<<ptsy[1]<<"\t"<<ptsy[2]<<endl;/////////////////////////
+            cout<<"ptsx[car_frame]="<<ptsx[0]<<"\t"<<ptsx[1]<<"\t"<<ptsx[2]<<"\t..."<<ptsx[ptsx.size()-3]<<"\t"<<ptsx[ptsx.size()-2]<<"\t"<<ptsx[ptsx.size()-1]<<endl;/////////////////////////
+            cout<<"ptsy[car_frame]="<<ptsy[0]<<"\t"<<ptsy[1]<<"\t"<<ptsy[2]<<"\t..."<<ptsy[ptsx.size()-3]<<"\t"<<ptsy[ptsx.size()-2]<<"\t"<<ptsy[ptsx.size()-1]<<endl;/////////////////////////
 
             // create spline
             tk::spline s;
