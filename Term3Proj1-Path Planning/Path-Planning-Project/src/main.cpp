@@ -335,7 +335,7 @@ int main() {
             // fill up path planner to 50 pts
             for (int i = 1; i<= 50-previous_path_x.size(); i++)
             {
-              double N = target_dist/(0.02*ref_vel)/2.24; // to convert mile/hr to m/s
+              double N = target_dist/(0.02*ref_vel/2.24); // to convert mile/hr to m/s
               double x_point = x_add_on + target_x/N;
               double y_point = s(x_point);
 
