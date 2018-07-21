@@ -275,10 +275,15 @@ int main() {
             }
 
             // gradually increse/decrease velocity
-            if (too_close){
-              ref_vel -= .224;
-            }else if (ref_vel<49.5){
-              ref_vel += .224;
+            // if (too_close){
+            //   ref_vel -= .224;
+            // }else if (ref_vel<49.5){
+            //   ref_vel += .224;
+            // }
+
+            // shift a lane
+            if(too_close){
+              lane =0;
             }
 
             // original sparse (x,y) waypoint, which will be splined later
