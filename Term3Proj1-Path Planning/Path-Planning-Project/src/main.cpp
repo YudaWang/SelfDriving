@@ -206,7 +206,7 @@ int main() {
   int lane = 1;
 
   // referecne velocity
-  double ref_vel = 0;
+  double ref_vel = 49.5;
 
   h.onMessage([&ref_vel,&lane,&map_waypoints_x,&map_waypoints_y,&map_waypoints_s,&map_waypoints_dx,&map_waypoints_dy](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length,
                      uWS::OpCode opCode) {
@@ -226,14 +226,14 @@ int main() {
         
         if (event == "telemetry") {
           // j[1] is the data JSON object
-            cout<<"New Main Loop Start ====================>"<<endl; ///////////////////////////////
+            // cout<<"New Main Loop Start ====================>"<<endl; ///////////////////////////////
         	// Main car's localization Data
           	double car_x = j[1]["x"];
           	double car_y = j[1]["y"];
           	double car_s = j[1]["s"];
           	double car_d = j[1]["d"];
           	double car_yaw = j[1]["yaw"]; //unit: deg
-            cout<<"car_yaw = "<<car_yaw<<endl;///////////////////////////////
+            // cout<<"car_yaw = "<<car_yaw<<endl;///////////////////////////////
           	double car_speed = j[1]["speed"];
 
           	// Previous path data given to the Planner
@@ -248,7 +248,7 @@ int main() {
 
             // remaining steps previously didn't finish
             int prev_size = previous_path_y.size();
-            cout<<"previously didn't finished path size = "<<prev_size<<endl;/////////////////////////
+            // cout<<"previously didn't finished path size = "<<prev_size<<endl;/////////////////////////
 
             if(prev_size>0){
               car_s = end_path_s;
@@ -318,7 +318,7 @@ int main() {
               ptsx.push_back(ref_x_prev); ptsx.push_back(ref_x);
               ptsy.push_back(ref_y_prev); ptsy.push_back(ref_y);
             }
-            cout<<"ref_yaw = "<<ref_yaw<<endl;////////////////////////
+            // cout<<"ref_yaw = "<<ref_yaw<<endl;////////////////////////
             // add 3 more points far ahead
             vector<double> next_wp0 = getXY(car_s+30, (2+4*lane), map_waypoints_s, map_waypoints_x, map_waypoints_y);
             vector<double> next_wp1 = getXY(car_s+60, (2+4*lane), map_waypoints_s, map_waypoints_x, map_waypoints_y);
@@ -327,8 +327,8 @@ int main() {
             ptsx.push_back(next_wp0[0]); ptsx.push_back(next_wp1[0]); ptsx.push_back(next_wp2[0]);
             ptsy.push_back(next_wp0[1]); ptsy.push_back(next_wp1[1]); ptsy.push_back(next_wp2[1]);
             
-            cout<<"ptsx="<<ptsx[0]<<"\t"<<ptsx[1]<<"\t"<<ptsx[2]<<"\t"<<ptsx[3]<<"\t"<<ptsx[4]<<endl;/////////////////////////
-            cout<<"ptsy="<<ptsy[0]<<"\t"<<ptsy[1]<<"\t"<<ptsy[2]<<"\t"<<ptsy[3]<<"\t"<<ptsy[4]<<endl;/////////////////////////
+            // cout<<"ptsx="<<ptsx[0]<<"\t"<<ptsx[1]<<"\t"<<ptsx[2]<<"\t"<<ptsx[3]<<"\t"<<ptsx[4]<<endl;/////////////////////////
+            // cout<<"ptsy="<<ptsy[0]<<"\t"<<ptsy[1]<<"\t"<<ptsy[2]<<"\t"<<ptsy[3]<<"\t"<<ptsy[4]<<endl;/////////////////////////
 
             // transform all pts to car reference frame
             for (int i = 0; i<ptsx.size(); i++)
@@ -339,14 +339,14 @@ int main() {
               ptsx[i] = shift_x*cos(0-ref_yaw) - shift_y*sin(0-ref_yaw);////////////////
               ptsy[i] = shift_x*sin(0-ref_yaw) + shift_y*cos(0-ref_yaw);////////////////
             }
-            cout<<"ptsx[car frame]="<<ptsx[0]<<"\t"<<ptsx[1]<<"\t"<<ptsx[2]<<"\t"<<ptsx[3]<<"\t"<<ptsx[4]<<endl;/////////////////////////
-            cout<<"ptsy[car frame]="<<ptsy[0]<<"\t"<<ptsy[1]<<"\t"<<ptsy[2]<<"\t"<<ptsy[3]<<"\t"<<ptsy[4]<<endl;/////////////////////////
+            // cout<<"ptsx[car frame]="<<ptsx[0]<<"\t"<<ptsx[1]<<"\t"<<ptsx[2]<<"\t"<<ptsx[3]<<"\t"<<ptsx[4]<<endl;/////////////////////////
+            // cout<<"ptsy[car frame]="<<ptsy[0]<<"\t"<<ptsy[1]<<"\t"<<ptsy[2]<<"\t"<<ptsy[3]<<"\t"<<ptsy[4]<<endl;/////////////////////////
 
             // create spline
             tk::spline s;
 
             s.set_points(ptsx, ptsy);
-            cout<<"spline : "<<endl; /////////////////////
+            // cout<<"spline : "<<endl; /////////////////////
 
 
 
@@ -366,7 +366,7 @@ int main() {
             double target_y = s(target_x);
             double target_dist = sqrt(target_x*target_x + target_y*target_y);
             double x_add_on = 0;
-            cout<<"target_y = "<<target_y<<"\t"<<"target_dist = "<<target_dist<<endl;///////////////////
+            // cout<<"target_y = "<<target_y<<"\t"<<"target_dist = "<<target_dist<<endl;///////////////////
 
             // fill up path planner to 50 pts
             for (int i = 1; i<= 50-previous_path_x.size(); i++)
@@ -391,8 +391,8 @@ int main() {
               next_y_vals.push_back(y_point);
             }
 
-            cout<<"next_x="<<next_x_vals[0]<<"\t"<<next_x_vals[1]<<"\t"<<next_x_vals[2]<<"\t...\t"<<next_x_vals[next_x_vals.size()-3]<<"\t"<<next_x_vals[next_x_vals.size()-2]<<"\t"<<next_x_vals[next_x_vals.size()-1]<<endl;/////////////////////////
-            cout<<"next_y="<<next_y_vals[0]<<"\t"<<next_y_vals[1]<<"\t"<<next_y_vals[2]<<"\t...\t"<<next_y_vals[next_y_vals.size()-3]<<"\t"<<next_y_vals[next_y_vals.size()-2]<<"\t"<<next_y_vals[next_y_vals.size()-1]<<endl;/////////////////////////
+            // cout<<"next_x="<<next_x_vals[0]<<"\t"<<next_x_vals[1]<<"\t"<<next_x_vals[2]<<"\t...\t"<<next_x_vals[next_x_vals.size()-3]<<"\t"<<next_x_vals[next_x_vals.size()-2]<<"\t"<<next_x_vals[next_x_vals.size()-1]<<endl;/////////////////////////
+            // cout<<"next_y="<<next_y_vals[0]<<"\t"<<next_y_vals[1]<<"\t"<<next_y_vals[2]<<"\t...\t"<<next_y_vals[next_y_vals.size()-3]<<"\t"<<next_y_vals[next_y_vals.size()-2]<<"\t"<<next_y_vals[next_y_vals.size()-1]<<endl;/////////////////////////
 
           	// TODO: define a path made up of (x,y) points that the car will visit sequentially every .02 seconds
           	// double dist_inc = 0.1;
