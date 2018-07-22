@@ -206,7 +206,7 @@ int main() {
   int lane = 1;
 
   // referecne velocity
-  double ref_vel = 49.5;
+  double ref_vel = 0;
 
   h.onMessage([&ref_vel,&lane,&map_waypoints_x,&map_waypoints_y,&map_waypoints_s,&map_waypoints_dx,&map_waypoints_dy](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length,
                      uWS::OpCode opCode) {
@@ -308,9 +308,17 @@ int main() {
             if (too_close && too_close_left && too_close_right){
               ref_vel -= .224;
             }else if(too_close && too_close_right){
-              lane -= 1;
+              if(lane>0){
+                lane -= 1;
+              }else{
+                ref_vel -= .224;
+              }
             }else if(too_close && too_close_left){
-              lane += 1;
+              if(lane<2){
+                lane += 1;
+              }else{
+                ref_vel -= .224;
+              }
             }else if (ref_vel<49.5){
               ref_vel += .224;
             }
