@@ -294,42 +294,26 @@ int main() {
             }
 
             // gradually increse/decrease velocity while no lane change needed
-            double chg_lane_vel = 49.9;
             if (too_close && too_close_left && too_close_right){
               ref_vel -= .224;
             }else if(too_close && too_close_right){
               if(lane>0){
-                if(ref_vel<chg_lane_vel){
-                  lane -= 1;
-                }else{
-                  ref_vel -= .224;
-                }
+                lane -= 1;
               }else{
                 ref_vel -= .224;
               }
             }else if(too_close && too_close_left){
               if(lane<2){
-                if(ref_vel<chg_lane_vel){
-                  lane += 1;
-                }else{
-                  ref_vel -= .224;
-                }
+                lane += 1;
               }else{
                 ref_vel -= .224;
               }
             }else if (too_close){
               if(lane==0){
-                if(ref_vel<chg_lane_vel){
-                  lane += 1;
-                }else{
-                  ref_vel -= .224;
-                }
-              }else if(lane>0){
-                if(ref_vel<chg_lane_vel){
-                  lane -= 1;
-                }else{
-                  ref_vel -= .224;
-                }
+                lane += 1;
+              }else{
+                lane -= 1;
+              }
             }else if (ref_vel<49.5){
               ref_vel += .224;
             }
