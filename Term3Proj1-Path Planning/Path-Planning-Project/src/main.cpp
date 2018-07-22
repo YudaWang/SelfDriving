@@ -255,6 +255,8 @@ int main() {
             }
 
             bool too_close = false;
+            bool too_close_left = false;
+            bool too_close_right = false;
 
             for(int i=0; i<sensor_fusion.size(); i++){
               //if car in my lane
@@ -271,20 +273,48 @@ int main() {
                   // ref_vel = 29.5;
                   too_close = true;
                 }
+              }else if(d<(2+4*(lane-1)+2) && d>(2+4*(lane-1)-2)){ // judge if the car at left lane will be too close
+                double vx = sensor_fusion[i][3];
+                double vy = sensor_fusion[i][4];
+                double check_speed = sqrt(vx*vx+vy*vy);
+                double check_car_s = sensor_fusion[i][5];
+
+                check_car_s += prev_size*0.02*check_speed;
+
+                if(check_car_s-car_s>0 && check_car_s-car_s<30){ // if potential collision
+                  // ref_vel = 29.5;
+                  too_close_left = true;
+                }else if(check_car_s-car_s<0 && check_car_s-car_s>-30){
+                  too_close_left = true;
+                }
+              }else if(d<(2+4*(lane+1)+2) && d>(2+4*(lane+1)-2)){ // judge if the car at right lane will be too close
+                double vx = sensor_fusion[i][3];
+                double vy = sensor_fusion[i][4];
+                double check_speed = sqrt(vx*vx+vy*vy);
+                double check_car_s = sensor_fusion[i][5];
+
+                check_car_s += prev_size*0.02*check_speed;
+
+                if(check_car_s-car_s>0 && check_car_s-car_s<30){ // if potential collision
+                  // ref_vel = 29.5;
+                  too_close_right = true;
+                }else if(check_car_s-car_s<0 && check_car_s-car_s>-30){
+                  too_close_right = true;
+                }
               }
             }
 
-            // gradually increse/decrease velocity
-            // if (too_close){
-            //   ref_vel -= .224;
-            // }else if (ref_vel<49.5){
-            //   ref_vel += .224;
-            // }
-
-            // shift a lane
-            if(too_close){
-              lane =0;
+            // gradually increse/decrease velocity while no lane change needed
+            if (too_close && too_close_left && too_close_right){
+              ref_vel -= .224;
+            }else if(too_close && too_close_right){
+              lane -= 1;
+            }else if(too_close && too_close_left){
+              lane += 1;
+            }else if (ref_vel<49.5){
+              ref_vel += .224;
             }
+
 
             // original sparse (x,y) waypoint, which will be splined later
             vector<double> ptsx;
