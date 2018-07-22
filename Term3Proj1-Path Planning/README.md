@@ -1,13 +1,12 @@
-# MPC Project
+# Path Planning Project
 
 ## The goals / requirements of this project are:
 
-* Implement and optimize a MPC controller at C++ environment.
+* Design a path planner that is able to create smooth, safe paths for the car to follow along a 3 lane highway with traffic.
 
 [//]: # (Image References)
-[image1]: ./Compile.PNG
-[image2]: ./NdtLargeOverShoot.PNG
-[video1]: ./Completed.gif
+[image1]: ./4p77MilesPassing.PNG
+[video1]: ./1lap16x.gif
 
 ---
 
