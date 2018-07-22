@@ -266,7 +266,7 @@ int main() {
                 double vy = sensor_fusion[i][4];
                 double check_speed = sqrt(vx*vx+vy*vy);
                 double check_car_s = sensor_fusion[i][5];
-                check_end_path_s = check_car_s + prev_size*0.02*check_speed;
+                double check_end_path_s = check_car_s + prev_size*0.02*check_speed;
                 if(check_end_path_s-end_path_s>0 && check_end_path_s-end_path_s<30){ // if potential collisio
                   too_close = true;
                 }else if(check_car_s-car_s>0 && check_car_s-car_s<30){
@@ -277,7 +277,7 @@ int main() {
                 double vy = sensor_fusion[i][4];
                 double check_speed = sqrt(vx*vx+vy*vy);
                 double check_car_s = sensor_fusion[i][5];
-                check_end_path_s = check_car_s + prev_size*0.02*check_speed;
+                double check_end_path_s = check_car_s + prev_size*0.02*check_speed;
                 if(check_end_path_s-end_path_s>-30 && check_end_path_s-end_path_s<30){ // if potential collision
                   too_close_left = true;
                 }
@@ -286,7 +286,7 @@ int main() {
                 double vy = sensor_fusion[i][4];
                 double check_speed = sqrt(vx*vx+vy*vy);
                 double check_car_s = sensor_fusion[i][5];
-                check_end_path_s = check_car_s + prev_size*0.02*check_speed;
+                double check_end_path_s = check_car_s + prev_size*0.02*check_speed;
                 if(check_end_path_s-end_path_s>-30 && check_end_path_s-end_path_s<30){ // if potential collision
                   too_close_right = true;
                 }
