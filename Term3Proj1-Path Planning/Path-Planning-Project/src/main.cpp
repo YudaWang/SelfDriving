@@ -298,21 +298,23 @@ int main() {
               ref_vel -= .224;
             }else if(too_close && too_close_right){
               if(lane>0){
-                lane -= 1;
+                if(ref_vel<29.5) lane -= 1;
               }else{
                 ref_vel -= .224;
               }
             }else if(too_close && too_close_left){
               if(lane<2){
-                lane += 1;
+                if(ref_vel<29.5) lane += 1;
               }else{
                 ref_vel -= .224;
               }
             }else if (too_close){
               if(lane==0){
-                lane += 1;
+                if(ref_vel<29.5) lane += 1;
+              }else if(lane>0){
+                if(ref_vel<29.5) lane -= 1;
               }else{
-                lane -= 1;
+                ref_vel -= .224;
               }
             }else if (ref_vel<49.5){
               ref_vel += .224;
