@@ -250,8 +250,8 @@ int main() {
             int prev_size = previous_path_y.size();
             // cout<<"previously didn't finished path size = "<<prev_size<<endl;/////////////////////////
 
-            if(prev_size>0){
-              car_s = end_path_s;
+            if(prev_size==0){
+              end_path_s = car_s;
             }
 
             bool too_close = false;
@@ -266,29 +266,28 @@ int main() {
                 double vy = sensor_fusion[i][4];
                 double check_speed = sqrt(vx*vx+vy*vy);
                 double check_car_s = sensor_fusion[i][5];
-
-                check_car_s += prev_size*0.02*check_speed;
-                if(check_car_s-car_s>0 && check_car_s-car_s<30){ // if potential collisio
+                check_end_path_s = check_car_s + prev_size*0.02*check_speed;
+                if(check_end_path_s-end_path_s>0 && check_end_path_s-end_path_s<30){ // if potential collisio
+                  too_close = true;
+                }else if(check_car_s-car_s>0 && check_car_s-car_s<30){
                   too_close = true;
                 }
-              }else if(d<(2+4*(lane-1)+2) && d>(2+4*(lane-1)-2)){ // judge if the car at left lane will be too close
+              }else if(lane>0 && d<(2+4*(lane-1)+2) && d>(2+4*(lane-1)-2)){ // judge if the car at left lane will be too close
                 double vx = sensor_fusion[i][3];
                 double vy = sensor_fusion[i][4];
                 double check_speed = sqrt(vx*vx+vy*vy);
                 double check_car_s = sensor_fusion[i][5];
-
-                check_car_s += prev_size*0.02*check_speed;
-                if(check_car_s-car_s>-30 && check_car_s-car_s<30){ // if potential collision
+                check_end_path_s = check_car_s + prev_size*0.02*check_speed;
+                if(check_end_path_s-end_path_s>-30 && check_end_path_s-end_path_s<30){ // if potential collision
                   too_close_left = true;
                 }
-              }else if(d<(2+4*(lane+1)+2) && d>(2+4*(lane+1)-2)){ // judge if the car at right lane will be too close
+              }else if(lane<2 && d<(2+4*(lane+1)+2) && d>(2+4*(lane+1)-2)){ // judge if the car at right lane will be too close
                 double vx = sensor_fusion[i][3];
                 double vy = sensor_fusion[i][4];
                 double check_speed = sqrt(vx*vx+vy*vy);
                 double check_car_s = sensor_fusion[i][5];
-
-                check_car_s += prev_size*0.02*check_speed;
-                if(check_car_s-car_s>-30 && check_car_s-car_s<30){ // if potential collision
+                check_end_path_s = check_car_s + prev_size*0.02*check_speed;
+                if(check_end_path_s-end_path_s>-30 && check_end_path_s-end_path_s<30){ // if potential collision
                   too_close_right = true;
                 }
               }
