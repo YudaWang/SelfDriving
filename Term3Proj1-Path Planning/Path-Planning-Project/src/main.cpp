@@ -308,6 +308,12 @@ int main() {
               }else{
                 ref_vel -= .224;
               }
+            }else if (too_close){
+              if(lane==0){
+                lane += 1;
+              }else{
+                lane -= 1;
+              }
             }else if (ref_vel<49.5){
               ref_vel += .224;
             }
