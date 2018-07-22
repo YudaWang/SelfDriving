@@ -14,11 +14,9 @@
 
 ### 1. Compilation
 
-![alt text][image1]
-
 * C++ scripts are compilable and executable to run simulator.
 
-### 2. Implementation
+### 2. Valid Trajectories
 
 #### The Model
 
