@@ -278,7 +278,7 @@ int main() {
                 double check_speed = sqrt(vx*vx+vy*vy);
                 double check_car_s = sensor_fusion[i][5];
                 double check_end_path_s = check_car_s + prev_size*0.02*check_speed;
-                if(check_end_path_s-end_path_s>-30 && check_end_path_s-end_path_s<30){ // if potential collision
+                if(check_end_path_s-end_path_s>-3 && check_end_path_s-end_path_s<30){ // if potential collision
                   too_close_left = true;
                 }
               }else if(lane<2 && d<(2+4*(lane+1)+2) && d>(2+4*(lane+1)-2)){ // judge if the car at right lane will be too close
@@ -287,7 +287,7 @@ int main() {
                 double check_speed = sqrt(vx*vx+vy*vy);
                 double check_car_s = sensor_fusion[i][5];
                 double check_end_path_s = check_car_s + prev_size*0.02*check_speed;
-                if(check_end_path_s-end_path_s>-30 && check_end_path_s-end_path_s<30){ // if potential collision
+                if(check_end_path_s-end_path_s>-3 && check_end_path_s-end_path_s<30){ // if potential collision
                   too_close_right = true;
                 }
               }
