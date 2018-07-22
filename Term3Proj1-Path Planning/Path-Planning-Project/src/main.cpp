@@ -278,7 +278,7 @@ int main() {
                 double check_speed = sqrt(vx*vx+vy*vy);
                 double check_car_s = sensor_fusion[i][5];
                 double check_end_path_s = check_car_s + prev_size*0.02*check_speed;
-                if(check_end_path_s-end_path_s>-3 && check_end_path_s-end_path_s<30){ // if potential collision
+                if(check_end_path_s-end_path_s>-10 && check_end_path_s-end_path_s<30){ // if potential collision
                   too_close_left = true;
                 }
               }else if(lane<2 && d<(2+4*(lane+1)+2) && d>(2+4*(lane+1)-2)){ // judge if the car at right lane will be too close
@@ -287,7 +287,7 @@ int main() {
                 double check_speed = sqrt(vx*vx+vy*vy);
                 double check_car_s = sensor_fusion[i][5];
                 double check_end_path_s = check_car_s + prev_size*0.02*check_speed;
-                if(check_end_path_s-end_path_s>-3 && check_end_path_s-end_path_s<30){ // if potential collision
+                if(check_end_path_s-end_path_s>-10 && check_end_path_s-end_path_s<30){ // if potential collision
                   too_close_right = true;
                 }
               }
@@ -353,9 +353,9 @@ int main() {
             }
             // cout<<"ref_yaw = "<<ref_yaw<<endl;////////////////////////
             // add 3 more points far ahead
-            vector<double> next_wp0 = getXY(car_s+30, (2+4*lane), map_waypoints_s, map_waypoints_x, map_waypoints_y);
-            vector<double> next_wp1 = getXY(car_s+60, (2+4*lane), map_waypoints_s, map_waypoints_x, map_waypoints_y);
-            vector<double> next_wp2 = getXY(car_s+90, (2+4*lane), map_waypoints_s, map_waypoints_x, map_waypoints_y);
+            vector<double> next_wp0 = getXY(end_path_s+30, (2+4*lane), map_waypoints_s, map_waypoints_x, map_waypoints_y);
+            vector<double> next_wp1 = getXY(end_path_s+60, (2+4*lane), map_waypoints_s, map_waypoints_x, map_waypoints_y);
+            vector<double> next_wp2 = getXY(end_path_s+90, (2+4*lane), map_waypoints_s, map_waypoints_x, map_waypoints_y);
 
             ptsx.push_back(next_wp0[0]); ptsx.push_back(next_wp1[0]); ptsx.push_back(next_wp2[0]);
             ptsy.push_back(next_wp0[1]); ptsy.push_back(next_wp1[1]); ptsy.push_back(next_wp2[1]);
