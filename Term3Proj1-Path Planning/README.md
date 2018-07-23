@@ -6,7 +6,7 @@
 
 [//]: # (Image References)
 [image1]: ./4p77MilesPassing.PNG
-[video1]: ./1lap16x.gif
+[video1]: ./Term3P1.mp4
 
 ---
 
