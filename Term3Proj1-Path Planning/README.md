@@ -52,7 +52,7 @@
 
 - If there is no car's 1sec future loction within 30m in front of host vehicle's 1sec future location, host vehicle shall accelerate until top speed.
 
-- If there is car's 1sec future location within 30m in front of host vehicle's 1sec future location, hose vehicle shall decelerate if there are similar cars at host vehicle's left and right lane, otherwise lane change is required.
+- If there is car's 1sec future location within 30m in front of host vehicle's 1sec future location, hose vehicle shall decelerate if there are similar cars at host vehicle's both left and right lane, otherwise lane change is required.
 
 -- Lane control:
 
