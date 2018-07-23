@@ -36,8 +36,18 @@
 ![alt text][video1]
 
 
-## Reflection
+## Reflection / Documentation
 
-* Documentation on how to generate paths.
+### Path finding control process:
 
+* Motion sensing: 
 
+- The host vehicle's current position, speed and planned future path waypoints can be acquired by its own sensing feedback. 
+
+--All other vehicle's current location and speed can be acquired by sensor fusion information.
+
+* Speed control: The car top speed has been capped at 49.5mps to ensure it never exceed 50mps limit. On different cases: if there is no car in front within 30m of host vehicle's 1sec future location,
+
+* Lane control:
+
+* Path generation and execution:
